@@ -8,31 +8,31 @@ import { useEffect, useState } from "react";
 const navItems = [
   {
     label: "Hizmetler",
-    href: "#services",
+    href: "/hizmetler",
   },
   {
     label: "Sektörler",
-    href: "#industries",
+    href: "/sektorler",
   },
   {
     label: "Projeler",
-    href: "#works",
+    href: "/projeler",
   },
   {
     label: "Süreç",
-    href: "#process",
+    href: "/surec",
   },
   {
     label: "Paketler",
-    href: "#pricing",
+    href: "/paketler",
   },
   {
     label: "Hakkımızda",
-    href: "#about",
+    href: "/hakkimizda",
   },
   {
     label: "İletişim",
-    href: "#contact",
+    href: "/iletisim",
   },
 ];
 
