@@ -11,20 +11,12 @@ const navItems = [
     href: "/hizmetler",
   },
   {
-    label: "Sektörler",
-    href: "/sektorler",
-  },
-  {
     label: "Projeler",
     href: "/projeler",
   },
   {
     label: "Süreç",
     href: "/surec",
-  },
-  {
-    label: "Paketler",
-    href: "/paketler",
   },
   {
     label: "Hakkımızda",
@@ -56,14 +48,18 @@ export function Header() {
 
   return (
     <>
-      <header className="fixed left-0 top-0 z-50 w-full">
+      <header
+        className={[
+          "mx-auto fixed z-50 w-full items-center justify-between px-7 md:px-10 py-6 transition-all duration-300 lg:px-0",
+          hasScrolled
+            ? "border-b border-white/10 bg-black/45 backdrop-blur-xl"
+            : "border-b border-transparent bg-transparent",
+        ].join(" ")}
+      >
         <div
-          className={[
-            "mx-auto flex max-w-7xl items-center justify-between px-7 md:px-10 py-6 transition-all duration-300 lg:px-0",
-            hasScrolled
-              ? "border-b border-white/10 bg-black/45 backdrop-blur-xl"
-              : "border-b border-transparent bg-transparent",
-          ].join(" ")}
+          className={
+            "mx-auto flex max-w-7xl items-center justify-between px-7 md:px-10 py-6 transition-all duration-300 lg:px-0"
+          }
         >
           <Link href="/" aria-label="Fion Medya ana sayfa" className="block">
             <Image

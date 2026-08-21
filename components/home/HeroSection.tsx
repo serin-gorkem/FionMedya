@@ -35,13 +35,12 @@ export function HeroSection() {
     <section className="relative min-h-screen overflow-hidden bg-[#030303] px-6 pb-10 pt-32 text-white md:px-10 md:pt-40">
       <div className="absolute inset-0 bg-[url('/images/home/BG_1.png')] bg-cover bg-center bg-no-repeat md:bg-[url('/images/home/BG_1_H.png')]" />
 
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-56 bg-gradient-to-b from-transparent via-[#030303]/70 to-[#030303]" />
 
       <div className="relative z-10 mx-auto flex min-h-[calc(100vh-10rem)] w-full max-w-7xl flex-col justify-between">
         <div className="pointer-events-none absolute left-0 top-0 h-full w-px bg-white/5" />
 
         <div className="w-full max-w-5xl">
-          <p className="font-[var(--font-inter)] text-[11px] font-semibold uppercase tracking-[0.35em] text-[var(--red-bright)]">
+          <p className="font-[var(--font-inter)] bg-[var(--red)] w-fit p-1 text-white text-[8px] sm:text-[11px] font-semibold uppercase tracking-[0.35em] ">
             Dijital algınızı yükseltiniz
           </p>
 

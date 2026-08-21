@@ -11,9 +11,9 @@ export default function HomePage() {
       <Header />
       <HeroSection />
       <WhatWeDoSection />
-      <SelectedWorksSection />
+      {/* <SelectedWorksSection />
       <TrustSection />
-      <FinalCTASection />
+      <FinalCTASection /> */}
     </main>
   );
 }
