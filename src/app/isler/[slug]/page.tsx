@@ -1,18 +1,10 @@
-import type {
-  Metadata,
-} from "next";
+import type { Metadata } from "next";
 
 import Image from "next/image";
 
-import {
-  notFound,
-} from "next/navigation";
+import { notFound } from "next/navigation";
 
-import {
-  getProjectBySlug,
-  projects,
-  type ProjectMedia,
-} from "@/data/projects";
+import { getProjectBySlug, projects, type ProjectMedia } from "@/data/projects";
 import Link from "next/link";
 
 type ProjectPageProps = {
@@ -22,48 +14,32 @@ type ProjectPageProps = {
 };
 
 export function generateStaticParams() {
-  return projects.map(
-    (project) => ({
-      slug: project.slug,
-    }),
-  );
+  return projects.map((project) => ({
+    slug: project.slug,
+  }));
 }
 
 export async function generateMetadata({
   params,
 }: ProjectPageProps): Promise<Metadata> {
-  const {
-    slug,
-  } = await params;
+  const { slug } = await params;
 
-  const project =
-    getProjectBySlug(
-      slug,
-    );
+  const project = getProjectBySlug(slug);
 
   if (!project) {
     return {};
   }
 
   return {
-    title: `${project.client} — Fion Medya`,
-
-    description:
-      project.description,
+    title: project.client,
+    description: project.description,
   };
 }
 
-export default async function ProjectPage({
-  params,
-}: ProjectPageProps) {
-  const {
-    slug,
-  } = await params;
+export default async function ProjectPage({ params }: ProjectPageProps) {
+  const { slug } = await params;
 
-  const project =
-    getProjectBySlug(
-      slug,
-    );
+  const project = getProjectBySlug(slug);
 
   if (!project) {
     notFound();
@@ -73,137 +49,71 @@ export default async function ProjectPage({
     <main className="project-page">
       <header className="project-hero">
         <div className="project-hero-meta">
-          <Link
-            href="/#works"
-            className="project-back"
-          >
+          <Link href="/#works" className="project-back">
             ← İşlere dön
           </Link>
 
-          <span>
-            {project.number}
-          </span>
+          <span>{project.number}</span>
         </div>
 
         <div className="project-hero-title">
-          <span className="section-eyebrow">
-            {project.client}
-          </span>
+          <span className="section-eyebrow">{project.client}</span>
 
-          <h1>
-            {project.title}
-          </h1>
+          <h1>{project.title}</h1>
         </div>
 
         <div className="project-meta-grid">
-          <ProjectMeta
-            label="MÜŞTERİ"
-            value={
-              project.client
-            }
-          />
+          <ProjectMeta label="MÜŞTERİ" value={project.client} />
 
-          <ProjectMeta
-            label="HİZMET"
-            value={
-              project.service
-            }
-          />
+          <ProjectMeta label="HİZMET" value={project.service} />
 
-          <ProjectMeta
-            label="YIL"
-            value={
-              project.year
-            }
-          />
+          <ProjectMeta label="YIL" value={project.year} />
         </div>
       </header>
 
       <section className="project-cover">
-        <ProjectMediaBlock
-          media={
-            project.media
-          }
-          client={
-            project.client
-          }
-        />
+        <ProjectMediaBlock media={project.media} client={project.client} />
       </section>
 
       <section className="project-story">
         <div className="project-story-label">
-          <span className="section-eyebrow">
-            PROJE
-          </span>
+          <span className="section-eyebrow">PROJE</span>
         </div>
 
         <div className="project-story-content">
-          <p className="project-lead">
-            {
-              project.description
-            }
-          </p>
+          <p className="project-lead">{project.description}</p>
 
-          {project.results &&
-            project.results.length >
-              0 && (
-              <div className="project-results">
-                <span className="section-eyebrow">
-                  SONUÇ
-                </span>
+          {project.results && project.results.length > 0 && (
+            <div className="project-results">
+              <span className="section-eyebrow">SONUÇ</span>
 
-                <ul>
-                  {project.results.map(
-                    (
-                      result,
-                    ) => (
-                      <li
-                        key={
-                          result
-                        }
-                      >
-                        {result}
-                      </li>
-                    ),
-                  )}
-                </ul>
-              </div>
-            )}
+              <ul>
+                {project.results.map((result) => (
+                  <li key={result}>{result}</li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       </section>
 
       <section className="project-next">
         <Link href="/#works">
-          <span className="section-eyebrow">
-            SEÇİLİ İŞLER
-          </span>
+          <span className="section-eyebrow">SEÇİLİ İŞLER</span>
 
-          <strong>
-            Diğer projeleri gör
-            →
-          </strong>
+          <strong>Diğer projeleri gör →</strong>
         </Link>
       </section>
     </main>
   );
 }
 
-function ProjectMeta({
-  label,
-  value,
-}: {
-  label: string;
-  value: string;
-}) {
+function ProjectMeta({ label, value }: { label: string; value: string }) {
   return (
     <div className="project-meta">
-      <span>
-        {label}
-      </span>
+      <span>{label}</span>
 
-      <strong>
-        {value}
-      </strong>
+      <strong>{value}</strong>
     </div>
   );
 }
@@ -218,28 +128,19 @@ function ProjectMediaBlock({
   if (!media) {
     return (
       <div className="project-detail-placeholder">
-        <span>
-          {client}
-        </span>
+        <span>{client}</span>
 
-        <small>
-          PROJECT MEDIA
-        </small>
+        <small>PROJECT MEDIA</small>
       </div>
     );
   }
 
-  if (
-    media.type ===
-    "video"
-  ) {
+  if (media.type === "video") {
     return (
       <video
         className="project-detail-media"
         src={media.src}
-        poster={
-          media.poster
-        }
+        poster={media.poster}
         muted
         loop
         autoPlay

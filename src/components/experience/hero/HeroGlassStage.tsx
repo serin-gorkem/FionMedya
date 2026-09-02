@@ -12,7 +12,7 @@ import { useExperienceStore } from "@/store/experience";
 
 import { HeroGlass } from "./HeroGlass";
 
-const SHOW_ORIGIN_DEBUG = true;
+const SHOW_ORIGIN_DEBUG = false;
 
 export function HeroGlassStage() {
   const groupRef = useRef<THREE.Group>(null);
