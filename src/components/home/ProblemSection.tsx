@@ -1,23 +1,36 @@
 "use client";
 
-import type { ReactNode } from "react";
+import type {
+  ReactNode,
+} from "react";
 
 import { EXPERIENCE_SECTIONS } from "@/config/experience";
+import {
+  PROBLEM_BEATS,
+  type ProblemBeat,
+} from "@/config/problemBeats";
+
 import { getExperienceSection } from "@/lib/experienceSections";
 import { getSectionProgress } from "@/lib/progress";
+
 import { useExperienceStore } from "@/store/experience";
 
 export function ProblemSection() {
-  const scrollProgress = useExperienceStore(
-    (state) => state.scrollProgress,
-  );
+  const scrollProgress =
+    useExperienceStore(
+      (state) =>
+        state.scrollProgress,
+    );
 
   const config =
-    getExperienceSection("problem");
+    getExperienceSection(
+      "problem",
+    );
 
   const progress =
     getSectionProgress(
       scrollProgress,
+
       EXPERIENCE_SECTIONS.problem.start,
       EXPERIENCE_SECTIONS.problem.end,
     );
@@ -28,91 +41,113 @@ export function ProblemSection() {
       className="home-section problem-section"
       data-experience-section="problem"
       style={{
-        minHeight: `${config.heightVh}svh`,
+        minHeight:
+          `${config.heightVh}svh`,
       }}
     >
       <div className="problem-sticky">
-        <ProblemMessage
-          progress={progress}
-          start={0}
-          end={0.35}
-        >
-          <>
-            İçerik var.
-            <br />
-            Etki yok.
-          </>
-        </ProblemMessage>
+        {PROBLEM_BEATS.map(
+          (beat) => (
+            <ProblemMessage
+              key={beat.id}
+              beat={beat}
+              progress={
+                progress
+              }
+            >
+              <>
+                {beat.lineOne}
 
-        <ProblemMessage
-          progress={progress}
-          start={0.3}
-          end={0.68}
-        >
-          <>
-            Reklam var.
-            <br />
-            Dönüş yok.
-          </>
-        </ProblemMessage>
+                <br />
 
-        <ProblemMessage
-          progress={progress}
-          start={0.62}
-          end={1}
-        >
-          <>
-            Görünürlük var.
-            <br />
-            Hatırlanırlık yok.
-          </>
-        </ProblemMessage>
+                <span>
+                  {beat.lineTwo}
+                </span>
+              </>
+            </ProblemMessage>
+          ),
+        )}
       </div>
     </section>
   );
 }
 
 type ProblemMessageProps = {
+  beat: ProblemBeat;
   progress: number;
-  start: number;
-  end: number;
   children: ReactNode;
 };
 
 function ProblemMessage({
+  beat,
   progress,
-  start,
-  end,
   children,
 }: ProblemMessageProps) {
-  const midpoint =
-    (start + end) / 2;
-
-  const halfRange =
-    (end - start) / 2;
-
-  const distance =
-    Math.abs(progress - midpoint);
-
   const visibility =
-    Math.max(
-      0,
-      1 - distance / halfRange,
+    getBeatVisibility(
+      progress,
+      beat,
     );
 
   return (
     <h2
       className="problem-message"
       style={{
-        opacity: visibility,
+        opacity:
+          visibility,
+
         transform: `
           translateY(
-            ${(1 - visibility) * 30}px
+            ${
+              (1 -
+                visibility) *
+              30
+            }px
           )
         `,
       }}
     >
       {children}
     </h2>
+  );
+}
+
+function getBeatVisibility(
+  progress: number,
+  beat: ProblemBeat,
+) {
+  const {
+    start,
+    peak,
+    end,
+  } = beat.copy;
+
+  if (
+    progress <= start ||
+    progress >= end
+  ) {
+    return 0;
+  }
+
+  if (progress <= peak) {
+    return clamp01(
+      (progress - start) /
+        (peak - start),
+    );
+  }
+
+  return clamp01(
+    1 -
+      (progress - peak) /
+        (end - peak),
+  );
+}
+
+function clamp01(
+  value: number,
+) {
+  return Math.min(
+    Math.max(value, 0),
+    1,
   );
 }

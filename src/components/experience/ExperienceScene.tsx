@@ -1,128 +1,225 @@
 "use client";
 
-import { useFrame, useThree } from "@react-three/fiber";
-import { useRef } from "react";
-import * as THREE from "three";
+import {
+  Environment,
+  Lightformer,
+} from "@react-three/drei";
 
-import { EXPERIENCE_SECTIONS } from "@/config/experience";
-import { EXPERIENCE_CURVE } from "@/lib/experiencePath";
-import { getSectionProgress } from "@/lib/progress";
-import { useExperienceStore } from "@/store/experience";
-import { ExperienceAnchors } from "./ExperienceAnchors";
-import { TippedGlass } from "./TippedGlass";
-import { WineHead } from "./WineHead";
-import { WineRoute } from "./WineRoute";
+import {
+  useExperienceStore,
+} from "@/store/experience";
 
-import { AnswerStage } from "./stages/AnswerStage";
-import { ProblemStage } from "./stages/ProblemStage";
-import { ProjectStage } from "./stages/ProjectStage";
-import { ServicesStage } from "./stages/ServicesStage";
-import { ContactStage } from "./stages/ContactStage";
-import { TrustStage } from "./stages/TrustStage";
-const START_POSITION = new THREE.Vector3(3.8, 3.4, 6.2);
+import {
+  CameraRig,
+} from "./camera/CameraRig";
 
-const TOP_DOWN_POSITION = new THREE.Vector3(0, 13, 1);
+import {
+  HeroGlassStage,
+} from "./hero/HeroGlassStage";
 
-const START_TARGET = new THREE.Vector3(-1.5, 0, 0.5);
+import {
+  AnswerStage,
+} from "./stages/AnswerStage";
 
-const TOP_DOWN_TARGET = new THREE.Vector3(0, 0, -2);
+import {
+  ContactStage,
+} from "./stages/ContactStage";
+
+import {
+  ProblemStage,
+} from "./stages/ProblemStage";
+
+import {
+  ProjectStage,
+} from "./stages/ProjectStage";
+
+import {
+  ServicesStage,
+} from "./stages/ServicesStage";
+
+import {
+  TrustStage,
+} from "./stages/TrustStage";
+
+import {
+  WorldEnvironment,
+} from "./world/WorldEnvironment";
+
+import {
+  WineHead,
+} from "./WineHead";
+
+import {
+  WineRoute,
+} from "./WineRoute";
 
 export function ExperienceScene() {
-  const { camera } = useThree();
-
-  const scrollProgress = useExperienceStore((state) => state.scrollProgress);
-
-  const targetPositionRef = useRef(new THREE.Vector3());
-
-  const targetLookAtRef = useRef(new THREE.Vector3());
-
-  const pathPointRef = useRef(new THREE.Vector3());
-
-  useFrame(() => {
-    const targetPosition = targetPositionRef.current;
-
-    const targetLookAt = targetLookAtRef.current;
-
-    const pathPoint = pathPointRef.current;
-
-    /**
-     * HERO -> TOP DOWN
-     */
-    const heroToTopDown = THREE.MathUtils.smoothstep(
-      scrollProgress,
-      EXPERIENCE_SECTIONS.hero.start,
-      EXPERIENCE_SECTIONS.reveal.end,
+  const experienceMode =
+    useExperienceStore(
+      (state) =>
+        state.experienceMode,
     );
 
-    targetPosition.lerpVectors(
-      START_POSITION,
-      TOP_DOWN_POSITION,
-      heroToTopDown,
-    );
-
-    targetLookAt.lerpVectors(START_TARGET, TOP_DOWN_TARGET, heroToTopDown);
-
-    /**
-     * JOURNEY
-     */
-    const journeyProgress = getSectionProgress(
-      scrollProgress,
-      EXPERIENCE_SECTIONS.reveal.end,
-      EXPERIENCE_SECTIONS.contact.end,
-    );
-
-    if (journeyProgress > 0) {
-      const pathProgress = THREE.MathUtils.lerp(
-        EXPERIENCE_SECTIONS.reveal.end,
-        1,
-        journeyProgress,
-      );
-
-      EXPERIENCE_CURVE.getPointAt(pathProgress, pathPoint);
-
-      targetPosition.set(pathPoint.x * 0.45, 13, pathPoint.z + 2.8);
-
-      targetLookAt.set(pathPoint.x, 0, pathPoint.z - 1.5);
-    }
-
-    camera.position.lerp(targetPosition, 0.055);
-
-    camera.lookAt(targetLookAt);
-  });
+  const isMobile =
+    experienceMode ===
+    "mobile";
 
   return (
     <>
-      <ambientLight intensity={1.8} />
+      <CameraRig />
 
-      <directionalLight position={[4, 8, 4]} intensity={3} />
+      <ambientLight
+        intensity={0.55}
+      />
 
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, -10]}>
-        <planeGeometry args={[40, 50]} />
+      <directionalLight
+        position={[
+          5,
+          8,
+          4,
+        ]}
+        intensity={2.2}
+        castShadow={
+          !isMobile
+        }
+        shadow-mapSize-width={
+          isMobile
+            ? 512
+            : 1024
+        }
+        shadow-mapSize-height={
+          isMobile
+            ? 512
+            : 1024
+        }
+        shadow-camera-left={
+          -12
+        }
+        shadow-camera-right={
+          12
+        }
+        shadow-camera-top={
+          12
+        }
+        shadow-camera-bottom={
+          -12
+        }
+        shadow-camera-near={
+          0.1
+        }
+        shadow-camera-far={
+          40
+        }
+      />
 
-        <meshStandardMaterial color="#ebe7df" roughness={0.85} />
+      <Environment
+        resolution={256}
+      >
+        <Lightformer
+          intensity={4}
+          position={[
+            -4,
+            5,
+            4,
+          ]}
+          scale={[
+            4,
+            4,
+            1,
+          ]}
+        />
+
+        <Lightformer
+          intensity={2.5}
+          position={[
+            4,
+            2,
+            1,
+          ]}
+          scale={[
+            3,
+            6,
+            1,
+          ]}
+          rotation={[
+            0,
+            Math.PI / 2,
+            0,
+          ]}
+        />
+
+        <Lightformer
+          intensity={2}
+          position={[
+            0,
+            6,
+            -4,
+          ]}
+          scale={[
+            5,
+            2,
+            1,
+          ]}
+          rotation={[
+            Math.PI / 2,
+            0,
+            0,
+          ]}
+        />
+      </Environment>
+
+      {/* Ana dünya yüzeyi */}
+      <mesh
+        rotation={[
+          -Math.PI / 2,
+          0,
+          0,
+        ]}
+        position={[
+          0,
+          0,
+          -10,
+        ]}
+        receiveShadow
+      >
+        <planeGeometry
+          args={[
+            40,
+            50,
+          ]}
+        />
+
+        <meshStandardMaterial
+          color="#ebe7df"
+          roughness={0.85}
+        />
       </mesh>
 
-      <TippedGlass />
+      <WorldEnvironment />
+
+      <HeroGlassStage />
 
       <WineRoute />
+
       <WineHead />
 
-      {/* Stages */}
       <ProblemStage />
 
       <AnswerStage />
 
-      <ProjectStage anchor="workOne" />
+      <ProjectStage
+        anchor="workOne"
+      />
 
-      <ProjectStage anchor="workTwo" />
+      <ProjectStage
+        anchor="workTwo"
+      />
 
       <ServicesStage />
 
       <TrustStage />
 
       <ContactStage />
-
-      <ExperienceAnchors />
     </>
   );
 }

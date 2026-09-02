@@ -1,26 +1,63 @@
 "use client";
 
-import { Canvas } from "@react-three/fiber";
+import {
+  Canvas,
+} from "@react-three/fiber";
 
-import { ExperienceScene } from "./ExperienceScene";
+import {
+  Suspense,
+} from "react";
+
+import * as THREE from "three";
+
+import {
+  EXPERIENCE_POLICIES,
+} from "@/config/experiencePolicy";
+
+import {
+  useExperienceStore,
+} from "@/store/experience";
+
+import {
+  ExperienceScene,
+} from "./ExperienceScene";
 
 export function ExperienceCanvas() {
+  const experienceMode =
+    useExperienceStore(
+      (state) =>
+        state.experienceMode,
+    );
+
+  const policy =
+    EXPERIENCE_POLICIES[
+      experienceMode
+    ];
+
   return (
     <div className="experience-canvas">
       <Canvas
-        camera={{
-          position: [3.8, 3.4, 6.2],
-          fov: 40,
-          near: 0.1,
-          far: 100,
-        }}
-        dpr={[1, 1.5]}
+        shadows
+        dpr={policy.dpr}
         gl={{
           antialias: true,
           alpha: false,
         }}
+        onCreated={({
+          gl,
+        }) => {
+          gl.toneMapping =
+            THREE.ACESFilmicToneMapping;
+
+          gl.toneMappingExposure =
+            1.15;
+        }}
       >
-        <ExperienceScene />
+        <Suspense
+          fallback={null}
+        >
+          <ExperienceScene />
+        </Suspense>
       </Canvas>
     </div>
   );

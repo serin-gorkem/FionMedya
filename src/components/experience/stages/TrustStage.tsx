@@ -1,12 +1,27 @@
 "use client";
 
-import { useFrame } from "@react-three/fiber";
-import { useRef } from "react";
 import * as THREE from "three";
 
-import { EXPERIENCE_ANCHORS } from "@/config/experienceAnchors";
-import { getExperienceAnchorPosition } from "@/lib/experienceAnchors";
-import { useExperienceStore } from "@/store/experience";
+import {
+  EXPERIENCE_SECTIONS,
+} from "@/config/experience";
+
+import {
+  TRUST_REFERENCES,
+  type TrustReference,
+} from "@/config/trust";
+
+import {
+  getExperienceAnchorPosition,
+} from "@/lib/experienceAnchors";
+
+import {
+  getSectionProgress,
+} from "@/lib/progress";
+
+import {
+  useExperienceStore,
+} from "@/store/experience";
 
 const TRUST_POSITION =
   getExperienceAnchorPosition(
@@ -14,114 +29,154 @@ const TRUST_POSITION =
   );
 
 export function TrustStage() {
-  const groupRef =
-    useRef<THREE.Group>(
-      null,
-    );
-
-  const wineProgress =
+  const scrollProgress =
     useExperienceStore(
       (state) =>
-        state.wineProgress,
+        state.scrollProgress,
     );
 
-  useFrame(() => {
-    const group =
-      groupRef.current;
+  const progress =
+    getSectionProgress(
+      scrollProgress,
 
-    if (!group) {
-      return;
-    }
-
-    const distance =
-      Math.abs(
-        wineProgress -
-          EXPERIENCE_ANCHORS.trust,
-      );
-
-    const influence =
-      THREE.MathUtils.clamp(
-        1 -
-          distance /
-            0.08,
-        0,
-        1,
-      );
-
-    const eased =
-      THREE.MathUtils.smoothstep(
-        influence,
-        0,
-        1,
-      );
-
-    group.scale.setScalar(
-      THREE.MathUtils.lerp(
-        0.1,
-        1,
-        eased,
-      ),
+      EXPERIENCE_SECTIONS.trust.start,
+      EXPERIENCE_SECTIONS.trust.end,
     );
-  });
 
   return (
     <group
-      ref={groupRef}
       position={[
         TRUST_POSITION.x,
-        0.09,
+        0.08,
         TRUST_POSITION.z,
       ]}
     >
-      <TrustNode
-        x={-0.8}
-        z={-0.5}
-      />
-
-      <TrustNode
-        x={0.8}
-        z={-0.5}
-      />
-
-      <TrustNode
-        x={-0.8}
-        z={0.5}
-      />
-
-      <TrustNode
-        x={0.8}
-        z={0.5}
-      />
+      {TRUST_REFERENCES.map(
+        (reference) => (
+          <TrustNode
+            key={
+              reference.id
+            }
+            reference={
+              reference
+            }
+            progress={
+              progress
+            }
+          />
+        ),
+      )}
     </group>
   );
 }
 
-function TrustNode({
-  x,
-  z,
-}: {
-  x: number;
-  z: number;
-}) {
-  return (
-    <mesh
-      position={[
-        x,
-        0,
-        z,
-      ]}
-    >
-      <sphereGeometry
-        args={[
-          0.1,
-          16,
-          16,
-        ]}
-      />
+type TrustNodeProps = {
+  reference:
+    TrustReference;
 
-      <meshBasicMaterial
-        color="#651526"
-      />
-    </mesh>
+  progress: number;
+};
+
+function TrustNode({
+  reference,
+  progress,
+}: TrustNodeProps) {
+  const reveal =
+    THREE.MathUtils.clamp(
+      (
+        progress -
+        reference.revealAt
+      ) /
+        0.18,
+      0,
+      1,
+    );
+
+  const eased =
+    THREE.MathUtils.smoothstep(
+      reveal,
+      0,
+      1,
+    );
+
+  const scale =
+    THREE.MathUtils.lerp(
+      0.01,
+      1,
+      eased,
+    );
+
+  const opacity =
+    THREE.MathUtils.lerp(
+      0,
+      0.38,
+      eased,
+    );
+
+  return (
+    <group
+      position={[
+        reference.offset[0],
+        0,
+        reference.offset[1],
+      ]}
+      scale={scale}
+    >
+      <mesh>
+        <sphereGeometry
+          args={[
+            0.115,
+            24,
+            24,
+          ]}
+        />
+
+        <meshBasicMaterial
+          color="#651526"
+          transparent
+          opacity={opacity}
+          depthWrite={false}
+        />
+      </mesh>
+
+      <mesh
+        rotation={[
+          -Math.PI / 2,
+          0,
+          0,
+        ]}
+        position={[
+          0,
+          -0.015,
+          0,
+        ]}
+        scale={[
+          1.9,
+          1.9,
+          1.9,
+        ]}
+      >
+        <ringGeometry
+          args={[
+            0.1,
+            0.118,
+            48,
+          ]}
+        />
+
+        <meshBasicMaterial
+          color="#651526"
+          transparent
+          opacity={
+            opacity *
+            0.5
+          }
+          depthWrite={false}
+          side={
+            THREE.DoubleSide
+          }
+        />
+      </mesh>
+    </group>
   );
 }

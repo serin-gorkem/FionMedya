@@ -1,107 +1,168 @@
 "use client";
 
-import { useFrame } from "@react-three/fiber";
-import { useRef } from "react";
 import * as THREE from "three";
 
-import { EXPERIENCE_ANCHORS } from "@/config/experienceAnchors";
+import { EXPERIENCE_SECTIONS } from "@/config/experience";
+
+import {
+  PROBLEM_BEATS,
+  type ProblemBeat,
+} from "@/config/problemBeats";
+
 import { getExperienceAnchorPosition } from "@/lib/experienceAnchors";
+import { getSectionProgress } from "@/lib/progress";
+
 import { useExperienceStore } from "@/store/experience";
 
 const PROBLEM_POSITION =
-  getExperienceAnchorPosition("problem");
-
-export function ProblemStage() {
-  const meshRef = useRef<THREE.Mesh>(null);
-
-  const materialRef =
-    useRef<THREE.MeshStandardMaterial>(null);
-
-  const wineProgress = useExperienceStore(
-    (state) => state.wineProgress,
+  getExperienceAnchorPosition(
+    "problem",
   );
 
-  useFrame(() => {
-    const mesh = meshRef.current;
-    const material = materialRef.current;
-
-    if (!mesh || !material) {
-      return;
-    }
-
-    /**
-     * Wine head ile Problem anchor arasındaki
-     * curve-progress mesafesi.
-     */
-    const distance = Math.abs(
-      wineProgress -
-        EXPERIENCE_ANCHORS.problem,
+export function ProblemStage() {
+  const scrollProgress =
+    useExperienceStore(
+      (state) =>
+        state.scrollProgress,
     );
 
-    /**
-     * Anchor'a yaklaşık %7 curve mesafesinde
-     * reaction başlıyor.
-     */
-    const influence =
-      THREE.MathUtils.clamp(
-        1 - distance / 0.07,
-        0,
-        1,
-      );
+  const problemProgress =
+    getSectionProgress(
+      scrollProgress,
 
-    const easedInfluence =
-      THREE.MathUtils.smoothstep(
-        influence,
-        0,
-        1,
-      );
-
-    const scale =
-      THREE.MathUtils.lerp(
-        0.15,
-        1.8,
-        easedInfluence,
-      );
-
-    mesh.scale.set(
-      scale,
-      scale,
-      scale,
+      EXPERIENCE_SECTIONS.problem.start,
+      EXPERIENCE_SECTIONS.problem.end,
     );
 
-    material.opacity =
-      THREE.MathUtils.lerp(
-        0,
-        0.32,
-        easedInfluence,
-      );
-  });
+  /**
+   * Answer başladığında problem stain'lerini
+   * kontrollü biçimde söndürüyoruz.
+   */
+  const answerProgress =
+    getSectionProgress(
+      scrollProgress,
+
+      EXPERIENCE_SECTIONS.answer.start,
+      EXPERIENCE_SECTIONS.answer.end,
+    );
+
+  return (
+    <group
+      position={[
+        PROBLEM_POSITION.x,
+        0.07,
+        PROBLEM_POSITION.z,
+      ]}
+    >
+      {PROBLEM_BEATS.map(
+        (beat) => (
+          <ProblemStain
+            key={beat.id}
+            beat={beat}
+            problemProgress={
+              problemProgress
+            }
+            answerProgress={
+              answerProgress
+            }
+          />
+        ),
+      )}
+    </group>
+  );
+}
+
+type ProblemStainProps = {
+  beat: ProblemBeat;
+  problemProgress: number;
+  answerProgress: number;
+};
+
+function ProblemStain({
+  beat,
+  problemProgress,
+  answerProgress,
+}: ProblemStainProps) {
+  /**
+   * Stain bir kez oluşunca problem boyunca
+   * kalıyor.
+   */
+  const reveal =
+    THREE.MathUtils.smoothstep(
+      problemProgress,
+
+      beat.stainRevealAt,
+
+      Math.min(
+        beat.stainRevealAt +
+          0.18,
+
+        1,
+      ),
+    );
+
+  /**
+   * Answer geldiğinde eski kaotik stain'ler
+   * çözülüyor.
+   */
+  const mergeOut =
+    THREE.MathUtils.smoothstep(
+      answerProgress,
+      0,
+      0.42,
+    );
+
+  const intensity =
+    reveal *
+    (1 - mergeOut);
+
+  const scale =
+    THREE.MathUtils.lerp(
+      0.08,
+      beat.scale,
+      intensity,
+    );
+
+  const opacity =
+    THREE.MathUtils.lerp(
+      0,
+      0.3,
+      intensity,
+    );
 
   return (
     <mesh
-      ref={meshRef}
       position={[
-        PROBLEM_POSITION.x,
-        0.065,
-        PROBLEM_POSITION.z,
+        beat.offset[0],
+        0,
+        beat.offset[1],
       ]}
       rotation={[
         -Math.PI / 2,
         0,
-        0,
+        beat.rotation,
+      ]}
+      scale={[
+        scale,
+        scale * 0.72,
+        scale,
       ]}
     >
       <circleGeometry
-        args={[1, 64]}
+        args={[
+          0.72,
+          64,
+        ]}
       />
 
-      <meshStandardMaterial
-        ref={materialRef}
+      <meshBasicMaterial
         color="#651526"
         transparent
-        opacity={0}
+        opacity={opacity}
         depthWrite={false}
-        roughness={0.45}
+        side={
+          THREE.DoubleSide
+        }
       />
     </mesh>
   );

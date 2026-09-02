@@ -1,67 +1,132 @@
-export const EXPERIENCE_MANIFEST = {
+export const EXPERIENCE_LAYOUT = {
   hero: {
-    start: 0,
-    end: 0.12,
     heightVh: 120,
   },
 
   reveal: {
-    start: 0.12,
-    end: 0.22,
     heightVh: 100,
   },
 
   problem: {
-    start: 0.22,
-    end: 0.34,
     heightVh: 180,
   },
 
   answer: {
-    start: 0.34,
-    end: 0.44,
     heightVh: 120,
   },
 
   works: {
-    start: 0.44,
-    end: 0.66,
     heightVh: 200,
   },
 
   services: {
-    start: 0.66,
-    end: 0.76,
     heightVh: 120,
   },
 
   trust: {
-    start: 0.76,
-    end: 0.83,
     heightVh: 100,
   },
 
   about: {
-    start: 0.83,
-    end: 0.91,
     heightVh: 110,
   },
 
   contact: {
-    start: 0.91,
-    end: 1,
-    heightVh: 120,
+    heightVh: 180,
   },
 } as const;
 
 export type ExperienceSection =
-  keyof typeof EXPERIENCE_MANIFEST;
+  keyof typeof EXPERIENCE_LAYOUT;
+
+export const EXPERIENCE_SECTION_ORDER =
+  Object.keys(
+    EXPERIENCE_LAYOUT,
+  ) as ExperienceSection[];
+
+export type ExperienceSectionConfig = {
+  heightVh: number;
+  start: number;
+  end: number;
+};
+
+export const EXPERIENCE_TOTAL_HEIGHT_VH =
+  EXPERIENCE_SECTION_ORDER.reduce(
+    (total, section) =>
+      total +
+      EXPERIENCE_LAYOUT[
+        section
+      ].heightVh,
+
+    0,
+  );
 
 /**
- * Eski kodlarımız EXPERIENCE_SECTIONS kullandığı için
- * şimdilik alias bırakıyoruz.
+ * Global scroll:
  *
- * İleride istersek tamamen kaldırabiliriz.
+ * scrollY /
+ * (documentHeight - viewportHeight)
+ *
+ * kullandığı için timeline'ın denominator'ı
+ * da toplam yükseklik - 100vh olmalı.
  */
+export const EXPERIENCE_SCROLLABLE_HEIGHT_VH =
+  Math.max(
+    EXPERIENCE_TOTAL_HEIGHT_VH -
+      100,
+
+    1,
+  );
+
+function createExperienceTimeline() {
+  const timeline =
+    {} as Record<
+      ExperienceSection,
+      ExperienceSectionConfig
+    >;
+
+  let accumulatedHeight = 0;
+
+  for (
+    const section of
+    EXPERIENCE_SECTION_ORDER
+  ) {
+    const heightVh =
+      EXPERIENCE_LAYOUT[
+        section
+      ].heightVh;
+
+    const start =
+      Math.min(
+        accumulatedHeight /
+          EXPERIENCE_SCROLLABLE_HEIGHT_VH,
+
+        1,
+      );
+
+    accumulatedHeight +=
+      heightVh;
+
+    const end =
+      Math.min(
+        accumulatedHeight /
+          EXPERIENCE_SCROLLABLE_HEIGHT_VH,
+
+        1,
+      );
+
+    timeline[section] = {
+      heightVh,
+      start,
+      end,
+    };
+  }
+
+  return timeline;
+}
+
 export const EXPERIENCE_SECTIONS =
-  EXPERIENCE_MANIFEST;
+  createExperienceTimeline();
+
+export const EXPERIENCE_MANIFEST =
+  EXPERIENCE_SECTIONS;

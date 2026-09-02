@@ -1,56 +1,99 @@
 "use client";
 
-import type { ReactNode } from "react";
+import {
+  EXPERIENCE_SECTIONS,
+} from "@/config/experience";
 
-import { EXPERIENCE_SECTIONS } from "@/config/experience";
-import { getExperienceSection } from "@/lib/experienceSections";
-import { getSectionProgress } from "@/lib/progress";
-import { useExperienceStore } from "@/store/experience";
+import {
+  projects,
+  type Project,
+} from "@/data/projects";
+
+import {
+  getExperienceSection,
+} from "@/lib/experienceSections";
+
+import {
+  getSectionProgress,
+} from "@/lib/progress";
+
+import {
+  useExperienceStore,
+} from "@/store/experience";
+
+import {
+  ProjectMedia,
+} from "./ProjectMedia";
+
+const PROJECTS_START = 0.16;
 
 export function WorksSection() {
-  const scrollProgress = useExperienceStore(
-    (state) => state.scrollProgress,
-  );
+  const scrollProgress =
+    useExperienceStore(
+      (state) =>
+        state.scrollProgress,
+    );
 
   const config =
-    getExperienceSection("works");
+    getExperienceSection(
+      "works",
+    );
 
   const progress =
     getSectionProgress(
       scrollProgress,
+
       EXPERIENCE_SECTIONS.works.start,
       EXPERIENCE_SECTIONS.works.end,
     );
 
   /**
-   * Section girişindeki başlık.
+   * İlk bölüm Works intro.
    */
-  const introVisibility =
-    getVisibility(
-      progress,
-      0,
-      0.22,
+  const introOpacity =
+    clamp01(
+      (
+        PROJECTS_START -
+        progress
+      ) /
+        0.06,
     );
 
   /**
-   * FUYAPI
+   * Intro bittikten sonra geri kalan
+   * timeline'ı projeler arasında eşit böl.
    */
-  const firstProjectVisibility =
-    getVisibility(
-      progress,
-      0.15,
-      0.58,
+  const projectProgress =
+    clamp01(
+      (
+        progress -
+        PROJECTS_START
+      ) /
+        (
+          1 -
+          PROJECTS_START
+        ),
     );
 
-  /**
-   * Moto Express09
-   */
-  const secondProjectVisibility =
-    getVisibility(
-      progress,
-      0.5,
-      1,
-    );
+  const activeProjectIndex =
+    progress <
+    PROJECTS_START
+      ? -1
+      : Math.min(
+          projects.length - 1,
+
+          Math.floor(
+            projectProgress *
+              projects.length,
+          ),
+        );
+
+  const activeProject =
+    activeProjectIndex >= 0
+      ? projects[
+          activeProjectIndex
+        ]
+      : null;
 
   return (
     <section
@@ -58,19 +101,22 @@ export function WorksSection() {
       className="home-section works-section"
       data-experience-section="works"
       style={{
-        minHeight: `${config.heightVh}svh`,
+        minHeight:
+          `${config.heightVh}svh`,
       }}
     >
       <div className="works-sticky">
         <div
           className="works-intro"
           style={{
-            opacity: introVisibility,
-            transform: `
-              translateY(
-                ${(1 - introVisibility) * 30}px
-              )
-            `,
+            opacity:
+              introOpacity,
+
+            pointerEvents:
+              introOpacity >
+              0.5
+                ? "auto"
+                : "none",
           }}
         >
           <span className="section-eyebrow">
@@ -84,125 +130,87 @@ export function WorksSection() {
           </h2>
         </div>
 
-        <WorkSlide
-          visibility={
-            firstProjectVisibility
-          }
-          number="01"
-          client="FUYAPI"
-          service="SOSYAL MEDYA + REKLAM"
-          title={
-            <>
-              Reklamdan
-              <br />
-              ev satışına.
-            </>
-          }
-          description="Sosyal medya yönetimi ve reklam çalışmalarıyla dikkat çeken kreatifler ürettik. Çalışmalar sonucunda etkileşim artışı ve reklam kaynaklı bir ev satışı gerçekleşti."
-        />
-
-        <WorkSlide
-          visibility={
-            secondProjectVisibility
-          }
-          number="02"
-          client="MOTO EXPRESS09"
-          service="SOSYAL MEDYA + REKLAM"
-          title={
-            <>
-              Dikkati harekete
-              <br />
-              dönüştürdük.
-            </>
-          }
-          description="Sosyal medya ve reklam çalışmalarında kreatif etkileşimini artırırken reklamlar satış artışına katkı sağladı."
-        />
+        {activeProject && (
+          <ProjectSlide
+            key={
+              activeProject.slug
+            }
+            project={
+              activeProject
+            }
+          />
+        )}
       </div>
     </section>
   );
 }
 
-type WorkSlideProps = {
-  visibility: number;
-  number: string;
-  client: string;
-  service: string;
-  title: ReactNode;
-  description: string;
-};
-
-function WorkSlide({
-  visibility,
-  number,
-  client,
-  service,
-  title,
-  description,
-}: WorkSlideProps) {
+function ProjectSlide({
+  project,
+}: {
+  project: Project;
+}) {
   return (
-    <article
-      className="work-slide"
-      style={{
-        opacity: visibility,
-        pointerEvents:
-          visibility > 0.5
-            ? "auto"
-            : "none",
-        transform: `
-          translateY(
-            ${(1 - visibility) * 40}px
-          )
-        `,
-      }}
-    >
+    <article className="work-slide">
       <div className="work-slide-meta">
-        <span>{number}</span>
-        <span>{client}</span>
-        <span>{service}</span>
+        <span>
+          {project.number}
+        </span>
+
+        <span>
+          {project.client}
+        </span>
+
+        <span>
+          {project.service}
+        </span>
       </div>
 
       <div className="work-slide-body">
-        <h3>{title}</h3>
+        <ProjectMedia
+          media={
+            project.media
+          }
+          client={
+            project.client
+          }
+          visibility={1}
+        />
 
-        <p>{description}</p>
+        <div className="work-copy">
+          <h3>
+            {project.title}
+          </h3>
 
-        <button
-          type="button"
-          className="work-link"
-        >
-          Projeyi incele
-          <span aria-hidden="true">
-            →
-          </span>
-        </button>
+          <p>
+            {
+              project.description
+            }
+          </p>
+
+          <a
+            href={`/isler/${project.slug}`}
+            className="work-link"
+          >
+            Projeyi incele
+
+            <span
+              aria-hidden="true"
+            >
+              →
+            </span>
+          </a>
+        </div>
       </div>
     </article>
   );
 }
 
-function getVisibility(
-  progress: number,
-  start: number,
-  end: number,
+function clamp01(
+  value: number,
 ) {
-  const midpoint =
-    (start + end) / 2;
-
-  const halfRange =
-    (end - start) / 2;
-
-  if (halfRange <= 0) {
-    return 0;
-  }
-
-  const distance =
-    Math.abs(progress - midpoint);
-
-  return Math.max(
-    0,
-    Math.min(
-      1,
-      1 - distance / halfRange,
-    ),
+  return Math.min(
+    Math.max(value, 0),
+    1,
   );
 }

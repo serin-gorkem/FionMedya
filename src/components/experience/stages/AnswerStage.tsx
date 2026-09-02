@@ -1,103 +1,147 @@
 "use client";
 
-import { useFrame } from "@react-three/fiber";
-import { useRef } from "react";
 import * as THREE from "three";
 
-import { EXPERIENCE_ANCHORS } from "@/config/experienceAnchors";
+import { EXPERIENCE_SECTIONS } from "@/config/experience";
+
 import { getExperienceAnchorPosition } from "@/lib/experienceAnchors";
+import { getSectionProgress } from "@/lib/progress";
+
 import { useExperienceStore } from "@/store/experience";
 
 const ANSWER_POSITION =
-  getExperienceAnchorPosition("answer");
-
-export function AnswerStage() {
-  const meshRef = useRef<THREE.Mesh>(null);
-
-  const materialRef =
-    useRef<THREE.MeshBasicMaterial>(null);
-
-  const wineProgress = useExperienceStore(
-    (state) => state.wineProgress,
+  getExperienceAnchorPosition(
+    "answer",
   );
 
-  useFrame(() => {
-    const mesh = meshRef.current;
-    const material = materialRef.current;
-
-    if (!mesh || !material) {
-      return;
-    }
-
-    const distance = Math.abs(
-      wineProgress -
-        EXPERIENCE_ANCHORS.answer,
+export function AnswerStage() {
+  const scrollProgress =
+    useExperienceStore(
+      (state) =>
+        state.scrollProgress,
     );
 
-    /**
-     * Wine head Answer anchor'a yaklaşırken
-     * reaksiyon başlıyor.
-     */
-    const influence =
-      THREE.MathUtils.clamp(
-        1 - distance / 0.06,
-        0,
-        1,
-      );
+  const progress =
+    getSectionProgress(
+      scrollProgress,
 
-    const eased =
-      THREE.MathUtils.smoothstep(
-        influence,
-        0,
-        1,
-      );
+      EXPERIENCE_SECTIONS.answer.start,
+      EXPERIENCE_SECTIONS.answer.end,
+    );
 
-    const scale =
-      THREE.MathUtils.lerp(
-        0.4,
-        1.4,
-        eased,
-      );
+  /**
+   * Yeni düzenli form ortaya çıkıyor.
+   */
+  const enter =
+    THREE.MathUtils.smoothstep(
+      progress,
+      0,
+      0.42,
+    );
 
-    mesh.scale.setScalar(scale);
+  /**
+   * Sonrasında sakin biçimde genişliyor.
+   */
+  const settle =
+    THREE.MathUtils.smoothstep(
+      progress,
+      0.3,
+      0.85,
+    );
 
-    material.opacity =
-      THREE.MathUtils.lerp(
-        0,
-        0.45,
-        eased,
-      );
-  });
+  const groupScale =
+    THREE.MathUtils.lerp(
+      0.15,
+      1,
+      enter,
+    );
+
+  const discScale =
+    THREE.MathUtils.lerp(
+      0.4,
+      1.25,
+      enter,
+    );
+
+  const ringScale =
+    THREE.MathUtils.lerp(
+      0.5,
+      1.85,
+      settle,
+    );
 
   return (
-    <mesh
-      ref={meshRef}
+    <group
       position={[
         ANSWER_POSITION.x,
-        0.075,
+        0.072,
         ANSWER_POSITION.z,
       ]}
-      rotation={[
-        -Math.PI / 2,
-        0,
-        0,
-      ]}
+      scale={groupScale}
     >
-      <ringGeometry
-        args={[
-          0.32,
-          0.4,
-          64,
+      {/* Merkez: tek fikir */}
+      <mesh
+        rotation={[
+          -Math.PI / 2,
+          0,
+          0,
         ]}
-      />
+        scale={[
+          discScale,
+          discScale,
+          discScale,
+        ]}
+      >
+        <circleGeometry
+          args={[
+            0.34,
+            64,
+          ]}
+        />
 
-      <meshBasicMaterial
-        ref={materialRef}
-        color="#651526"
-        transparent
-        opacity={0}
-        depthWrite={false}
-      />
-    </mesh>
+        <meshBasicMaterial
+          color="#651526"
+          transparent
+          opacity={
+            enter * 0.34
+          }
+          depthWrite={false}
+        />
+      </mesh>
+
+      {/* Düzen / kontrol hissi */}
+      <mesh
+        rotation={[
+          -Math.PI / 2,
+          0,
+          0,
+        ]}
+        scale={[
+          ringScale,
+          ringScale,
+          ringScale,
+        ]}
+      >
+        <ringGeometry
+          args={[
+            0.34,
+            0.385,
+            96,
+          ]}
+        />
+
+        <meshBasicMaterial
+          color="#651526"
+          transparent
+          opacity={
+            enter * 0.5
+          }
+          depthWrite={false}
+          side={
+            THREE.DoubleSide
+          }
+        />
+      </mesh>
+    </group>
   );
 }

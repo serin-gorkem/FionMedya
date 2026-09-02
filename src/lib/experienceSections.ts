@@ -1,10 +1,12 @@
 import {
-  EXPERIENCE_MANIFEST,
+  EXPERIENCE_SECTIONS,
   type ExperienceSection,
 } from "@/config/experience";
 
 export function getExperienceSection(
   section: ExperienceSection,
 ) {
-  return EXPERIENCE_MANIFEST[section];
+  return EXPERIENCE_SECTIONS[
+    section
+  ];
 }

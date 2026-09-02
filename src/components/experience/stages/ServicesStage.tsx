@@ -1,237 +1,136 @@
 "use client";
 
 import { useFrame } from "@react-three/fiber";
-import {
-  useMemo,
-  useRef,
-} from "react";
+
+import { useEffect, useMemo, useRef } from "react";
+
 import * as THREE from "three";
 
-import { EXPERIENCE_ANCHORS } from "@/config/experienceAnchors";
+import { EXPERIENCE_SECTIONS } from "@/config/experience";
+
+import { SERVICES, type ServiceDefinition } from "@/config/services";
+
 import { getExperienceAnchorPosition } from "@/lib/experienceAnchors";
+
+import { getSectionProgress } from "@/lib/progress";
+
 import { useExperienceStore } from "@/store/experience";
 
-const SERVICES_POSITION =
-  getExperienceAnchorPosition(
-    "services",
-  );
+const SERVICES_POSITION = getExperienceAnchorPosition("services");
 
 export function ServicesStage() {
-  const groupRef =
-    useRef<THREE.Group>(null);
+  const scrollProgress = useExperienceStore((state) => state.scrollProgress);
 
-  const wineProgress =
-    useExperienceStore(
-      (state) => state.wineProgress,
-    );
+  const progress = getSectionProgress(
+    scrollProgress,
 
-  const geometries =
-    useMemo(() => {
-      const brandCurve =
-        new THREE.CatmullRomCurve3([
-          new THREE.Vector3(
-            0,
-            0,
-            0,
-          ),
-
-          new THREE.Vector3(
-            -0.7,
-            0,
-            -0.3,
-          ),
-
-          new THREE.Vector3(
-            -1.8,
-            0,
-            -1.2,
-          ),
-        ]);
-
-      const contentCurve =
-        new THREE.CatmullRomCurve3([
-          new THREE.Vector3(
-            0,
-            0,
-            0,
-          ),
-
-          new THREE.Vector3(
-            0.8,
-            0,
-            -0.1,
-          ),
-
-          new THREE.Vector3(
-            2,
-            0,
-            -0.15,
-          ),
-        ]);
-
-      const growthCurve =
-        new THREE.CatmullRomCurve3([
-          new THREE.Vector3(
-            0,
-            0,
-            0,
-          ),
-
-          new THREE.Vector3(
-            0.5,
-            0,
-            0.5,
-          ),
-
-          new THREE.Vector3(
-            1.5,
-            0,
-            1.2,
-          ),
-        ]);
-
-      return [
-        new THREE.TubeGeometry(
-          brandCurve,
-          40,
-          0.045,
-          8,
-          false,
-        ),
-
-        new THREE.TubeGeometry(
-          contentCurve,
-          40,
-          0.045,
-          8,
-          false,
-        ),
-
-        new THREE.TubeGeometry(
-          growthCurve,
-          40,
-          0.045,
-          8,
-          false,
-        ),
-      ];
-    }, []);
-
-  useFrame(() => {
-    const group =
-      groupRef.current;
-
-    if (!group) {
-      return;
-    }
-
-    const distance =
-      Math.abs(
-        wineProgress -
-          EXPERIENCE_ANCHORS.services,
-      );
-
-    const influence =
-      THREE.MathUtils.clamp(
-        1 - distance / 0.1,
-        0,
-        1,
-      );
-
-    const eased =
-      THREE.MathUtils.smoothstep(
-        influence,
-        0,
-        1,
-      );
-
-    const scale =
-      THREE.MathUtils.lerp(
-        0.01,
-        1,
-        eased,
-      );
-
-    group.scale.setScalar(
-      scale,
-    );
-  });
+    EXPERIENCE_SECTIONS.services.start,
+    EXPERIENCE_SECTIONS.services.end,
+  );
 
   return (
-    <group
-      ref={groupRef}
-      position={[
-        SERVICES_POSITION.x,
-        0.085,
-        SERVICES_POSITION.z,
-      ]}
-    >
-      {geometries.map(
-        (geometry, index) => (
-          <mesh
-            geometry={geometry}
-            key={index}
-          >
-            <meshBasicMaterial
-              color="#651526"
-              transparent
-              opacity={0.65}
-            />
-          </mesh>
-        ),
-      )}
-
-      <ServiceNode
-        position={[
-          -1.8,
-          0,
-          -1.2,
-        ]}
-      />
-
-      <ServiceNode
-        position={[
-          2,
-          0,
-          -0.15,
-        ]}
-      />
-
-      <ServiceNode
-        position={[
-          1.5,
-          0,
-          1.2,
-        ]}
-      />
+    <group position={[SERVICES_POSITION.x, 0.085, SERVICES_POSITION.z]}>
+      {SERVICES.map((service) => (
+        <ServiceBranch
+          key={service.id}
+          service={service}
+          sectionProgress={progress}
+        />
+      ))}
     </group>
   );
 }
 
-type ServiceNodeProps = {
-  position: [
-    number,
-    number,
-    number,
-  ];
+type ServiceBranchProps = {
+  service: ServiceDefinition;
+
+  sectionProgress: number;
 };
 
-function ServiceNode({
-  position,
-}: ServiceNodeProps) {
-  return (
-    <mesh position={position}>
-      <sphereGeometry
-        args={[
-          0.11,
-          20,
-          20,
-        ]}
-      />
+function ServiceBranch({ service, sectionProgress }: ServiceBranchProps) {
+  const meshRef = useRef<THREE.Mesh<THREE.TubeGeometry>>(null);
 
-      <meshBasicMaterial
-        color="#651526"
-      />
-    </mesh>
+  const nodeRef = useRef<THREE.Mesh>(null);
+
+  const curve = useMemo(() => {
+    const points = service.branchPoints.map(
+      ([x, y, z]) => new THREE.Vector3(x, y, z),
+    );
+
+    return new THREE.CatmullRomCurve3(points, false, "catmullrom", 0.4);
+  }, [service]);
+
+  const geometry = useMemo(() => {
+    return new THREE.TubeGeometry(curve, 80, 0.038, 8, false);
+  }, [curve]);
+  useEffect(() => {
+    return () => {
+      geometry.dispose();
+    };
+  }, [geometry]);
+
+  const endPoint = useMemo(() => {
+    return curve.getPointAt(1);
+  }, [curve]);
+
+  useFrame(() => {
+    const mesh = meshRef.current;
+
+    const node = nodeRef.current;
+
+    if (!mesh || !mesh.geometry.index) {
+      return;
+    }
+
+    const reveal = THREE.MathUtils.clamp(
+      (sectionProgress - service.revealAt) / 0.2,
+      0,
+      1,
+    );
+
+    const eased = THREE.MathUtils.smoothstep(reveal, 0, 1);
+
+    const indexCount = mesh.geometry.index.count;
+
+    mesh.geometry.setDrawRange(
+      0,
+
+      Math.floor(indexCount * eased),
+    );
+
+    if (node) {
+      const nodeReveal = THREE.MathUtils.smoothstep(reveal, 0.72, 1);
+
+      const scale = THREE.MathUtils.lerp(0.01, 1, nodeReveal);
+
+      node.scale.setScalar(scale);
+    }
+  });
+
+  return (
+    <>
+      <mesh ref={meshRef} geometry={geometry}>
+        <meshPhysicalMaterial
+          color="#651526"
+          roughness={0.28}
+          metalness={0}
+          clearcoat={0.12}
+        />
+      </mesh>
+
+      <mesh
+        ref={nodeRef}
+        position={[endPoint.x, endPoint.y + 0.035, endPoint.z]}
+        scale={0.01}
+      >
+        <sphereGeometry args={[0.12, 24, 24]} />
+
+        <meshPhysicalMaterial
+          color="#651526"
+          roughness={0.24}
+          clearcoat={0.18}
+        />
+      </mesh>
+    </>
   );
 }

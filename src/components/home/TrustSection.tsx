@@ -1,36 +1,49 @@
 "use client";
 
-import { EXPERIENCE_SECTIONS } from "@/config/experience";
-import { getExperienceSection } from "@/lib/experienceSections";
-import { getSectionProgress } from "@/lib/progress";
-import { useExperienceStore } from "@/store/experience";
+import {
+  EXPERIENCE_SECTIONS,
+} from "@/config/experience";
 
-const references = [
-  "FUYAPI",
-  "DOĞU BATI İNŞAAT",
-  "MOTO EXPRESS09",
-  "CAFE ROMA",
-] as const;
+import {
+  TRUST_REFERENCES,
+} from "@/config/trust";
+
+import {
+  getExperienceSection,
+} from "@/lib/experienceSections";
+
+import {
+  getSectionProgress,
+} from "@/lib/progress";
+
+import {
+  useExperienceStore,
+} from "@/store/experience";
 
 export function TrustSection() {
-  const scrollProgress = useExperienceStore(
-    (state) => state.scrollProgress,
-  );
+  const scrollProgress =
+    useExperienceStore(
+      (state) =>
+        state.scrollProgress,
+    );
 
   const config =
-    getExperienceSection("trust");
+    getExperienceSection(
+      "trust",
+    );
 
   const progress =
     getSectionProgress(
       scrollProgress,
+
       EXPERIENCE_SECTIONS.trust.start,
       EXPERIENCE_SECTIONS.trust.end,
     );
 
-  const introProgress = Math.min(
-    Math.max(progress / 0.3, 0),
-    1,
-  );
+  const intro =
+    clamp01(
+      progress / 0.25,
+    );
 
   return (
     <section
@@ -38,17 +51,22 @@ export function TrustSection() {
       className="home-section trust-section"
       data-experience-section="trust"
       style={{
-        minHeight: `${config.heightVh}svh`,
+        minHeight:
+          `${config.heightVh}svh`,
       }}
     >
       <div className="trust-inner">
-        <div
+        <header
           className="trust-header"
           style={{
-            opacity: introProgress,
+            opacity: intro,
+
             transform: `
               translateY(
-                ${(1 - introProgress) * 30}px
+                ${
+                  (1 - intro) *
+                  24
+                }px
               )
             `,
           }}
@@ -62,54 +80,53 @@ export function TrustSection() {
             <br />
             iz bıraktıklarımız.
           </h2>
-        </div>
+        </header>
 
         <div className="trust-list">
-          {references.map(
-            (reference, index) => {
-              const delay =
-                index *
-                0.08;
-
-              const visibility =
-                Math.min(
-                  Math.max(
-                    (progress -
-                      0.25 -
-                      delay) /
-                      0.2,
-                    0,
-                  ),
-                  1,
+          {TRUST_REFERENCES.map(
+            (reference) => {
+              const reveal =
+                clamp01(
+                  (
+                    progress -
+                    reference.revealAt
+                  ) /
+                    0.18,
                 );
 
               return (
                 <div
+                  key={
+                    reference.id
+                  }
                   className="trust-item"
-                  key={reference}
                   style={{
                     opacity:
-                      visibility,
+                      0.18 +
+                      reveal *
+                        0.82,
+
                     transform: `
-                      translateY(
+                      translateX(
                         ${
                           (1 -
-                            visibility) *
-                          20
+                            reveal) *
+                          24
                         }px
                       )
                     `,
                   }}
                 >
                   <span>
-                    {String(
-                      index + 1,
-                    ).padStart(2, "0")}
+                    {
+                      reference.name
+                    }
                   </span>
 
-                  <strong>
-                    {reference}
-                  </strong>
+                  <span
+                    className="trust-item-line"
+                    aria-hidden="true"
+                  />
                 </div>
               );
             },
@@ -117,5 +134,14 @@ export function TrustSection() {
         </div>
       </div>
     </section>
+  );
+}
+
+function clamp01(
+  value: number,
+) {
+  return Math.min(
+    Math.max(value, 0),
+    1,
   );
 }

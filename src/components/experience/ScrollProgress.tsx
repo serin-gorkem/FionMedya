@@ -1,80 +1,142 @@
 "use client";
 
-import { useEffect } from "react";
+import {
+  useEffect,
+} from "react";
+
+import * as THREE from "three";
 
 import {
-  EXPERIENCE_SECTIONS,
-  type ExperienceSection,
-} from "@/config/experience";
+  getActiveExperienceSection,
+} from "@/lib/experienceTimeline";
 
-import { useExperienceStore } from "@/store/experience";
+import {
+  useExperienceStore,
+} from "@/store/experience";
+
+const WINE_START = 0.015;
 
 export function ScrollProgress() {
-  const setScrollProgress = useExperienceStore(
-    (state) => state.setScrollProgress,
-  );
+  const setScrollProgress =
+    useExperienceStore(
+      (state) =>
+        state.setScrollProgress,
+    );
 
-  const setActiveSection = useExperienceStore(
-    (state) => state.setActiveSection,
-  );
-  const setWineProgress = useExperienceStore((state) => state.setWineProgress);
+  const setWineProgress =
+    useExperienceStore(
+      (state) =>
+        state.setWineProgress,
+    );
+
+  const setActiveSection =
+    useExperienceStore(
+      (state) =>
+        state.setActiveSection,
+    );
+
   useEffect(() => {
-    const update = () => {
+    function update() {
       const scrollableHeight =
-        document.documentElement.scrollHeight - window.innerHeight;
+        document.documentElement
+          .scrollHeight -
+        window.innerHeight;
 
-      if (scrollableHeight <= 0) {
+      if (
+        scrollableHeight <= 0
+      ) {
         setScrollProgress(0);
+
         setWineProgress(0);
-        setActiveSection("hero");
+
+        setActiveSection(
+          "hero",
+        );
 
         return;
       }
 
-      const progress = Math.min(
-        Math.max(window.scrollY / scrollableHeight, 0),
-        1,
+      /**
+       * Browser'ın gerçek global
+       * scroll progress'i.
+       */
+      const progress =
+        THREE.MathUtils.clamp(
+          window.scrollY /
+            scrollableHeight,
+
+          0,
+          1,
+        );
+
+      setScrollProgress(
+        progress,
       );
 
-      setScrollProgress(progress);
-      const wineProgress = Math.min(Math.max(progress * 1.04, 0), 1);
+      /**
+       * Wine timeline global scroll'dan
+       * bağımsız bir mapping'e sahip.
+       *
+       * İlk %1.5 scroll boyunca origin'de
+       * bekliyor.
+       */
+      const wineProgress =
+        THREE.MathUtils.clamp(
+          (
+            progress -
+            WINE_START
+          ) /
+            (
+              1 -
+              WINE_START
+            ),
 
-      setWineProgress(wineProgress);
+          0,
+          1,
+        );
 
-      const entries = Object.entries(EXPERIENCE_SECTIONS) as [
-        ExperienceSection,
-        {
-          start: number;
-          end: number;
-        },
-      ][];
+      setWineProgress(
+        wineProgress,
+      );
 
-      let currentSection: ExperienceSection = "hero";
-
-      for (const [name, range] of entries) {
-        if (progress >= range.start && progress <= range.end) {
-          currentSection = name;
-          break;
-        }
-      }
-
-      setActiveSection(currentSection);
-    };
+      setActiveSection(
+        getActiveExperienceSection(
+          progress,
+        ),
+      );
+    }
 
     update();
 
-    window.addEventListener("scroll", update, {
-      passive: true,
-    });
+    window.addEventListener(
+      "scroll",
+      update,
+      {
+        passive: true,
+      },
+    );
 
-    window.addEventListener("resize", update);
+    window.addEventListener(
+      "resize",
+      update,
+    );
 
     return () => {
-      window.removeEventListener("scroll", update);
+      window.removeEventListener(
+        "scroll",
+        update,
+      );
 
-      window.removeEventListener("resize", update);
+      window.removeEventListener(
+        "resize",
+        update,
+      );
     };
-  }, [setScrollProgress, setWineProgress, setActiveSection]);
+  }, [
+    setScrollProgress,
+    setWineProgress,
+    setActiveSection,
+  ]);
 
   return null;
 }

@@ -1,61 +1,49 @@
 "use client";
 
-import { EXPERIENCE_SECTIONS } from "@/config/experience";
-import { getExperienceSection } from "@/lib/experienceSections";
-import { getSectionProgress } from "@/lib/progress";
-import { useExperienceStore } from "@/store/experience";
+import {
+  EXPERIENCE_SECTIONS,
+} from "@/config/experience";
 
-const services = [
-  {
-    number: "01",
-    name: "MARKA",
-    description:
-      "Nasıl göründüğünüzden önce, ne ifade ettiğinizi belirliyoruz.",
-    items: [
-      "Marka Stratejisi",
-      "Kurumsal Kimlik",
-      "Grafik Tasarım",
-    ],
-  },
+import {
+  SERVICES,
+  type ServiceDefinition,
+} from "@/config/services";
 
-  {
-    number: "02",
-    name: "İÇERİK",
-    description:
-      "Kaydırılıp geçilmek için değil, durup bakılmak için.",
-    items: [
-      "Sosyal Medya Yönetimi",
-      "Kreatif İçerik",
-      "Video Prodüksiyon",
-    ],
-  },
+import {
+  getExperienceSection,
+} from "@/lib/experienceSections";
 
-  {
-    number: "03",
-    name: "BÜYÜME",
-    description:
-      "İyi fikri doğru insanlarla buluşturuyoruz.",
-    items: [
-      "Meta Reklamları",
-      "Google Çalışmaları",
-      "Dijital Reklam",
-    ],
-  },
-] as const;
+import {
+  getSectionProgress,
+} from "@/lib/progress";
+
+import {
+  useExperienceStore,
+} from "@/store/experience";
 
 export function ServicesSection() {
-  const scrollProgress = useExperienceStore(
-    (state) => state.scrollProgress,
-  );
+  const scrollProgress =
+    useExperienceStore(
+      (state) =>
+        state.scrollProgress,
+    );
 
   const config =
-    getExperienceSection("services");
+    getExperienceSection(
+      "services",
+    );
 
   const progress =
     getSectionProgress(
       scrollProgress,
+
       EXPERIENCE_SECTIONS.services.start,
       EXPERIENCE_SECTIONS.services.end,
+    );
+
+  const introProgress =
+    clamp01(
+      progress / 0.18,
     );
 
   return (
@@ -64,11 +52,28 @@ export function ServicesSection() {
       className="home-section services-section"
       data-experience-section="services"
       style={{
-        minHeight: `${config.heightVh}svh`,
+        minHeight:
+          `${config.heightVh}svh`,
       }}
     >
       <div className="services-sticky">
-        <div className="services-header">
+        <header
+          className="services-header"
+          style={{
+            opacity:
+              introProgress,
+
+            transform: `
+              translateY(
+                ${
+                  (1 -
+                    introProgress) *
+                  24
+                }px
+              )
+            `,
+          }}
+        >
           <span className="section-eyebrow">
             NE YAPIYORUZ
           </span>
@@ -76,78 +81,25 @@ export function ServicesSection() {
           <h2>
             Fikri görünür,
             <br />
-            hatırlanır ve
+            hatırlanır ve etkili
             <br />
-            etkili hale getiriyoruz.
+            hale getiriyoruz.
           </h2>
-        </div>
+        </header>
 
         <div className="services-list">
-          {services.map(
-            (service, index) => {
-              const start =
-                index / services.length;
-
-              const end =
-                (index + 1) /
-                services.length;
-
-              const visibility =
-                getServiceVisibility(
-                  progress,
-                  start,
-                  end,
-                );
-
-              const isActive =
-                progress >= start &&
-                progress <= end;
-
-              return (
-                <article
-                  className={`service-item ${
-                    isActive
-                      ? "service-item--active"
-                      : ""
-                  }`}
-                  key={service.name}
-                  style={{
-                    opacity:
-                      0.25 +
-                      visibility * 0.75,
-                    transform: `
-                      translateX(
-                        ${(1 - visibility) * 20}px
-                      )
-                    `,
-                  }}
-                >
-                  <div className="service-heading">
-                    <span>
-                      {service.number}
-                    </span>
-
-                    <h3>
-                      {service.name}
-                    </h3>
-                  </div>
-
-                  <p>
-                    {service.description}
-                  </p>
-
-                  <ul>
-                    {service.items.map(
-                      (item) => (
-                        <li key={item}>
-                          {item}
-                        </li>
-                      ),
-                    )}
-                  </ul>
-                </article>
-              );
-            },
+          {SERVICES.map(
+            (service) => (
+              <ServiceItem
+                key={service.id}
+                service={
+                  service
+                }
+                progress={
+                  progress
+                }
+              />
+            ),
           )}
         </div>
       </div>
@@ -155,31 +107,90 @@ export function ServicesSection() {
   );
 }
 
-function getServiceVisibility(
-  progress: number,
-  start: number,
-  end: number,
-) {
-  const midpoint =
-    (start + end) / 2;
+type ServiceItemProps = {
+  service:
+    ServiceDefinition;
 
-  const halfRange =
-    (end - start) / 2;
+  progress: number;
+};
 
-  if (halfRange <= 0) {
-    return 0;
-  }
-
-  const distance =
-    Math.abs(
-      progress - midpoint,
+function ServiceItem({
+  service,
+  progress,
+}: ServiceItemProps) {
+  const reveal =
+    getServiceProgress(
+      progress,
+      service.revealAt,
     );
 
-  return Math.max(
-    0,
-    Math.min(
-      1,
-      1 - distance / halfRange,
-    ),
+  return (
+    <article
+      className={`service-item ${
+        reveal > 0.55
+          ? "is-active"
+          : ""
+      }`}
+      style={{
+        opacity:
+          0.25 +
+          reveal * 0.75,
+
+        transform: `
+          translateY(
+            ${
+              (1 - reveal) *
+              18
+            }px
+          )
+        `,
+      }}
+    >
+      <div className="service-index">
+        {service.number}
+      </div>
+
+      <div className="service-main">
+        <h3>
+          {service.name}
+        </h3>
+
+        <p>
+          {service.description}
+        </p>
+      </div>
+
+      <ul>
+        {service.items.map(
+          (item) => (
+            <li key={item}>
+              {item}
+            </li>
+          ),
+        )}
+      </ul>
+    </article>
+  );
+}
+
+function getServiceProgress(
+  progress: number,
+  revealAt: number,
+) {
+  return clamp01(
+    (
+      progress -
+      revealAt
+    ) /
+      0.2,
+  );
+}
+
+function clamp01(
+  value: number,
+) {
+  return Math.min(
+    Math.max(value, 0),
+    1,
   );
 }

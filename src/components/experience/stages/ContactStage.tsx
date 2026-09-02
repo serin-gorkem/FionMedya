@@ -1,89 +1,49 @@
 "use client";
 
-import { useFrame } from "@react-three/fiber";
-import { useRef } from "react";
 import * as THREE from "three";
 
-import { EXPERIENCE_ANCHORS } from "@/config/experienceAnchors";
+import { EXPERIENCE_SECTIONS } from "@/config/experience";
+
 import { getExperienceAnchorPosition } from "@/lib/experienceAnchors";
+import { getSectionProgress } from "@/lib/progress";
+
 import { useExperienceStore } from "@/store/experience";
 
 const CONTACT_POSITION =
-  getExperienceAnchorPosition(
-    "contact",
-  );
+  getExperienceAnchorPosition("contact");
 
 export function ContactStage() {
-  const meshRef =
-    useRef<THREE.Mesh>(
-      null,
-    );
-
-  const materialRef =
-    useRef<THREE.MeshBasicMaterial>(
-      null,
-    );
-
-  const wineProgress =
+  const scrollProgress =
     useExperienceStore(
-      (state) =>
-        state.wineProgress,
+      (state) => state.scrollProgress,
     );
 
-  useFrame(() => {
-    const mesh =
-      meshRef.current;
-
-    const material =
-      materialRef.current;
-
-    if (!mesh || !material) {
-      return;
-    }
-
-    const progress =
-      THREE.MathUtils.clamp(
-        (
-          wineProgress -
-          0.9
-        ) /
-          0.1,
-        0,
-        1,
-      );
-
-    const eased =
-      THREE.MathUtils.smoothstep(
-        progress,
-        0,
-        1,
-      );
-
-    const scale =
-      THREE.MathUtils.lerp(
-        0.1,
-        2.4,
-        eased,
-      );
-
-    mesh.scale.setScalar(
-      scale,
+  const progress =
+    getSectionProgress(
+      scrollProgress,
+      EXPERIENCE_SECTIONS.contact.start,
+      EXPERIENCE_SECTIONS.contact.end,
     );
 
-    material.opacity =
-      THREE.MathUtils.lerp(
-        0,
-        0.18,
-        eased,
-      );
-  });
+  const reveal =
+    THREE.MathUtils.smoothstep(
+      progress,
+      0.1,
+      0.45,
+    );
+
+  const scale =
+    THREE.MathUtils.lerp(
+      0.1,
+      1.4,
+      reveal,
+    );
 
   return (
     <mesh
-      ref={meshRef}
       position={[
         CONTACT_POSITION.x,
-        0.065,
+        0.074,
         CONTACT_POSITION.z,
       ]}
       rotation={[
@@ -91,20 +51,22 @@ export function ContactStage() {
         0,
         0,
       ]}
+      scale={[
+        scale,
+        scale * 0.65,
+        1,
+      ]}
     >
       <circleGeometry
-        args={[
-          1,
-          64,
-        ]}
+        args={[0.28, 64]}
       />
 
       <meshBasicMaterial
-        ref={materialRef}
         color="#651526"
         transparent
-        opacity={0}
+        opacity={reveal * 0.32}
         depthWrite={false}
+        side={THREE.DoubleSide}
       />
     </mesh>
   );

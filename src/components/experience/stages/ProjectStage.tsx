@@ -1,119 +1,111 @@
 "use client";
 
-import { useFrame } from "@react-three/fiber";
-import { useMemo, useRef } from "react";
+import { useMemo } from "react";
 import * as THREE from "three";
 
-import {
-  EXPERIENCE_ANCHORS,
-  type ExperienceAnchor,
-} from "@/config/experienceAnchors";
+import { EXPERIENCE_SECTIONS } from "@/config/experience";
 
 import { getExperienceAnchorPosition } from "@/lib/experienceAnchors";
+import { getSectionProgress } from "@/lib/progress";
+
 import { useExperienceStore } from "@/store/experience";
 
+type ProjectAnchor =
+  | "workOne"
+  | "workTwo";
+
 type ProjectStageProps = {
-  anchor: ExperienceAnchor;
+  anchor: ProjectAnchor;
   width?: number;
   height?: number;
 };
+
+const PROJECT_RANGES = {
+  workOne: {
+    start: 0.16,
+    peak: 0.38,
+    end: 0.58,
+  },
+
+  workTwo: {
+    start: 0.5,
+    peak: 0.72,
+    end: 1,
+  },
+} as const;
 
 export function ProjectStage({
   anchor,
   width = 3.4,
   height = 2.1,
 }: ProjectStageProps) {
-  const meshRef = useRef<THREE.Mesh>(null);
-
-  const materialRef =
-    useRef<THREE.MeshBasicMaterial>(null);
-
-  const wineProgress =
+  const scrollProgress =
     useExperienceStore(
-      (state) => state.wineProgress,
+      (state) =>
+        state.scrollProgress,
     );
 
   /**
-   * Anchor değişmediği sürece bu pozisyon
-   * yeniden hesaplanmaz.
-   *
-   * React render tarafına sadece primitive
-   * x/z değerlerini taşıyoruz.
+   * Global scroll'u Works section'ın
+   * 0 → 1 local progress'ine çeviriyoruz.
    */
-  const [positionX, positionZ] =
-    useMemo(() => {
-      const position =
-        getExperienceAnchorPosition(
-          anchor,
-        );
+  const worksProgress =
+    getSectionProgress(
+      scrollProgress,
 
-      return [
-        position.x,
-        position.z,
-      ] as const;
-    }, [anchor]);
-
-  useFrame(() => {
-    const mesh = meshRef.current;
-
-    const material =
-      materialRef.current;
-
-    if (!mesh || !material) {
-      return;
-    }
-
-    const anchorProgress =
-      EXPERIENCE_ANCHORS[anchor];
-
-    const distance =
-      Math.abs(
-        wineProgress -
-          anchorProgress,
-      );
-
-    /**
-     * Wine head anchor'a yaklaştığında
-     * stage görünür hale geliyor.
-     */
-    const influence =
-      THREE.MathUtils.clamp(
-        1 - distance / 0.1,
-        0,
-        1,
-      );
-
-    const eased =
-      THREE.MathUtils.smoothstep(
-        influence,
-        0,
-        1,
-      );
-
-    const scale =
-      THREE.MathUtils.lerp(
-        0.2,
-        1,
-        eased,
-      );
-
-    mesh.scale.set(
-      scale,
-      scale,
-      1,
+      EXPERIENCE_SECTIONS.works.start,
+      EXPERIENCE_SECTIONS.works.end,
     );
 
-    material.opacity =
-      THREE.MathUtils.lerp(
-        0,
-        0.22,
-        eased,
+  /**
+   * Route üzerindeki fiziksel pozisyon.
+   */
+  const [
+    positionX,
+    positionZ,
+  ] = useMemo(() => {
+    const position =
+      getExperienceAnchorPosition(
+        anchor,
       );
-  });
+
+    return [
+      position.x,
+      position.z,
+    ] as const;
+  }, [anchor]);
+
+  /**
+   * Bu projenin Works timeline'ındaki
+   * görünme aralığı.
+   */
+  const range =
+    PROJECT_RANGES[anchor];
+
+  const visibility =
+    getStageVisibility(
+      worksProgress,
+      range.start,
+      range.peak,
+      range.end,
+    );
+
+  const scale =
+    THREE.MathUtils.lerp(
+      0.2,
+      1.25,
+      visibility,
+    );
+
+  const opacity =
+    THREE.MathUtils.lerp(
+      0,
+      0.12,
+      visibility,
+    );
 
   return (
     <mesh
-      ref={meshRef}
       position={[
         positionX,
         0.07,
@@ -124,6 +116,11 @@ export function ProjectStage({
         0,
         0,
       ]}
+      scale={[
+        scale,
+        scale,
+        1,
+      ]}
     >
       <planeGeometry
         args={[
@@ -133,12 +130,53 @@ export function ProjectStage({
       />
 
       <meshBasicMaterial
-        ref={materialRef}
         color="#651526"
         transparent
-        opacity={0}
+        opacity={opacity}
         depthWrite={false}
+        side={
+          THREE.DoubleSide
+        }
       />
     </mesh>
+  );
+}
+
+function getStageVisibility(
+  progress: number,
+  start: number,
+  peak: number,
+  end: number,
+) {
+  if (
+    progress <= start ||
+    progress >= end
+  ) {
+    return 0;
+  }
+
+  /**
+   * Fade in
+   */
+  if (progress <= peak) {
+    return THREE.MathUtils.clamp(
+      (progress - start) /
+        (peak - start),
+
+      0,
+      1,
+    );
+  }
+
+  /**
+   * Fade out
+   */
+  return THREE.MathUtils.clamp(
+    1 -
+      (progress - peak) /
+        (end - peak),
+
+    0,
+    1,
   );
 }
