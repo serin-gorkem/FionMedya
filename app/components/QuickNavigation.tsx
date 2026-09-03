@@ -5,11 +5,32 @@ import { useEffect, useState, type MouseEvent } from "react";
 import { useSmoothNavigation } from "@/app/components/navigation/SmoothNavigationProvider";
 
 const items = [
-  { id: "services", number: "01", label: "Hizmetler" },
-  { id: "projects", number: "02", label: "İşler" },
-  { id: "about", number: "03", label: "Fion" },
-  { id: "contact", number: "04", label: "İletişim" },
-] as const;
+  {
+    id: "services",
+    number: "01",
+    label: "Hizmetler",
+  },
+  {
+    id: "projects",
+    number: "02",
+    label: "İşler",
+  },
+  {
+    id: "blog",
+    number: "03",
+    label: "Blog",
+  },
+  {
+    id: "about",
+    number: "04",
+    label: "Fion",
+  },
+  {
+    id: "contact",
+    number: "05",
+    label: "İletişim",
+  },
+];
 
 export default function QuickNavigation() {
   const [active, setActive] = useState("services");
@@ -42,10 +63,7 @@ export default function QuickNavigation() {
     };
   }, []);
 
-  const handleClick = (
-    event: MouseEvent<HTMLAnchorElement>,
-    id: string,
-  ) => {
+  const handleClick = (event: MouseEvent<HTMLAnchorElement>, id: string) => {
     if (
       event.button !== 0 ||
       event.metaKey ||

@@ -7,7 +7,7 @@ import Footer from "@/app/components/sections/footer/Footer";
 import Hero from "@/app/components/sections/hero/Hero";
 import ProjectsSection from "@/app/components/sections/projects/ProjectsSection";
 import ServicesSection from "@/app/components/sections/services/ServicesSection";
-
+import BlogSection from "@/app/components/sections/blog/BlogSection";
 export default function Home() {
   return (
     <SmoothNavigationProvider>
@@ -19,6 +19,7 @@ export default function Home() {
         <WineJourneyShell>
           <ServicesSection />
           <ProjectsSection />
+          <BlogSection />
           <AboutSection />
           <Footer />
         </WineJourneyShell>
