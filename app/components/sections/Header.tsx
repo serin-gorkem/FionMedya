@@ -1,5 +1,6 @@
 import Image from "next/image";
-import Link from "next/link";
+
+import SmoothAnchor from "@/app/components/navigation/SmoothAnchor";
 
 export default function Header() {
   return (
@@ -11,9 +12,11 @@ export default function Header() {
         sm:left-10 sm:top-8
       "
     >
-      <Link
+      <SmoothAnchor
         href="#hero"
         aria-label="Fion Medya ana sayfa"
+        duration={1350}
+        intensity="soft"
         className="pointer-events-auto flex h-10 items-center"
       >
         <Image
@@ -24,7 +27,7 @@ export default function Header() {
           priority
           className="h-auto w-20 brightness-0 invert sm:w-[104px]"
         />
-      </Link>
+      </SmoothAnchor>
     </header>
   );
 }

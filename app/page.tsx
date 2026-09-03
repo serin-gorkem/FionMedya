@@ -1,24 +1,28 @@
 import HeaderNavigation from "@/app/components/HeaderNavigation";
-import Hero from "@/app/components/sections/Hero";
+import QuickNavigation from "@/app/components/QuickNavigation";
 import WineJourneyShell from "@/app/components/WineJourneyShell";
-import ServicesSection from "@/app/components/sections/ServicesSection";
-import ProjectsSection from "@/app/components/sections/ProjectsSection";
-import AboutSection from "@/app/components/sections/AboutSection";
-import Footer from "@/app/components/sections/Footer";
+import SmoothNavigationProvider from "@/app/components/navigation/SmoothNavigationProvider";
+import AboutSection from "@/app/components/sections/about/AboutSection";
+import Footer from "@/app/components/sections/footer/Footer";
+import Hero from "@/app/components/sections/hero/Hero";
+import ProjectsSection from "@/app/components/sections/projects/ProjectsSection";
+import ServicesSection from "@/app/components/sections/services/ServicesSection";
 
 export default function Home() {
   return (
-    <main className="bg-[#000000] text-ivory">
-      <HeaderNavigation />
+    <SmoothNavigationProvider>
+      <main className="bg-black text-ivory">
+        <HeaderNavigation />
+        <QuickNavigation />
+        <Hero />
 
-      <Hero />
-
-      <WineJourneyShell>
-        <ServicesSection />
-        <ProjectsSection />
-        <AboutSection />
-        <Footer />
-      </WineJourneyShell>
-    </main>
+        <WineJourneyShell>
+          <ServicesSection />
+          <ProjectsSection />
+          <AboutSection />
+          <Footer />
+        </WineJourneyShell>
+      </main>
+    </SmoothNavigationProvider>
   );
 }
