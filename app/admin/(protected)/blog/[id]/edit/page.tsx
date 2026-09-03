@@ -54,25 +54,27 @@ export default async function EditBlogPostPage({
 
           flex
           flex-col
-          gap-7
+          gap-8
 
           border-b
-          border-white/10
+          border-white/15
 
           pb-8
 
-          sm:flex-row
-          sm:items-end
-          sm:justify-between
+          lg:flex-row
+          lg:items-end
+          lg:justify-between
         "
       >
         <div>
           <p
             className="
-              text-[9px]
+              text-[10px]
+              font-medium
               uppercase
-              tracking-[0.3em]
-              text-[#c45a78]
+              tracking-[0.22em]
+
+              text-[#d86a88]
             "
           >
             Yazıyı Düzenle
@@ -82,7 +84,7 @@ export default async function EditBlogPostPage({
             className="
               mt-4
 
-              max-w-[800px]
+              max-w-[850px]
 
               font-serif
 
@@ -91,25 +93,128 @@ export default async function EditBlogPostPage({
               leading-[0.9]
               tracking-[-0.05em]
 
-              text-[#f4efe9]
+              text-[var(--text-primary)]
             "
           >
             {post.title}
           </h1>
+
+          <div
+            className="
+              mt-5
+
+              flex
+              flex-wrap
+              items-center
+              gap-3
+            "
+          >
+            <span
+              className={`
+                inline-flex
+                items-center
+                gap-2
+
+                rounded-[9px]
+
+                border
+
+                px-3
+                py-2
+
+                text-[9px]
+                font-medium
+                uppercase
+                tracking-[0.14em]
+
+                ${
+                  post.status ===
+                  "published"
+                    ? `
+                      border-[#8a304c]
+                      bg-[#591323]/45
+                      text-[#ef9eb4]
+                    `
+                    : `
+                      border-white/15
+                      bg-[#151515]
+                      text-[var(--text-secondary)]
+                    `
+                }
+              `}
+            >
+              <span
+                className={`
+                  h-[6px]
+                  w-[6px]
+
+                  rounded-full
+
+                  ${
+                    post.status ===
+                    "published"
+                      ? "bg-[#d86a88]"
+                      : "bg-[#85817f]"
+                  }
+                `}
+              />
+
+              {post.status ===
+              "published"
+                ? "Yayında"
+                : "Taslak"}
+            </span>
+
+            <span
+              className="
+                text-[10px]
+                text-[var(--text-muted)]
+              "
+            >
+              /blog/{post.slug}
+            </span>
+          </div>
         </div>
 
-        <div className="flex gap-5">
+        <div
+          className="
+            flex
+            flex-wrap
+            gap-3
+          "
+        >
           {post.status ===
             "published" && (
             <Link
               href={`/blog/${post.slug}`}
               target="_blank"
               className="
-                text-[8px]
-                uppercase
-                tracking-[0.22em]
-                text-white/35
+                inline-flex
+                items-center
+                gap-2
 
+                rounded-[10px]
+
+                border
+                border-[#7f2945]
+
+                bg-[#591323]/35
+
+                px-4
+                py-3
+
+                text-[10px]
+                font-medium
+                uppercase
+                tracking-[0.14em]
+
+                text-[#ef9eb4]
+
+                transition-all
+                duration-200
+
+                hover:border-[#d86a88]
+                hover:bg-[#591323]/60
                 hover:text-white
               "
             >
@@ -120,11 +225,32 @@ export default async function EditBlogPostPage({
           <Link
             href="/admin/blog"
             className="
-              text-[8px]
-              uppercase
-              tracking-[0.22em]
-              text-white/35
+              inline-flex
+              items-center
+              gap-2
 
+              rounded-[10px]
+
+              border
+              border-white/15
+
+              bg-[#111111]
+
+              px-4
+              py-3
+
+              text-[10px]
+              font-medium
+              uppercase
+              tracking-[0.14em]
+
+              text-[var(--text-secondary)]
+
+              transition-all
+              duration-200
+
+              hover:border-white/25
+              hover:bg-[#171717]
               hover:text-white
             "
           >

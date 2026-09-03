@@ -11,10 +11,6 @@ import {
 
 import StarterKit from "@tiptap/starter-kit";
 
-/* =========================================================
-   TYPES
-========================================================= */
-
 type BlogEditorProps = {
   value: string;
 
@@ -32,16 +28,6 @@ type ToolbarButtonProps = {
   children: ReactNode;
 };
 
-/* =========================================================
-   EDITOR CONTENT CLASSES
-
-   IMPORTANT:
-   Tiptap / ProseMirror classList.add kullanabiliyor.
-
-   Bu yüzden multiline template literal yerine
-   class array + join(" ") kullanıyoruz.
-========================================================= */
-
 const editorContentClassName = [
   "min-h-[430px]",
   "outline-none",
@@ -49,9 +35,9 @@ const editorContentClassName = [
   "px-6",
   "py-7",
 
-  "text-[15px]",
+  "text-[16px]",
   "leading-8",
-  "text-white/72",
+  "text-[var(--text-secondary)]",
 
   "[&_p]:mb-5",
 
@@ -61,27 +47,27 @@ const editorContentClassName = [
   "[&_h2]:text-4xl",
   "[&_h2]:leading-[0.95]",
   "[&_h2]:tracking-[-0.04em]",
-  "[&_h2]:text-[#f4efe9]",
+  "[&_h2]:text-[var(--text-primary)]",
 
   "[&_h3]:mb-4",
   "[&_h3]:mt-8",
   "[&_h3]:font-serif",
   "[&_h3]:text-2xl",
-  "[&_h3]:text-[#f4efe9]",
+  "[&_h3]:text-[var(--text-primary)]",
 
   "[&_strong]:font-semibold",
   "[&_strong]:text-white",
 
-  "[&_em]:text-white/85",
+  "[&_em]:text-[#d3cfca]",
 
   "[&_blockquote]:my-8",
   "[&_blockquote]:border-l-2",
-  "[&_blockquote]:border-[#c45a78]",
+  "[&_blockquote]:border-[#d86a88]",
   "[&_blockquote]:pl-6",
   "[&_blockquote]:font-serif",
   "[&_blockquote]:text-xl",
   "[&_blockquote]:italic",
-  "[&_blockquote]:text-white/65",
+  "[&_blockquote]:text-[#c2beb8]",
 
   "[&_ul]:my-5",
   "[&_ul]:list-disc",
@@ -93,14 +79,10 @@ const editorContentClassName = [
 
   "[&_li]:mb-2",
 
-  "[&_a]:text-[#d86a88]",
+  "[&_a]:text-[#e584a0]",
   "[&_a]:underline",
   "[&_a]:underline-offset-4",
 ].join(" ");
-
-/* =========================================================
-   TOOLBAR BUTTON
-========================================================= */
 
 function ToolbarButton({
   active = false,
@@ -115,18 +97,19 @@ function ToolbarButton({
       onClick={onClick}
       className={`
         flex
-        min-h-9
-        min-w-9
+        min-h-10
+        min-w-10
         items-center
         justify-center
 
-        rounded-[8px]
+        rounded-[9px]
 
         border
 
         px-3
 
-        text-[10px]
+        text-[11px]
+        font-medium
 
         transition-all
         duration-200
@@ -134,22 +117,23 @@ function ToolbarButton({
         ${
           active
             ? `
-              border-[#7a2842]
+              border-[#d86a88]
               bg-[#591323]
-              text-white
+              text-[#f4efe9]
             `
             : `
-              border-white/[0.08]
-              bg-[#111111]
-              text-white/45
+              border-white/15
+              bg-[#121212]
+              text-[var(--text-secondary)]
 
-              hover:border-white/15
-              hover:text-white
+              hover:border-[#d86a88]/60
+              hover:bg-[#171717]
+              hover:text-[#f4efe9]
             `
         }
 
         disabled:cursor-not-allowed
-        disabled:opacity-30
+        disabled:opacity-40
       `}
     >
       {children}
@@ -157,19 +141,12 @@ function ToolbarButton({
   );
 }
 
-/* =========================================================
-   BLOG EDITOR
-========================================================= */
-
 export default function BlogEditor({
   value,
   onChange,
 }: BlogEditorProps) {
   const editor =
     useEditor({
-      /*
-       * Next.js SSR hydration için önemli.
-       */
       immediatelyRender:
         false,
 
@@ -211,10 +188,6 @@ export default function BlogEditor({
       },
     });
 
-  /* =======================================================
-     LOADING
-  ======================================================= */
-
   if (!editor) {
     return (
       <div
@@ -226,17 +199,13 @@ export default function BlogEditor({
           rounded-[22px]
 
           border
-          border-white/10
+          border-white/15
 
-          bg-[#090909]
+          bg-[#0d0d0d]
         "
       />
     );
   }
-
-  /* =======================================================
-     LINK
-  ======================================================= */
 
   const setLink =
     () => {
@@ -254,19 +223,12 @@ export default function BlogEditor({
             "https://",
         );
 
-      /*
-       * Cancel
-       */
       if (
         url === null
       ) {
         return;
       }
 
-      /*
-       * Empty input:
-       * existing link removed.
-       */
       if (
         url.trim() ===
         ""
@@ -293,10 +255,6 @@ export default function BlogEditor({
         .run();
     };
 
-  /* =======================================================
-     UI
-  ======================================================= */
-
   return (
     <div
       className="
@@ -305,19 +263,19 @@ export default function BlogEditor({
         rounded-[22px]
 
         border
-        border-white/10
+        border-white/15
 
-        bg-[#090909]
+        bg-[#0d0d0d]
 
         transition-colors
         duration-300
 
-        focus-within:border-[#6d2038]
+        hover:border-white/20
+
+        focus-within:border-[#d86a88]
       "
     >
-      {/* =================================================
-          TOOLBAR
-      ================================================== */}
+      {/* TOOLBAR */}
 
       <div
         className="
@@ -326,15 +284,13 @@ export default function BlogEditor({
           gap-2
 
           border-b
-          border-white/10
+          border-white/15
 
-          bg-[#0d0d0d]
+          bg-[#121212]
 
           p-3
         "
       >
-        {/* BOLD */}
-
         <ToolbarButton
           active={editor.isActive(
             "bold",
@@ -349,8 +305,6 @@ export default function BlogEditor({
         >
           <strong>B</strong>
         </ToolbarButton>
-
-        {/* ITALIC */}
 
         <ToolbarButton
           active={editor.isActive(
@@ -367,9 +321,7 @@ export default function BlogEditor({
           <em>I</em>
         </ToolbarButton>
 
-        <div className="mx-1 h-9 w-px bg-white/10" />
-
-        {/* H2 */}
+        <div className="mx-1 h-10 w-px bg-white/15" />
 
         <ToolbarButton
           active={editor.isActive(
@@ -391,8 +343,6 @@ export default function BlogEditor({
           H2
         </ToolbarButton>
 
-        {/* H3 */}
-
         <ToolbarButton
           active={editor.isActive(
             "heading",
@@ -413,9 +363,7 @@ export default function BlogEditor({
           H3
         </ToolbarButton>
 
-        <div className="mx-1 h-9 w-px bg-white/10" />
-
-        {/* BULLET LIST */}
+        <div className="mx-1 h-10 w-px bg-white/15" />
 
         <ToolbarButton
           active={editor.isActive(
@@ -429,10 +377,8 @@ export default function BlogEditor({
               .run()
           }
         >
-          • List
+          • Liste
         </ToolbarButton>
-
-        {/* ORDERED LIST */}
 
         <ToolbarButton
           active={editor.isActive(
@@ -449,8 +395,6 @@ export default function BlogEditor({
           1.
         </ToolbarButton>
 
-        {/* QUOTE */}
-
         <ToolbarButton
           active={editor.isActive(
             "blockquote",
@@ -466,9 +410,7 @@ export default function BlogEditor({
           “ ”
         </ToolbarButton>
 
-        <div className="mx-1 h-9 w-px bg-white/10" />
-
-        {/* LINK */}
+        <div className="mx-1 h-10 w-px bg-white/15" />
 
         <ToolbarButton
           active={editor.isActive(
@@ -480,8 +422,6 @@ export default function BlogEditor({
         >
           Link
         </ToolbarButton>
-
-        {/* UNDO */}
 
         <ToolbarButton
           disabled={
@@ -499,8 +439,6 @@ export default function BlogEditor({
         >
           ↶
         </ToolbarButton>
-
-        {/* REDO */}
 
         <ToolbarButton
           disabled={
@@ -520,17 +458,13 @@ export default function BlogEditor({
         </ToolbarButton>
       </div>
 
-      {/* =================================================
-          EDITOR AREA
-      ================================================== */}
+      {/* EDITOR */}
 
       <EditorContent
         editor={editor}
       />
 
-      {/* =================================================
-          FOOTER
-      ================================================== */}
+      {/* FOOTER */}
 
       <div
         className="
@@ -539,7 +473,9 @@ export default function BlogEditor({
           justify-between
 
           border-t
-          border-white/[0.07]
+          border-white/15
+
+          bg-[#101010]
 
           px-5
           py-3
@@ -547,10 +483,11 @@ export default function BlogEditor({
       >
         <span
           className="
-            text-[8px]
+            text-[9px]
+            font-medium
             uppercase
-            tracking-[0.2em]
-            text-white/20
+            tracking-[0.18em]
+            text-[var(--text-muted)]
           "
         >
           Fion Editor
@@ -558,8 +495,8 @@ export default function BlogEditor({
 
         <span
           className="
-            text-[8px]
-            text-white/20
+            text-[10px]
+            text-[var(--text-muted)]
           "
         >
           Yazmaya odaklan.

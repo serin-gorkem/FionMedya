@@ -1,21 +1,25 @@
-import { redirect } from "next/navigation";
+import {
+  redirect,
+} from "next/navigation";
 
 import LoginForm from "./LoginForm";
 
-import { getAdminUser } from "@/features/auth/admin-auth";
+import {
+  getAdminUser,
+} from "@/features/auth/admin-auth";
 import Link from "next/link";
 
-export const dynamic = "force-dynamic";
+export const dynamic =
+  "force-dynamic";
 
 export default async function AdminLoginPage() {
-  /*
-   * Zaten giriş yapmış admin
-   * login ekranını görmesin.
-   */
-  const admin = await getAdminUser();
+  const admin =
+    await getAdminUser();
 
   if (admin) {
-    redirect("/admin/blog");
+    redirect(
+      "/admin/blog",
+    );
   }
 
   return (
@@ -35,10 +39,10 @@ export default async function AdminLoginPage() {
         px-6
         py-16
 
-        text-[#f4efe9]
+        text-[var(--text-primary)]
       "
     >
-      {/* wine ambient */}
+      {/* AMBIENT */}
 
       <div
         aria-hidden="true"
@@ -49,21 +53,21 @@ export default async function AdminLoginPage() {
           left-1/2
           top-1/2
 
-          h-[420px]
-          w-[420px]
+          h-[500px]
+          w-[500px]
 
           -translate-x-1/2
           -translate-y-1/2
 
           rounded-full
 
-          bg-[#591323]/25
+          bg-[#591323]/30
 
-          blur-[130px]
+          blur-[140px]
         "
       />
 
-      {/* card */}
+      {/* CARD */}
 
       <section
         className="
@@ -71,18 +75,18 @@ export default async function AdminLoginPage() {
           z-10
 
           w-full
-          max-w-[460px]
+          max-w-[470px]
 
           rounded-[28px]
 
           border
-          border-[#451423]
+          border-[#672039]
 
-          bg-[#080808]
+          bg-[#0d0d0d]
 
           p-7
 
-          shadow-[0_30px_100px_rgba(0,0,0,0.6)]
+          shadow-[0_30px_100px_rgba(0,0,0,0.65)]
 
           sm:p-9
         "
@@ -96,30 +100,32 @@ export default async function AdminLoginPage() {
             justify-between
 
             border-b
-            border-white/10
+            border-white/15
 
             pb-5
           "
         >
           <span
             className="
-              text-[9px]
+              text-[10px]
+              font-medium
               uppercase
-              tracking-[0.34em]
-              text-[#c45a78]
+              tracking-[0.22em]
+              text-[#d86a88]
             "
           >
             Fion CMS
           </span>
 
           <span
+            aria-hidden="true"
             className="
-              h-[6px]
-              w-[6px]
+              h-[7px]
+              w-[7px]
 
               rounded-full
 
-              bg-[#c45a78]
+              bg-[#d86a88]
             "
           />
         </div>
@@ -129,10 +135,11 @@ export default async function AdminLoginPage() {
         <div className="mt-9">
           <p
             className="
-              text-[9px]
+              text-[10px]
+              font-medium
               uppercase
-              tracking-[0.3em]
-              text-white/28
+              tracking-[0.2em]
+              text-[var(--text-muted)]
             "
           >
             Yönetim Paneli
@@ -149,26 +156,32 @@ export default async function AdminLoginPage() {
               leading-[0.84]
               tracking-[-0.06em]
 
-              text-[#f4efe9]
+              text-[var(--text-primary)]
             "
           >
             Tekrar
             <br />
-            <em className="text-white/55">hoş geldin.</em>
+
+            <em className="text-[var(--text-secondary)]">
+              hoş geldin.
+            </em>
           </h1>
 
           <p
             className="
               mt-6
 
-              max-w-[330px]
+              max-w-[350px]
 
-              text-sm
-              leading-6
-              text-white/42
+              text-[14px]
+              leading-7
+
+              text-[var(--text-body)]
             "
           >
-            Blog yazılarını eklemek, düzenlemek ve yayınlamak için giriş yap.
+            Blog yazılarını eklemek,
+            düzenlemek ve yayınlamak
+            için giriş yap.
           </p>
         </div>
 
@@ -181,7 +194,7 @@ export default async function AdminLoginPage() {
             mt-8
 
             border-t
-            border-white/10
+            border-white/15
 
             pt-5
           "
@@ -189,14 +202,17 @@ export default async function AdminLoginPage() {
           <Link
             href="/"
             className="
-              text-[8px]
+              text-[10px]
+              font-medium
               uppercase
-              tracking-[0.25em]
-              text-white/28
+              tracking-[0.16em]
+
+              text-[var(--text-muted)]
 
               transition-colors
+              duration-200
 
-              hover:text-white/65
+              hover:text-[var(--text-primary)]
             "
           >
             ← Siteye dön

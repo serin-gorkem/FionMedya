@@ -26,42 +26,37 @@ export default function DeleteBlogButton({
   const [
     error,
     setError,
-  ] = useState<
-    string | null
-  >(null);
+  ] = useState<string | null>(
+    null,
+  );
 
   const [
     pending,
     startTransition,
   ] = useTransition();
 
-  const handleDelete =
-    () => {
-      setError(null);
+  const handleDelete = () => {
+    setError(null);
 
-      startTransition(
-        async () => {
-          const result =
-            await deleteBlogPostAction(
-              postId,
-            );
-
-          if (
-            !result.success
-          ) {
-            setError(
-              result.message,
-            );
-
-            return;
-          }
-
-          setConfirmOpen(
-            false,
+    startTransition(
+      async () => {
+        const result =
+          await deleteBlogPostAction(
+            postId,
           );
-        },
-      );
-    };
+
+        if (!result.success) {
+          setError(
+            result.message,
+          );
+
+          return;
+        }
+
+        setConfirmOpen(false);
+      },
+    );
+  };
 
   return (
     <>
@@ -69,13 +64,10 @@ export default function DeleteBlogButton({
         type="button"
         onClick={() => {
           setError(null);
-
-          setConfirmOpen(
-            true,
-          );
+          setConfirmOpen(true);
         }}
         className="
-          rounded-full
+          rounded-[10px]
 
           border
           border-transparent
@@ -83,26 +75,23 @@ export default function DeleteBlogButton({
           px-4
           py-3
 
-          text-[8px]
+          text-[10px]
+          font-medium
           uppercase
-          tracking-[0.18em]
+          tracking-[0.14em]
 
-          text-white/25
+          text-[#c68a9a]
 
           transition-all
           duration-300
 
-          hover:border-[#74223a]
-          hover:bg-[#591323]/15
-          hover:text-[#d6738e]
+          hover:border-[#8a304c]
+          hover:bg-[#591323]/30
+          hover:text-[#ef9eb4]
         "
       >
         Sil
       </button>
-
-      {/* =================================================
-          CONFIRM MODAL
-      ================================================== */}
 
       {confirmOpen && (
         <div
@@ -115,11 +104,11 @@ export default function DeleteBlogButton({
             items-center
             justify-center
 
-            bg-black/80
+            bg-black/85
 
             px-6
 
-            backdrop-blur-sm
+            backdrop-blur-md
           "
           onMouseDown={(
             event,
@@ -140,28 +129,29 @@ export default function DeleteBlogButton({
             aria-labelledby="delete-blog-title"
             className="
               w-full
-              max-w-[460px]
+              max-w-[480px]
 
               rounded-[26px]
 
               border
-              border-[#52172a]
+              border-[#74233d]
 
-              bg-[#090909]
+              bg-[#0d0d0d]
 
               p-7
 
-              shadow-[0_40px_120px_rgba(0,0,0,0.7)]
+              shadow-[0_40px_120px_rgba(0,0,0,0.75)]
 
               sm:p-8
             "
           >
             <p
               className="
-                text-[9px]
+                text-[10px]
+                font-medium
                 uppercase
-                tracking-[0.3em]
-                text-[#c45a78]
+                tracking-[0.2em]
+                text-[#d86a88]
               "
             >
               Yazıyı Sil
@@ -178,13 +168,13 @@ export default function DeleteBlogButton({
                 leading-[0.92]
                 tracking-[-0.05em]
 
-                text-[#f4efe9]
+                text-[var(--text-primary)]
               "
             >
               Emin
               <br />
 
-              <em className="text-white/45">
+              <em className="text-[var(--text-secondary)]">
                 misin?
               </em>
             </h2>
@@ -193,12 +183,12 @@ export default function DeleteBlogButton({
               className="
                 mt-6
 
-                text-sm
-                leading-6
-                text-white/42
+                text-[14px]
+                leading-7
+                text-[var(--text-body)]
               "
             >
-              <span className="text-white/70">
+              <span className="text-[var(--text-primary)]">
                 “{postTitle}”
               </span>{" "}
               kalıcı olarak silinecek.
@@ -210,19 +200,19 @@ export default function DeleteBlogButton({
                 className="
                   mt-5
 
-                  rounded-[12px]
+                  rounded-[11px]
 
                   border
-                  border-[#74223a]
+                  border-[#8a304c]
 
-                  bg-[#591323]/20
+                  bg-[#591323]/30
 
                   px-4
                   py-3
 
-                  text-xs
+                  text-[12px]
                   leading-5
-                  text-[#df829b]
+                  text-[#ef9eb4]
                 "
               >
                 {error}
@@ -241,31 +231,35 @@ export default function DeleteBlogButton({
             >
               <button
                 type="button"
-                disabled={
-                  pending
-                }
+                disabled={pending}
                 onClick={() =>
                   setConfirmOpen(
                     false,
                   )
                 }
                 className="
-                  rounded-full
+                  rounded-[10px]
 
                   border
-                  border-white/10
+                  border-white/15
+
+                  bg-[#111111]
 
                   px-5
                   py-3.5
 
-                  text-[8px]
+                  text-[10px]
+                  font-medium
                   uppercase
-                  tracking-[0.2em]
+                  tracking-[0.14em]
 
-                  text-white/42
+                  text-[var(--text-secondary)]
 
-                  transition-colors
+                  transition-all
+                  duration-200
 
+                  hover:border-white/25
+                  hover:bg-[#171717]
                   hover:text-white
 
                   disabled:opacity-40
@@ -276,29 +270,33 @@ export default function DeleteBlogButton({
 
               <button
                 type="button"
-                disabled={
-                  pending
-                }
+                disabled={pending}
                 onClick={
                   handleDelete
                 }
                 className="
-                  rounded-full
+                  rounded-[10px]
+
+                  border
+                  border-[#8a304c]
 
                   bg-[#591323]
 
                   px-5
                   py-3.5
 
-                  text-[8px]
+                  text-[10px]
+                  font-medium
                   uppercase
-                  tracking-[0.2em]
+                  tracking-[0.14em]
 
                   text-[#f4efe9]
 
-                  transition-colors
+                  transition-all
+                  duration-200
 
-                  hover:bg-[#711a35]
+                  hover:border-[#d86a88]
+                  hover:bg-[#6b1830]
 
                   disabled:cursor-wait
                   disabled:opacity-50

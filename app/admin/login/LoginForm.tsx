@@ -1,40 +1,54 @@
 "use client";
 
-import { useActionState } from "react";
+import {
+  useActionState,
+} from "react";
 
-import { useFormStatus } from "react-dom";
+import {
+  useFormStatus,
+} from "react-dom";
 
 import {
   loginAdminAction,
   type AdminLoginState,
 } from "@/features/auth/admin.actions";
 
-import { adminPrimaryActionClassName } from "@/app/components/admin/admin.styles";
-const initialState: AdminLoginState = {
-  error: null,
-};
+import {
+  adminPrimaryActionClassName,
+} from "@/app/components/admin/admin.styles";
 
-/* =========================================================
-   SUBMIT
-========================================================= */
+const initialState:
+  AdminLoginState = {
+    error: null,
+  };
 
 function SubmitButton() {
-  const { pending } = useFormStatus();
+  const {
+    pending,
+  } = useFormStatus();
 
   return (
     <button
       type="submit"
       disabled={pending}
-      className={adminPrimaryActionClassName}
+      className={`
+        mt-3
+        w-full
+        ${adminPrimaryActionClassName}
+      `}
     >
-      <span>{pending ? "Giriş yapılıyor..." : "Giriş Yap"}</span>
+      <span>
+        {pending
+          ? "Giriş yapılıyor..."
+          : "Giriş Yap"}
+      </span>
 
       <span
         className="
-      transition-transform
-      duration-300
-      group-hover:translate-x-1
-    "
+          transition-transform
+          duration-300
+          group-hover:translate-x-1
+        "
       >
         →
       </span>
@@ -42,25 +56,31 @@ function SubmitButton() {
   );
 }
 
-/* =========================================================
-   FORM
-========================================================= */
-
 export default function LoginForm() {
-  const [state, formAction] = useActionState(loginAdminAction, initialState);
+  const [
+    state,
+    formAction,
+  ] = useActionState(
+    loginAdminAction,
+    initialState,
+  );
 
   return (
-    <form action={formAction} className="mt-10">
+    <form
+      action={formAction}
+      className="mt-10"
+    >
       {/* EMAIL */}
 
       <div>
         <label
           htmlFor="email"
           className="
-            text-[8px]
+            text-[10px]
+            font-medium
             uppercase
-            tracking-[0.28em]
-            text-white/38
+            tracking-[0.18em]
+            text-[var(--text-body)]
           "
         >
           E-posta
@@ -78,24 +98,26 @@ export default function LoginForm() {
             w-full
 
             border-b
-            border-white/15
+            border-white/20
 
             bg-transparent
 
             px-0
             py-4
 
-            text-base
-            text-[#f4efe9]
+            text-[15px]
+            text-[var(--text-primary)]
 
             outline-none
 
-            placeholder:text-white/18
+            placeholder:text-[var(--text-muted)]
 
             transition-colors
             duration-300
 
-            focus:border-[#c45a78]
+            hover:border-white/30
+
+            focus:border-[#d86a88]
           "
         />
       </div>
@@ -106,10 +128,11 @@ export default function LoginForm() {
         <label
           htmlFor="password"
           className="
-            text-[8px]
+            text-[10px]
+            font-medium
             uppercase
-            tracking-[0.28em]
-            text-white/38
+            tracking-[0.18em]
+            text-[var(--text-body)]
           "
         >
           Şifre
@@ -127,24 +150,26 @@ export default function LoginForm() {
             w-full
 
             border-b
-            border-white/15
+            border-white/20
 
             bg-transparent
 
             px-0
             py-4
 
-            text-base
-            text-[#f4efe9]
+            text-[15px]
+            text-[var(--text-primary)]
 
             outline-none
 
-            placeholder:text-white/18
+            placeholder:text-[var(--text-muted)]
 
             transition-colors
             duration-300
 
-            focus:border-[#c45a78]
+            hover:border-white/30
+
+            focus:border-[#d86a88]
           "
         />
       </div>
@@ -154,7 +179,7 @@ export default function LoginForm() {
       <div
         aria-live="polite"
         className="
-          min-h-[54px]
+          min-h-[58px]
           pt-5
         "
       >
@@ -164,16 +189,16 @@ export default function LoginForm() {
               rounded-[12px]
 
               border
-              border-[#7b263e]
+              border-[#8a304c]
 
-              bg-[#591323]/25
+              bg-[#591323]/30
 
               px-4
               py-3
 
-              text-xs
+              text-[13px]
               leading-5
-              text-[#e58ca3]
+              text-[#ef9eb4]
             "
           >
             {state.error}

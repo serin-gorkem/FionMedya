@@ -1,4 +1,6 @@
-import type { ReactNode } from "react";
+import type {
+  ReactNode,
+} from "react";
 
 type SectionEyebrowProps = {
   children: ReactNode;
@@ -13,8 +15,12 @@ export default function SectionEyebrow({
     <p
       className={`
         text-[10px]
-        uppercase tracking-[0.42em]
-        text-[#c45a78]
+        font-medium
+        uppercase
+        tracking-[0.22em]
+
+        text-[var(--accent)]
+
         ${className}
       `}
     >

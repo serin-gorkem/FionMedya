@@ -1,20 +1,30 @@
 import Link from "next/link";
 
-import type { BlogPost } from "@/features/blog/blog.types";
+import type {
+  BlogPost,
+} from "@/features/blog/blog.types";
+
+import {
+  adminPrimaryActionClassName,
+} from "@/app/components/admin/admin.styles";
 
 import BlogListItem from "./BlogListItem";
-import { adminPrimaryActionClassName } from "@/app/components/admin/admin.styles";
+
 type BlogListProps = {
   posts: BlogPost[];
 };
 
-export default function BlogList({ posts }: BlogListProps) {
-  if (posts.length === 0) {
+export default function BlogList({
+  posts,
+}: BlogListProps) {
+  if (
+    posts.length === 0
+  ) {
     return (
       <div
         className="
           flex
-          min-h-[420px]
+          min-h-[440px]
 
           flex-col
           items-center
@@ -24,9 +34,9 @@ export default function BlogList({ posts }: BlogListProps) {
 
           border
           border-dashed
-          border-[#4a1627]
+          border-white/20
 
-          bg-[#080808]
+          bg-[#0d0d0d]
 
           px-6
           py-16
@@ -36,10 +46,11 @@ export default function BlogList({ posts }: BlogListProps) {
       >
         <span
           className="
-            text-[9px]
+            text-[10px]
+            font-medium
             uppercase
-            tracking-[0.32em]
-            text-[#c45a78]
+            tracking-[0.22em]
+            text-[#d86a88]
           "
         >
           Henüz boş
@@ -56,39 +67,48 @@ export default function BlogList({ posts }: BlogListProps) {
             leading-[0.9]
             tracking-[-0.055em]
 
-            text-[#f4efe9]
+            text-[var(--text-primary)]
           "
         >
           İlk yazıyı
           <br />
-          <em className="text-white/45">birlikte ekleyelim.</em>
+
+          <em className="text-[#b9b4b0]">
+            birlikte ekleyelim.
+          </em>
         </h2>
 
         <p
           className="
             mt-6
-            max-w-[380px]
+            max-w-[400px]
 
-            text-sm
+            text-[14px]
             leading-7
-            text-white/38
+            text-[var(--text-body)]
           "
         >
-          Blog yazıları burada listelenecek. Taslaklarını saklayabilir, daha
-          sonra düzenleyip yayına alabilirsin.
+          Blog yazıları burada
+          listelenecek. Taslaklarını
+          saklayabilir, daha sonra
+          düzenleyip yayına alabilirsin.
         </p>
 
         <Link
           href="/admin/blog/new"
-          className={`mt-9 ${adminPrimaryActionClassName}`}
+          className={`
+            mt-9
+            ${adminPrimaryActionClassName}
+          `}
         >
           İlk Yazıyı Oluştur
+
           <span
             className="
-      transition-transform
-      duration-300
-      group-hover:rotate-90
-    "
+              transition-transform
+              duration-300
+              group-hover:rotate-90
+            "
           >
             +
           </span>
@@ -106,22 +126,24 @@ export default function BlogList({ posts }: BlogListProps) {
         rounded-[26px]
 
         border
-        border-white/10
+        border-white/15
 
-        bg-[#080808]
+        bg-[#0d0d0d]
       "
     >
-      {/* DESKTOP TABLE HEADER */}
+      {/* DESKTOP HEADER */}
 
       <div
         className="
           hidden
 
-          grid-cols-[92px_minmax(0,1fr)_130px_150px_180px]
+          grid-cols-[92px_minmax(0,1fr)_130px_150px_190px]
           items-center
 
           border-b
-          border-white/10
+          border-white/15
+
+          bg-[#111111]
 
           px-6
           py-4
@@ -129,36 +151,86 @@ export default function BlogList({ posts }: BlogListProps) {
           lg:grid
         "
       >
-        <span className="text-[8px] uppercase tracking-[0.24em] text-white/22">
+        <span
+          className="
+            text-[9px]
+            font-medium
+            uppercase
+            tracking-[0.18em]
+            text-[var(--text-muted)]
+          "
+        >
           No
         </span>
 
-        <span className="text-[8px] uppercase tracking-[0.24em] text-white/22">
+        <span
+          className="
+            text-[9px]
+            font-medium
+            uppercase
+            tracking-[0.18em]
+            text-[var(--text-muted)]
+          "
+        >
           Yazı
         </span>
 
-        <span className="text-[8px] uppercase tracking-[0.24em] text-white/22">
+        <span
+          className="
+            text-[9px]
+            font-medium
+            uppercase
+            tracking-[0.18em]
+            text-[var(--text-muted)]
+          "
+        >
           Durum
         </span>
 
-        <span className="text-[8px] uppercase tracking-[0.24em] text-white/22">
+        <span
+          className="
+            text-[9px]
+            font-medium
+            uppercase
+            tracking-[0.18em]
+            text-[var(--text-muted)]
+          "
+        >
           Güncelleme
         </span>
 
-        <span className="text-right text-[8px] uppercase tracking-[0.24em] text-white/22">
+        <span
+          className="
+            text-right
+            text-[9px]
+            font-medium
+            uppercase
+            tracking-[0.18em]
+            text-[var(--text-muted)]
+          "
+        >
           İşlem
         </span>
       </div>
 
       <div>
-        {posts.map((post, index) => (
-          <BlogListItem
-            key={post.id}
-            post={post}
-            index={index}
-            isLast={index === posts.length - 1}
-          />
-        ))}
+        {posts.map(
+          (
+            post,
+            index,
+          ) => (
+            <BlogListItem
+              key={post.id}
+              post={post}
+              index={index}
+              isLast={
+                index ===
+                posts.length -
+                  1
+              }
+            />
+          ),
+        )}
       </div>
     </section>
   );

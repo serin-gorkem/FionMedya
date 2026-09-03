@@ -31,7 +31,7 @@ export default function ServiceCopy({ service }: ServiceCopyProps) {
         {service.description}
       </p>
 
-      <PillList items={service.tags} className="mt-8" />
+      <PillList items={[...service.tags]} className="mt-8" />
 
       <TextLink href="#contact" className="mt-9">
         Bir proje konuşalım

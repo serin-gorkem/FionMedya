@@ -45,26 +45,24 @@ export default function BlogListItem({
         transition-colors
         duration-300
 
-        hover:bg-white/[0.018]
+        hover:bg-[#121212]
 
         ${
           !isLast
-            ? "border-b border-white/[0.07]"
+            ? "border-b border-white/10"
             : ""
         }
       `}
     >
-      {/* =================================================
-          DESKTOP
-      ================================================== */}
+      {/* DESKTOP */}
 
       <div
         className="
           hidden
 
-          min-h-[125px]
+          min-h-[128px]
 
-          grid-cols-[92px_minmax(0,1fr)_130px_150px_180px]
+          grid-cols-[92px_minmax(0,1fr)_130px_150px_190px]
           items-center
 
           px-6
@@ -80,7 +78,7 @@ export default function BlogListItem({
             font-serif
             text-2xl
             tracking-[-0.04em]
-            text-white/18
+            text-[#66615e]
           "
         >
           {(index + 1)
@@ -99,24 +97,17 @@ export default function BlogListItem({
             pr-8
           "
         >
-          <div
+          <span
             className="
-              flex
-              items-center
-              gap-3
+              text-[9px]
+              font-medium
+              uppercase
+              tracking-[0.2em]
+              text-[#d86a88]
             "
           >
-            <span
-              className="
-                text-[8px]
-                uppercase
-                tracking-[0.24em]
-                text-[#c45a78]
-              "
-            >
-              {post.category}
-            </span>
-          </div>
+            {post.category}
+          </span>
 
           <Link
             href={`/admin/blog/${post.id}/edit`}
@@ -126,10 +117,10 @@ export default function BlogListItem({
               truncate
 
               font-serif
-              text-[clamp(1.4rem,2vw,2rem)]
+              text-[clamp(1.5rem,2vw,2.1rem)]
               tracking-[-0.035em]
 
-              text-[#f4efe9]
+              text-[var(--text-primary)]
 
               transition-colors
               duration-300
@@ -146,7 +137,8 @@ export default function BlogListItem({
               truncate
 
               text-[10px]
-              text-white/25
+              leading-5
+              text-[var(--text-muted)]
             "
           >
             /blog/{post.slug}
@@ -162,42 +154,43 @@ export default function BlogListItem({
               items-center
               gap-2
 
-              rounded-full
+              rounded-[9px]
 
               border
 
               px-3
               py-2
 
-              text-[8px]
+              text-[9px]
+              font-medium
               uppercase
-              tracking-[0.18em]
+              tracking-[0.14em]
 
               ${
                 isPublished
                   ? `
-                    border-[#6a2038]
-                    bg-[#591323]/25
-                    text-[#d6738e]
+                    border-[#8a304c]
+                    bg-[#591323]/45
+                    text-[#ef9eb4]
                   `
                   : `
-                    border-white/10
-                    bg-white/[0.03]
-                    text-white/35
+                    border-white/15
+                    bg-[#151515]
+                    text-[var(--text-secondary)]
                   `
               }
             `}
           >
             <span
               className={`
-                h-[5px]
-                w-[5px]
+                h-[6px]
+                w-[6px]
                 rounded-full
 
                 ${
                   isPublished
-                    ? "bg-[#c45a78]"
-                    : "bg-white/25"
+                    ? "bg-[#d86a88]"
+                    : "bg-[#85817f]"
                 }
               `}
             />
@@ -213,7 +206,8 @@ export default function BlogListItem({
         <span
           className="
             text-[10px]
-            text-white/32
+            leading-5
+            text-[var(--text-muted)]
           "
         >
           {formatDate(
@@ -239,22 +233,26 @@ export default function BlogListItem({
               className="
                 flex
                 h-10
-                w-10
+                w-fit
+                p-6
                 items-center
                 justify-center
 
-                rounded-full
+                rounded-[10px]
 
                 border
-                border-white/10
+                border-white/15
+
+                bg-[#111111]
 
                 text-sm
-                text-white/30
+                text-[var(--text-secondary)]
 
                 transition-all
                 duration-300
 
-                hover:border-white/25
+                hover:border-[#d86a88]/60
+                hover:bg-[#171717]
                 hover:text-white
               "
             >
@@ -265,24 +263,28 @@ export default function BlogListItem({
           <Link
             href={`/admin/blog/${post.id}/edit`}
             className="
-              rounded-full
+              rounded-[10px]
 
               border
-              border-white/10
+              border-white/15
+
+              bg-[#111111]
 
               px-4
               py-3
 
-              text-[8px]
+              text-[10px]
+              font-medium
               uppercase
-              tracking-[0.18em]
+              tracking-[0.14em]
 
-              text-white/42
+              text-[var(--text-secondary)]
 
               transition-all
               duration-300
 
-              hover:border-[#c45a78]/45
+              hover:border-[#d86a88]/60
+              hover:bg-[#171717]
               hover:text-white
             "
           >
@@ -298,9 +300,7 @@ export default function BlogListItem({
         </div>
       </div>
 
-      {/* =================================================
-          MOBILE / TABLET
-      ================================================== */}
+      {/* MOBILE / TABLET */}
 
       <div
         className="
@@ -317,13 +317,14 @@ export default function BlogListItem({
             gap-6
           "
         >
-          <div>
+          <div className="min-w-0">
             <p
               className="
-                text-[8px]
+                text-[9px]
+                font-medium
                 uppercase
-                tracking-[0.26em]
-                text-[#c45a78]
+                tracking-[0.2em]
+                text-[#d86a88]
               "
             >
               {post.category}
@@ -336,11 +337,12 @@ export default function BlogListItem({
                 block
 
                 font-serif
-                text-[clamp(1.8rem,7vw,2.8rem)]
+                text-[clamp(1.9rem,7vw,2.9rem)]
+
                 leading-[0.95]
                 tracking-[-0.045em]
 
-                text-[#f4efe9]
+                text-[var(--text-primary)]
               "
             >
               {post.title}
@@ -353,7 +355,7 @@ export default function BlogListItem({
 
               font-serif
               text-xl
-              text-white/18
+              text-[#66615e]
             "
           >
             {(index + 1)
@@ -381,42 +383,43 @@ export default function BlogListItem({
               items-center
               gap-2
 
-              rounded-full
+              rounded-[9px]
 
               border
 
               px-3
               py-2
 
-              text-[8px]
+              text-[9px]
+              font-medium
               uppercase
-              tracking-[0.16em]
+              tracking-[0.14em]
 
               ${
                 isPublished
                   ? `
-                    border-[#6a2038]
-                    bg-[#591323]/25
-                    text-[#d6738e]
+                    border-[#8a304c]
+                    bg-[#591323]/45
+                    text-[#ef9eb4]
                   `
                   : `
-                    border-white/10
-                    bg-white/[0.03]
-                    text-white/35
+                    border-white/15
+                    bg-[#151515]
+                    text-[var(--text-secondary)]
                   `
               }
             `}
           >
             <span
               className={`
-                h-[5px]
-                w-[5px]
+                h-[6px]
+                w-[6px]
                 rounded-full
 
                 ${
                   isPublished
-                    ? "bg-[#c45a78]"
-                    : "bg-white/25"
+                    ? "bg-[#d86a88]"
+                    : "bg-[#85817f]"
                 }
               `}
             />
@@ -428,8 +431,8 @@ export default function BlogListItem({
 
           <span
             className="
-              text-[9px]
-              text-white/28
+              text-[10px]
+              text-[var(--text-muted)]
             "
           >
             {formatDate(
@@ -444,7 +447,8 @@ export default function BlogListItem({
             truncate
 
             text-[10px]
-            text-white/22
+            leading-5
+            text-[var(--text-muted)]
           "
         >
           /blog/{post.slug}
@@ -460,7 +464,7 @@ export default function BlogListItem({
             gap-2
 
             border-t
-            border-white/[0.07]
+            border-white/10
 
             pt-5
           "
@@ -468,19 +472,22 @@ export default function BlogListItem({
           <Link
             href={`/admin/blog/${post.id}/edit`}
             className="
-              rounded-full
+              rounded-[10px]
 
               border
-              border-white/10
+              border-white/15
+
+              bg-[#111111]
 
               px-4
               py-3
 
-              text-[8px]
+              text-[10px]
+              font-medium
               uppercase
-              tracking-[0.18em]
+              tracking-[0.14em]
 
-              text-white/45
+              text-[var(--text-secondary)]
             "
           >
             Düzenle
@@ -491,19 +498,22 @@ export default function BlogListItem({
               href={`/blog/${post.slug}`}
               target="_blank"
               className="
-                rounded-full
+                rounded-[10px]
 
                 border
-                border-white/10
+                border-white/15
+
+                bg-[#111111]
 
                 px-4
                 py-3
 
-                text-[8px]
+                text-[10px]
+                font-medium
                 uppercase
-                tracking-[0.18em]
+                tracking-[0.14em]
 
-                text-white/45
+                text-[var(--text-secondary)]
               "
             >
               Görüntüle ↗

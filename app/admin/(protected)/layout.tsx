@@ -29,14 +29,12 @@ export default async function AdminLayout({
     <div
       className="
         min-h-screen
+
         bg-[#050505]
-        text-[#f4efe9]
+
+        text-[var(--text-primary)]
       "
     >
-      {/* =================================================
-          ADMIN HEADER
-      ================================================== */}
-
       <header
         className="
           sticky
@@ -44,9 +42,9 @@ export default async function AdminLayout({
           z-50
 
           border-b
-          border-white/10
+          border-white/15
 
-          bg-black/85
+          bg-black/90
 
           backdrop-blur-xl
         "
@@ -67,7 +65,7 @@ export default async function AdminLayout({
             sm:px-10
           "
         >
-          {/* BRAND */}
+          {/* LEFT */}
 
           <div
             className="
@@ -80,9 +78,16 @@ export default async function AdminLayout({
               href="/admin/blog"
               className="
                 font-serif
-                text-xl
+
+                text-[22px]
                 tracking-[-0.04em]
-                text-[#f4efe9]
+
+                text-[var(--text-primary)]
+
+                transition-colors
+                duration-200
+
+                hover:text-white
               "
             >
               Fion
@@ -92,10 +97,12 @@ export default async function AdminLayout({
               className="
                 hidden
 
-                text-[8px]
+                text-[10px]
+                font-medium
                 uppercase
-                tracking-[0.28em]
-                text-[#c45a78]
+                tracking-[0.2em]
+
+                text-[#d86a88]
 
                 sm:block
               "
@@ -104,7 +111,7 @@ export default async function AdminLayout({
             </span>
           </div>
 
-          {/* USER */}
+          {/* RIGHT */}
 
           <div
             className="
@@ -116,8 +123,10 @@ export default async function AdminLayout({
             <span
               className="
                 hidden
-                text-[9px]
-                text-white/35
+
+                text-[11px]
+                text-[var(--text-muted)]
+
                 md:block
               "
             >
@@ -131,12 +140,15 @@ export default async function AdminLayout({
               className="
                 hidden
 
-                text-[8px]
+                text-[10px]
+                font-medium
                 uppercase
-                tracking-[0.2em]
-                text-white/35
+                tracking-[0.14em]
+
+                text-[var(--text-secondary)]
 
                 transition-colors
+                duration-200
 
                 hover:text-white
 
@@ -154,23 +166,28 @@ export default async function AdminLayout({
               <button
                 type="submit"
                 className="
-                  rounded-full
+                  rounded-[10px]
 
                   border
-                  border-white/12
+                  border-white/15
+
+                  bg-[#111111]
 
                   px-4
                   py-2.5
 
-                  text-[8px]
+                  text-[10px]
+                  font-medium
                   uppercase
-                  tracking-[0.2em]
+                  tracking-[0.14em]
 
-                  text-white/45
+                  text-[var(--text-secondary)]
 
                   transition-all
+                  duration-200
 
-                  hover:border-[#c45a78]/45
+                  hover:border-[#d86a88]/60
+                  hover:bg-[#171717]
                   hover:text-white
                 "
               >

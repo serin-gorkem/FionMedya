@@ -1,7 +1,9 @@
 import Link from "next/link";
 
 import BlogList from "@/app/components/blog/admin/BlogList";
+
 import { adminPrimaryActionClassName } from "@/app/components/admin/admin.styles";
+
 import { createBlogService } from "@/features/blog/blog.server";
 
 export const dynamic = "force-dynamic";
@@ -30,9 +32,7 @@ export default async function AdminBlogPage() {
         sm:py-20
       "
     >
-      {/* =================================================
-          HEADER
-      ================================================== */}
+      {/* HEADER */}
 
       <div
         className="
@@ -41,7 +41,7 @@ export default async function AdminBlogPage() {
           gap-10
 
           border-b
-          border-white/10
+          border-white/15
 
           pb-10
 
@@ -53,10 +53,11 @@ export default async function AdminBlogPage() {
         <div>
           <p
             className="
-              text-[9px]
+              text-[10px]
+              font-medium
               uppercase
-              tracking-[0.32em]
-              text-[#c45a78]
+              tracking-[0.24em]
+              text-[#d86a88]
             "
           >
             Fion CMS
@@ -73,22 +74,22 @@ export default async function AdminBlogPage() {
               leading-[0.86]
               tracking-[-0.055em]
 
-              text-[#f4efe9]
+              text-[var(--text-primary)]
             "
           >
             Blog
             <br />
-            <em className="text-white/50">Yönetimi.</em>
+            <em className="text-[#b9b4b0]">Yönetimi.</em>
           </h1>
 
           <p
             className="
               mt-6
-              max-w-[480px]
+              max-w-[500px]
 
-              text-sm
+              text-[14px]
               leading-7
-              text-white/40
+              text-[var(--text-body)]
             "
           >
             Yazıları oluştur, taslak olarak sakla, düzenle ve hazır olduğunda
@@ -100,27 +101,28 @@ export default async function AdminBlogPage() {
           Yeni Yazı
           <span
             className="
-      text-sm
-      transition-transform
-      duration-300
-      group-hover:rotate-90
-    "
+              text-base
+              leading-none
+
+              transition-transform
+              duration-300
+
+              group-hover:rotate-90
+            "
           >
             +
           </span>
         </Link>
       </div>
 
-      {/* =================================================
-          STATS
-      ================================================== */}
+      {/* STATS */}
 
       <div
         className="
           grid
 
           border-b
-          border-white/10
+          border-white/15
 
           sm:grid-cols-3
         "
@@ -128,14 +130,14 @@ export default async function AdminBlogPage() {
         <div
           className="
             flex
-            min-h-[110px]
+            min-h-[120px]
             flex-col
             justify-between
 
             border-b
-            border-white/10
+            border-white/15
 
-            py-6
+            py-7
 
             sm:border-b-0
             sm:border-r
@@ -144,10 +146,11 @@ export default async function AdminBlogPage() {
         >
           <span
             className="
-              text-[8px]
+              text-[10px]
+              font-medium
               uppercase
-              tracking-[0.28em]
-              text-white/28
+              tracking-[0.18em]
+              text-[var(--text-muted)]
             "
           >
             Toplam
@@ -158,7 +161,7 @@ export default async function AdminBlogPage() {
               font-serif
               text-4xl
               tracking-[-0.05em]
-              text-[#f4efe9]
+              text-[var(--text-primary)]
             "
           >
             {posts.length.toString().padStart(2, "0")}
@@ -168,14 +171,14 @@ export default async function AdminBlogPage() {
         <div
           className="
             flex
-            min-h-[110px]
+            min-h-[120px]
             flex-col
             justify-between
 
             border-b
-            border-white/10
+            border-white/15
 
-            py-6
+            py-7
 
             sm:border-b-0
             sm:border-r
@@ -184,10 +187,11 @@ export default async function AdminBlogPage() {
         >
           <span
             className="
-              text-[8px]
+              text-[10px]
+              font-medium
               uppercase
-              tracking-[0.28em]
-              text-white/28
+              tracking-[0.18em]
+              text-[var(--text-muted)]
             "
           >
             Yayında
@@ -202,10 +206,12 @@ export default async function AdminBlogPage() {
           >
             <span
               className="
-                h-[6px]
-                w-[6px]
+                h-[7px]
+                w-[7px]
+
                 rounded-full
-                bg-[#c45a78]
+
+                bg-[#d86a88]
               "
             />
 
@@ -214,7 +220,7 @@ export default async function AdminBlogPage() {
                 font-serif
                 text-4xl
                 tracking-[-0.05em]
-                text-[#f4efe9]
+                text-[var(--text-primary)]
               "
             >
               {publishedCount.toString().padStart(2, "0")}
@@ -225,21 +231,22 @@ export default async function AdminBlogPage() {
         <div
           className="
             flex
-            min-h-[110px]
+            min-h-[120px]
             flex-col
             justify-between
 
-            py-6
+            py-7
 
             sm:pl-8
           "
         >
           <span
             className="
-              text-[8px]
+              text-[10px]
+              font-medium
               uppercase
-              tracking-[0.28em]
-              text-white/28
+              tracking-[0.18em]
+              text-[var(--text-muted)]
             "
           >
             Taslak
@@ -250,7 +257,7 @@ export default async function AdminBlogPage() {
               font-serif
               text-4xl
               tracking-[-0.05em]
-              text-white/45
+              text-[var(--text-secondary)]
             "
           >
             {draftCount.toString().padStart(2, "0")}
@@ -258,9 +265,7 @@ export default async function AdminBlogPage() {
         </div>
       </div>
 
-      {/* =================================================
-          LIST
-      ================================================== */}
+      {/* LIST */}
 
       <div className="mt-12">
         <BlogList posts={posts} />

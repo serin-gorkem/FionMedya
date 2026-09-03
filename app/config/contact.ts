@@ -1,10 +1,10 @@
 export const contactConfig = {
-  email: "hello@fionmedya.com",
+  email: "info@fionmedya.com",
   whatsapp: {
     number: "905056435398",
     message: "Merhaba Fion Medya, markam için sizinle çalışmak istiyorum.",
   },
-  instagram: "",
+  instagram: "https://www.instagram.com/fionmedya/",
   locations: ["Kuşadası", "Aydın", "İzmir"],
 } as const;
 

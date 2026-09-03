@@ -117,7 +117,9 @@ export default function CoverImageField({
               },
             );
 
-        if (uploadError) {
+        if (
+          uploadError
+        ) {
           throw uploadError;
         }
 
@@ -158,9 +160,14 @@ export default function CoverImageField({
           rounded-[20px]
 
           border
-          border-white/10
+          border-white/15
 
-          bg-[#090909]
+          bg-[#0d0d0d]
+
+          transition-colors
+          duration-300
+
+          hover:border-white/20
         "
       >
         {value ? (
@@ -185,11 +192,14 @@ export default function CoverImageField({
                 justify-end
                 gap-2
 
-                bg-black/70
+                border-t
+                border-white/15
+
+                bg-black/85
 
                 p-4
 
-                backdrop-blur-sm
+                backdrop-blur-md
               "
             >
               <button
@@ -202,19 +212,27 @@ export default function CoverImageField({
                 }
                 className="
                   rounded-[10px]
+
                   border
-                  border-white/15
-                  bg-black/70
+                  border-white/20
+
+                  bg-[#111111]
 
                   px-4
                   py-2.5
 
-                  text-[8px]
+                  text-[10px]
+                  font-medium
                   uppercase
-                  tracking-[0.18em]
+                  tracking-[0.14em]
 
-                  text-white/60
+                  text-[var(--text-secondary)]
 
+                  transition-all
+                  duration-200
+
+                  hover:border-white/30
+                  hover:bg-[#171717]
                   hover:text-white
                 "
               >
@@ -228,19 +246,27 @@ export default function CoverImageField({
                 }
                 className="
                   rounded-[10px]
-                  border
-                  border-[#632038]
 
-                  bg-[#591323]/60
+                  border
+                  border-[#8a304c]
+
+                  bg-[#591323]
 
                   px-4
                   py-2.5
 
-                  text-[8px]
+                  text-[10px]
+                  font-medium
                   uppercase
-                  tracking-[0.18em]
+                  tracking-[0.14em]
 
-                  text-[#efb0c1]
+                  text-[#f4efe9]
+
+                  transition-colors
+                  duration-200
+
+                  hover:border-[#d86a88]
+                  hover:bg-[#6b1830]
                 "
               >
                 Kaldır
@@ -258,20 +284,23 @@ export default function CoverImageField({
             }
             className="
               flex
-              min-h-[220px]
+              min-h-[230px]
               w-full
 
               flex-col
               items-center
               justify-center
 
-              gap-3
+              gap-4
+
+              px-6
 
               text-center
 
               transition-colors
+              duration-300
 
-              hover:bg-white/[0.02]
+              hover:bg-[#121212]
             "
           >
             <span
@@ -286,12 +315,12 @@ export default function CoverImageField({
                 rounded-[12px]
 
                 border
-                border-[#5c1c31]
+                border-[#8a304c]
 
-                bg-[#591323]/25
+                bg-[#591323]/35
 
-                text-lg
-                text-[#c45a78]
+                text-xl
+                text-[#e584a0]
               "
             >
               +
@@ -299,10 +328,11 @@ export default function CoverImageField({
 
             <span
               className="
-                text-[9px]
+                text-[10px]
+                font-medium
                 uppercase
-                tracking-[0.24em]
-                text-white/48
+                tracking-[0.18em]
+                text-[var(--text-secondary)]
               "
             >
               {uploading
@@ -310,9 +340,16 @@ export default function CoverImageField({
                 : "Kapak Görseli Yükle"}
             </span>
 
-            <span className="text-[10px] text-white/22">
+            <span
+              className="
+                text-[10px]
+                leading-5
+                text-[var(--text-muted)]
+              "
+            >
               JPG / PNG / WebP / AVIF
-              · Maks. 5 MB
+              <br />
+              Maksimum 5 MB
             </span>
           </button>
         )}
@@ -345,8 +382,20 @@ export default function CoverImageField({
         <p
           className="
             mt-3
-            text-xs
-            text-[#d86a88]
+
+            rounded-[10px]
+
+            border
+            border-[#8a304c]
+
+            bg-[#591323]/25
+
+            px-3
+            py-2.5
+
+            text-[12px]
+            leading-5
+            text-[#ef9eb4]
           "
         >
           {error}
