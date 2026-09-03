@@ -3,14 +3,14 @@ export default function BlogHero() {
     <header
       className="
         grid
-        min-h-[58vh]
+        min-h-[54vh]
         items-end
         gap-12
 
         pb-16
-        pt-32
+        pt-36
 
-        lg:grid-cols-[minmax(0,1fr)_400px]
+        lg:grid-cols-[minmax(0,1fr)_360px]
         lg:pb-20
       "
     >
@@ -19,8 +19,8 @@ export default function BlogHero() {
           className="
             text-[9px]
             uppercase
-            tracking-[0.38em]
-            text-[#c45a78]
+            tracking-[0.36em]
+            text-wine-light
           "
         >
           Fion Journal
@@ -29,63 +29,70 @@ export default function BlogHero() {
         <h1
           className="
             mt-7
-
-            max-w-[950px]
+            max-w-4xl
 
             font-serif
-
-            text-[clamp(4rem,9vw,9rem)]
-
-            leading-[0.8]
+            text-[clamp(4rem,8vw,8.5rem)]
+            leading-[0.81]
             tracking-[-0.065em]
 
-            text-[#f4efe9]
+            text-ivory
           "
         >
-          Bilgiyi
+          Fikirler.
           <br />
 
-          <em className="text-white/55">
-            saklamıyoruz.
+          <span className="text-white/60">
+            Notlar.
+          </span>
+          <br />
+
+          <em className="text-wine-light">
+            Bakışlar.
           </em>
         </h1>
       </div>
 
       <div
         className="
-          max-w-[390px]
+          max-w-sm
+
+          border-t
+          border-white/10
+
+          pt-7
 
           lg:border-l
-          lg:border-white/10
+          lg:border-t-0
           lg:pl-8
+          lg:pt-0
         "
       >
         <p
           className="
             font-serif
-            text-[clamp(1.7rem,2.4vw,2.7rem)]
-            leading-[1]
+            text-[clamp(1.5rem,2vw,2.2rem)]
+            leading-[1.05]
             tracking-[-0.04em]
-            text-[#f4efe9]
+
+            text-ivory
           "
         >
-          Markanı büyütmek için
-          bilmen gerekenler.
+          Markaya dair
+          düşünmeye değer şeyler.
         </p>
 
         <p
           className="
-            mt-6
+            mt-5
             text-sm
             leading-7
-            text-white/42
+            text-white/48
           "
         >
-          Sosyal medya, reklam,
-          tasarım ve dijital marka
-          iletişimi üzerine Fion&apos;dan
-          fikirler, deneyimler ve
-          rehberler.
+          Sosyal medya, reklam
+          ve yaratıcı iletişim
+          üzerine Fion&apos;dan notlar.
         </p>
       </div>
     </header>

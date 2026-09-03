@@ -2,6 +2,7 @@ import type {
   Metadata,
 } from "next";
 
+import Image from "next/image";
 import Link from "next/link";
 
 import BlogHero from "@/app/components/blog/public/BlogHero";
@@ -38,99 +39,118 @@ export default async function BlogPage() {
     <main
       className="
         min-h-screen
-        bg-black
-        text-[#f4efe9]
+        bg-[#0d080a]
+        text-ivory
       "
     >
+      {/* TOP NAV */}
+
+      <header
+        className="
+          fixed
+          left-0
+          right-0
+          top-0
+          z-50
+
+          border-b
+          border-white/[0.07]
+
+          bg-[#0d080a]/80
+
+          backdrop-blur-xl
+        "
+      >
+        <div
+          className="
+            mx-auto
+            flex
+            h-[76px]
+            max-w-[1500px]
+            items-center
+            justify-between
+
+            px-6
+            sm:px-10
+          "
+        >
+          <Link
+            href="/"
+            aria-label="Fion Medya ana sayfa"
+            className="
+              transition-opacity
+              duration-300
+              hover:opacity-75
+            "
+          >
+            <Image
+              src="/fion-logo.png"
+              alt="Fion Medya"
+              width={100}
+              height={38}
+              priority
+              className="
+                h-auto
+                w-20
+                brightness-0
+                invert
+
+                sm:w-[104px]
+              "
+            />
+          </Link>
+
+          <div
+            className="
+              flex
+              items-center
+              gap-6
+            "
+          >
+            <span
+              className="
+                hidden
+
+                text-[8px]
+                uppercase
+                tracking-[0.28em]
+                text-wine-light
+
+                sm:block
+              "
+            >
+              Journal
+            </span>
+
+            <Link
+              href="/"
+              className="
+                text-[8px]
+                uppercase
+                tracking-[0.24em]
+                text-white/40
+
+                transition-colors
+                duration-300
+
+                hover:text-white
+              "
+            >
+              ← Ana sayfa
+            </Link>
+          </div>
+        </div>
+      </header>
+
       <div
         className="
           mx-auto
           max-w-[1500px]
 
           px-6
-
           sm:px-10
         "
       >
-        {/* TOP NAV */}
-
-        <div
-          className="
-            fixed
-            left-0
-            right-0
-            top-0
-            z-50
-
-            border-b
-            border-white/[0.06]
-
-            bg-black/75
-
-            backdrop-blur-xl
-          "
-        >
-          <div
-            className="
-              mx-auto
-              flex
-              h-[76px]
-              max-w-[1500px]
-              items-center
-              justify-between
-              px-6
-              sm:px-10
-            "
-          >
-            <Link
-              href="/"
-              className="
-                font-serif
-                text-xl
-                tracking-[-0.04em]
-                text-[#f4efe9]
-              "
-            >
-              Fion
-            </Link>
-
-            <div
-              className="
-                flex
-                items-center
-                gap-6
-              "
-            >
-              <span
-                className="
-                  hidden
-                  text-[8px]
-                  uppercase
-                  tracking-[0.26em]
-                  text-[#c45a78]
-                  sm:block
-                "
-              >
-                Journal
-              </span>
-
-              <Link
-                href="/"
-                className="
-                  text-[8px]
-                  uppercase
-                  tracking-[0.24em]
-                  text-white/35
-                  transition-colors
-                  hover:text-white
-                "
-              >
-                Siteye dön ↗
-              </Link>
-            </div>
-          </div>
-        </div>
-
         <BlogHero />
 
         {/* LIST HEADER */}
@@ -153,7 +173,7 @@ export default async function BlogPage() {
               text-[8px]
               uppercase
               tracking-[0.3em]
-              text-white/25
+              text-white/35
             "
           >
             Son Yazılar
@@ -164,7 +184,7 @@ export default async function BlogPage() {
               text-[8px]
               uppercase
               tracking-[0.24em]
-              text-white/20
+              text-white/25
             "
           >
             {posts.length
@@ -199,7 +219,7 @@ export default async function BlogPage() {
             text-[8px]
             uppercase
             tracking-[0.22em]
-            text-white/24
+            text-white/30
 
             sm:flex-row
             sm:items-center
@@ -211,14 +231,14 @@ export default async function BlogPage() {
           </span>
 
           <Link
-            href="/#contact"
+            href="/"
             className="
-              text-white/40
+              text-white/45
               transition-colors
               hover:text-white
             "
           >
-            Bir proje konuşalım →
+            Fion&apos;a dön →
           </Link>
         </footer>
       </div>

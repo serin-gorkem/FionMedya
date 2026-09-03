@@ -50,9 +50,12 @@ export default function BlogCard({
     <article
       className="
         group
+
         border-t
         border-white/10
+
         py-10
+
         sm:py-14
       "
     >
@@ -61,8 +64,9 @@ export default function BlogCard({
         className="
           grid
           gap-8
-          lg:grid-cols-[90px_minmax(0,1fr)_minmax(260px,0.5fr)]
-          lg:items-start
+
+          lg:grid-cols-[72px_minmax(0,1fr)_360px]
+          lg:items-center
           lg:gap-10
         "
       >
@@ -72,9 +76,9 @@ export default function BlogCard({
           <span
             className="
               font-serif
-              text-[2rem]
+              text-3xl
               tracking-[-0.05em]
-              text-white/18
+              text-white/20
             "
           >
             {(index + 1)
@@ -88,12 +92,13 @@ export default function BlogCard({
 
         {/* COPY */}
 
-        <div>
+        <div className="min-w-0">
           <div
             className="
               flex
               flex-wrap
               items-center
+
               gap-x-4
               gap-y-2
             "
@@ -103,7 +108,7 @@ export default function BlogCard({
                 text-[8px]
                 uppercase
                 tracking-[0.26em]
-                text-[#c45a78]
+                text-wine-light
               "
             >
               {post.category}
@@ -114,10 +119,10 @@ export default function BlogCard({
                 text-[8px]
                 uppercase
                 tracking-[0.22em]
-                text-white/25
+                text-white/30
               "
             >
-              {readingTime} dk okuma
+              {readingTime} dk
             </span>
 
             {date && (
@@ -126,7 +131,7 @@ export default function BlogCard({
                   text-[8px]
                   uppercase
                   tracking-[0.22em]
-                  text-white/25
+                  text-white/30
                 "
               >
                 {date}
@@ -137,16 +142,14 @@ export default function BlogCard({
           <h2
             className="
               mt-5
-              max-w-[800px]
+              max-w-3xl
 
               font-serif
-
-              text-[clamp(2.4rem,4.3vw,5rem)]
-
-              leading-[0.9]
+              text-[clamp(2.5rem,4vw,4.8rem)]
+              leading-[0.88]
               tracking-[-0.055em]
 
-              text-[#f4efe9]
+              text-ivory
 
               transition-colors
               duration-300
@@ -157,89 +160,109 @@ export default function BlogCard({
             {post.title}
           </h2>
 
-          <div
+          <p
+            className="
+              mt-5
+              max-w-xl
+
+              text-sm
+              leading-7
+              text-white/45
+            "
+          >
+            {post.excerpt}
+          </p>
+
+          <span
             className="
               mt-7
               inline-flex
               items-center
               gap-3
 
-              text-[8px]
+              text-[9px]
               uppercase
-              tracking-[0.24em]
+              tracking-[0.22em]
 
-              text-white/38
+              text-white/40
 
               transition-colors
               duration-300
 
-              group-hover:text-[#c45a78]
+              group-hover:text-wine-light
             "
           >
-            Okumaya devam et
+            Yazıyı oku
 
             <span
               className="
                 transition-transform
-                duration-500
+                duration-300
+
                 group-hover:translate-x-1
               "
             >
               →
             </span>
-          </div>
+          </span>
         </div>
 
-        {/* EXCERPT */}
+        {/* IMAGE */}
 
         <div
           className="
-            lg:border-l
-            lg:border-white/10
-            lg:pl-8
+            relative
+            aspect-[4/3]
+            overflow-hidden
+
+            rounded-2xl
+
+            border
+            border-white/10
+
+            bg-[#0d0d0d]
           "
         >
-          <p
-            className="
-              max-w-[390px]
-              text-sm
-              leading-7
-              text-white/42
-            "
-          >
-            {post.excerpt}
-          </p>
+          {post.coverImageUrl ? (
+            <img
+              src={post.coverImageUrl}
+              alt=""
+              className="
+                h-full
+                w-full
+                object-cover
 
-          {post.tags.length >
-            0 && (
+                opacity-75
+
+                transition-all
+                duration-700
+                ease-[cubic-bezier(0.22,1,0.36,1)]
+
+                group-hover:scale-[1.035]
+                group-hover:opacity-100
+              "
+            />
+          ) : (
             <div
               className="
-                mt-6
                 flex
-                flex-wrap
-                gap-2
+                h-full
+                items-center
+                justify-center
+
+                bg-[#11080c]
               "
             >
-              {post.tags
-                .slice(0, 3)
-                .map((tag) => (
-                  <span
-                    key={tag}
-                    className="
-                      rounded-full
-                      border
-                      border-white/[0.07]
-                      px-3
-                      py-2
-                      text-[7px]
-                      uppercase
-                      tracking-[0.16em]
-                      text-white/28
-                    "
-                  >
-                    {tag}
-                  </span>
-                ))}
+              <span
+                className="
+                  font-serif
+                  text-5xl
+                  italic
+                  text-[#591323]
+                "
+              >
+                Fion.
+              </span>
             </div>
           )}
         </div>
