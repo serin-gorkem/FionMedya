@@ -20,6 +20,7 @@ export default function NavigationOverlay({
   onClose,
 }: NavigationOverlayProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
   return (
     <div
       role="dialog"
@@ -35,7 +36,6 @@ export default function NavigationOverlay({
           "radial-gradient(circle at 50% 55%, #1f0b12 0%, #13090d 48%, #090708 100%)",
       }}
     >
-      {/* Arka plandaki silik marka */}
       <div
         aria-hidden="true"
         className={`pointer-events-none absolute inset-0 flex items-center justify-center transition-opacity duration-1000 ${
@@ -50,7 +50,6 @@ export default function NavigationOverlay({
         </p>
       </div>
 
-      {/* Spotlight */}
       <div
         aria-hidden="true"
         className={`pointer-events-none absolute left-1/2 top-1/2 h-[65vh] w-[85vw] max-w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-[50%] transition-all duration-[1100ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
@@ -60,7 +59,6 @@ export default function NavigationOverlay({
           transitionDelay: open ? "350ms" : "0ms",
         }}
       >
-        {/* Ana ışık */}
         <div
           className="absolute inset-0 rounded-[50%] blur-[42px]"
           style={{
@@ -69,7 +67,6 @@ export default function NavigationOverlay({
           }}
         />
 
-        {/* Işık merkezi */}
         <div
           className="absolute left-1/2 top-1/2 h-[48%] w-[54%] -translate-x-1/2 -translate-y-1/2 rounded-[50%] blur-3xl"
           style={{
@@ -79,19 +76,17 @@ export default function NavigationOverlay({
         />
       </div>
 
-      {/* Menü */}
-      {/* Menü */}
       <nav
         className="
-    relative z-10
-    flex min-h-screen
-    flex-col
-    items-center
-    justify-center
-    gap-3
-    px-6
-    text-center
-  "
+          relative z-10
+          flex min-h-screen
+          flex-col
+          items-center
+          justify-center
+          gap-3
+          px-6
+          text-center
+        "
         onMouseLeave={() => setHoveredIndex(null)}
       >
         {items.map((item, index) => {
@@ -108,32 +103,25 @@ export default function NavigationOverlay({
               onBlur={() => setHoveredIndex(null)}
               tabIndex={open ? 0 : -1}
               className={`
-          font-serif
-          leading-[0.82]
-          tracking-[-0.055em]
-          text-[var(--ivory)]
-          ease-[cubic-bezier(0.22,1,0.36,1)]
-
-          ${open ? "translate-y-0 opacity-100" : "translate-y-5 opacity-0"}
-
-          ${hasHoveredItem && !isHovered ? "text-ivory/40" : "text-ivory"}
-
-          ${isHovered ? "italic" : ""}
-        `}
+                font-serif
+                leading-[0.82]
+                tracking-[-0.055em]
+                text-[var(--ivory)]
+                ease-[cubic-bezier(0.22,1,0.36,1)]
+                ${open ? "translate-y-0 opacity-100" : "translate-y-5 opacity-0"}
+                ${hasHoveredItem && !isHovered ? "text-ivory/40" : "text-ivory"}
+                ${isHovered ? "italic" : ""}
+              `}
               style={{
                 fontSize: isHovered
                   ? "clamp(3.15rem, 6.4vw, 6.2rem)"
                   : hasHoveredItem
                     ? "clamp(2.15rem, 4.15vw, 4rem)"
                     : "clamp(2.5rem, 5vw, 4.8rem)",
-
                 transitionProperty:
                   "font-size, opacity, color, transform, letter-spacing",
-
                 transitionDuration: "650ms",
-
                 transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
-
                 transitionDelay: open
                   ? hoveredIndex === null
                     ? `${650 + index * 90}ms`

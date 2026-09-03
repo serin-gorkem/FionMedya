@@ -7,13 +7,20 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen overflow-hidden z-10 bg-[#090708] px-6"
+      aria-labelledby="hero-title"
+      className="
+        relative
+        z-10
+        min-h-screen
+        overflow-hidden
+        bg-[#090708]
+        px-6
+      "
     >
-      {/* =========================================================
-          BACKGROUND
-      ========================================================= */}
+      {/* =====================================================
+          ATMOSPHERE
+      ====================================================== */}
 
-      {/* Çok hafif wine atmosfer */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0"
@@ -39,10 +46,18 @@ export default function Hero() {
         }}
       />
 
-      {/* İnce grafik grid */}
+      {/* =====================================================
+          GRID
+      ====================================================== */}
+
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-[0.13]"
+        className="
+          pointer-events-none
+          absolute
+          inset-0
+          opacity-[0.13]
+        "
         style={{
           backgroundImage: `
             linear-gradient(
@@ -63,7 +78,10 @@ export default function Hero() {
         }}
       />
 
-      {/* Sol büyük grafik form */}
+      {/* =====================================================
+          DECORATIVE CIRCLES
+      ====================================================== */}
+
       <motion.div
         aria-hidden="true"
         initial={{ opacity: 0 }}
@@ -74,11 +92,12 @@ export default function Hero() {
           absolute
           -left-[18vw]
           top-[8vh]
+          z-10
           h-[55vw]
           w-[55vw]
-          z-10
           rounded-full
-          border border-[#7c2039]/20
+          border
+          border-[#7c2039]/20
         "
       />
 
@@ -86,7 +105,10 @@ export default function Hero() {
         aria-hidden="true"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 2.2, delay: 0.1 }}
+        transition={{
+          duration: 2.2,
+          delay: 0.1,
+        }}
         className="
           pointer-events-none
           absolute
@@ -95,16 +117,19 @@ export default function Hero() {
           h-[34vw]
           w-[34vw]
           rounded-full
-          border border-white/[0.055]
+          border
+          border-white/[0.055]
         "
       />
 
-      {/* Sağ grafik form */}
       <motion.div
         aria-hidden="true"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 2.2, delay: 0.15 }}
+        transition={{
+          duration: 2.2,
+          delay: 0.15,
+        }}
         className="
           pointer-events-none
           absolute
@@ -113,11 +138,15 @@ export default function Hero() {
           h-[50vw]
           w-[50vw]
           rounded-full
-          border border-[#8e304d]/20
+          border
+          border-[#8e304d]/20
         "
       />
 
-      {/* Diyagonal editorial çizgi */}
+      {/* =====================================================
+          DIAGONAL LINES
+      ====================================================== */}
+
       <div
         aria-hidden="true"
         className="
@@ -154,9 +183,9 @@ export default function Hero() {
         "
       />
 
-      {/* =========================================================
-          CENTRAL SPOTLIGHT
-      ========================================================= */}
+      {/* =====================================================
+          CENTRAL LIGHT
+      ====================================================== */}
 
       <motion.div
         aria-hidden="true"
@@ -198,7 +227,6 @@ export default function Hero() {
         }}
       />
 
-      {/* Spotlight iç çekirdeği */}
       <motion.div
         aria-hidden="true"
         initial={{
@@ -233,21 +261,57 @@ export default function Hero() {
         }}
       />
 
-      {/* =========================================================
+      {/* =====================================================
           HERO CONTENT
-      ========================================================= */}
+      ====================================================== */}
 
       <div
         className="
-          relative z-10
-          flex min-h-screen
+          relative
+          z-10
+          flex
+          min-h-screen
           flex-col
           items-center
           justify-center
           text-center
         "
       >
+        {/* SEO / CATEGORY LABEL */}
+
+        <motion.p
+          initial={{
+            opacity: 0,
+            y: 12,
+          }}
+          animate={{
+            opacity: 1,
+            y: 0,
+          }}
+          transition={{
+            delay: 0.25,
+            duration: 0.8,
+          }}
+          className="
+            mb-7
+            text-[9px]
+            uppercase
+            tracking-[0.36em]
+            text-[#c45a78]
+            sm:text-[10px]
+          "
+        >
+          Sosyal Medya
+          <span className="mx-2 text-white/20">•</span>
+          Grafik Tasarım
+          <span className="mx-2 text-white/20">•</span>
+          Reklam Yönetimi
+        </motion.p>
+
+        {/* H1 */}
+
         <motion.h1
+          id="hero-title"
           initial={{
             opacity: 0,
             y: 30,
@@ -278,6 +342,8 @@ export default function Hero() {
           Olanı Unut.
         </motion.h1>
 
+        {/* SEO COPY */}
+
         <motion.p
           initial={{
             opacity: 0,
@@ -293,93 +359,176 @@ export default function Hero() {
           }}
           className="
             mt-10
-            max-w-lg
+            max-w-[590px]
             text-sm
             leading-7
-            text-white/50
+            text-white/62
             sm:text-[15px]
           "
         >
-          Sadece paylaşım yapmıyoruz. Markaların fark edilmesini, hatırlanmasını
-          ve doğru müşterilere ulaşmasını sağlayan yaratıcı işler üretiyoruz.
+          Fion Medya;{" "}
+          <strong className="font-normal text-white/82">
+            sosyal medya yönetimi, grafik tasarım ve dijital reklam
+          </strong>{" "}
+          çözümleriyle markaların daha görünür, daha güçlü ve daha akılda kalıcı
+          olmasını sağlar.
         </motion.p>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+        {/* LOCATION / TRUST */}
+
+        <motion.p
+          initial={{
+            opacity: 0,
+          }}
+          animate={{
+            opacity: 1,
+          }}
           transition={{
-            delay: 1.2,
+            delay: 1.12,
+            duration: 0.8,
+          }}
+          className="
+            mt-4
+            text-[9px]
+            uppercase
+            tracking-[0.28em]
+            text-white/30
+          "
+        >
+          Kuşadası
+          <span className="mx-2 text-[#c45a78]">/</span>
+          Aydın
+          <span className="mx-2 text-[#c45a78]">/</span>
+          İzmir
+        </motion.p>
+
+        {/* CTA */}
+
+        <motion.div
+          initial={{
+            opacity: 0,
+          }}
+          animate={{
+            opacity: 1,
+          }}
+          transition={{
+            delay: 1.3,
             duration: 0.8,
           }}
           className="mt-9"
         >
           <Link
-            href="#projects"
+            href="#services"
+            aria-label="Fion Medya hizmetlerini incele"
             className="
-      group
-      relative
-      inline-flex
-      items-center
-      gap-3
-      pb-2
-      text-[10px]
-      uppercase
-      tracking-[0.3em]
-      text-white/55
-      transition-colors
-      duration-300
-      hover:text-ivory
-    "
+              group
+              relative
+              inline-flex
+              items-center
+              gap-3
+              pb-2
+              text-[10px]
+              uppercase
+              tracking-[0.3em]
+              text-white/62
+              transition-colors
+              duration-300
+              hover:text-ivory
+              cursor-pointer
+            "
           >
-            İşleri İncele
+            Neler Yapıyoruz?
+
+            <span
+              className="
+                transition-transform
+                duration-500
+                ease-[cubic-bezier(0.22,1,0.36,1)]
+                group-hover:translate-x-1
+              "
+            >
+              →
+            </span>
+
             <span
               aria-hidden="true"
               className="
-        absolute
-        bottom-0
-        left-0
-        h-px
-        w-full
-        origin-left
-        scale-x-0
-        bg-ivory
-        transition-transform
-        duration-500
-        ease-[cubic-bezier(0.22,1,0.36,1)]
-        group-hover:scale-x-100
-      "
+                absolute
+                bottom-0
+                left-0
+                h-px
+                w-full
+                origin-left
+                scale-x-0
+                bg-ivory
+                transition-transform
+                duration-500
+                ease-[cubic-bezier(0.22,1,0.36,1)]
+                group-hover:scale-x-100
+              "
             />
           </Link>
         </motion.div>
       </div>
 
-      {/* Scroll indicator */}
+      {/* =====================================================
+          SCROLL INDICATOR
+      ====================================================== */}
+
       <motion.div
-        initial={{ opacity: 0, y: -5 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{
+          opacity: 0,
+          y: -5,
+        }}
+        animate={{
+          opacity: 1,
+          y: 0,
+        }}
         transition={{
-          delay: 1.45,
+          delay: 1.55,
           duration: 0.9,
         }}
         className="
-    absolute
-    bottom-8
-    left-1/2
-    z-20
-    flex
-    -translate-x-1/2
-    flex-col
-    items-center
-    gap-3
-  "
+          absolute
+          bottom-8
+          left-1/2
+          z-20
+          flex
+          -translate-x-1/2
+          flex-col
+          items-center
+          gap-3
+        "
       >
-        <span className="text-[9px] uppercase tracking-[0.4em] text-white/35">
+        <span
+          className="
+            text-[9px]
+            uppercase
+            tracking-[0.4em]
+            text-white/35
+          "
+        >
           Aşağı kaydır
         </span>
 
-        <span className="relative h-7 w-px overflow-hidden bg-white/10">
+        <span
+          className="
+            relative
+            h-7
+            w-px
+            overflow-hidden
+            bg-white/10
+          "
+        >
           <motion.span
-            className="absolute left-0 top-0 h-3 w-px bg-wine-light"
+            className="
+              absolute
+              left-0
+              top-0
+              h-3
+              w-px
+              bg-wine-light
+            "
             animate={{
               y: [-12, 28],
             }}
@@ -392,12 +541,21 @@ export default function Hero() {
         </span>
       </motion.div>
 
-      {/* Alt vignette */}
+      {/* =====================================================
+          VIGNETTE
+      ====================================================== */}
+
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-1"
+        className="
+          pointer-events-none
+          absolute
+          inset-0
+          z-[1]
+        "
         style={{
-          boxShadow: "inset 0 0 180px 50px rgba(0,0,0,0.75)",
+          boxShadow:
+            "inset 0 0 180px 50px rgba(0,0,0,0.75)",
         }}
       />
     </section>

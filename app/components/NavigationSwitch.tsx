@@ -31,7 +31,6 @@ export default function NavigationSwitch({
           cursor-pointer
         "
       >
-        {/* Minimal switch housing */}
         <span
           className={`
             relative
@@ -43,7 +42,6 @@ export default function NavigationSwitch({
             transition-all
             duration-500
             ease-[cubic-bezier(0.22,1,0.36,1)]
-
             ${
               open
                 ? `
@@ -59,7 +57,6 @@ export default function NavigationSwitch({
             }
           `}
         >
-          {/* Physical plate */}
           <span
             className={`
               absolute
@@ -70,7 +67,6 @@ export default function NavigationSwitch({
               transition-all
               duration-500
               ease-[cubic-bezier(0.22,1,0.36,1)]
-
               ${
                 open
                   ? `
@@ -89,7 +85,6 @@ export default function NavigationSwitch({
             `}
           />
 
-          {/* Groove */}
           <span
             aria-hidden="true"
             className="
@@ -101,7 +96,6 @@ export default function NavigationSwitch({
             "
           />
 
-          {/* Wine glow */}
           <span
             aria-hidden="true"
             className={`

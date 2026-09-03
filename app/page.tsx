@@ -1,6 +1,5 @@
 import HeaderNavigation from "@/app/components/HeaderNavigation";
 import Hero from "@/app/components/sections/Hero";
-
 import WineJourneyShell from "@/app/components/WineJourneyShell";
 import ServicesSection from "@/app/components/sections/ServicesSection";
 import ProjectsSection from "@/app/components/sections/ProjectsSection";
@@ -9,7 +8,7 @@ import Footer from "@/app/components/sections/Footer";
 
 export default function Home() {
   return (
-    <main className="bg-black text-ivory">
+    <main className="bg-[#000000] text-ivory">
       <HeaderNavigation />
 
       <Hero />
