@@ -7,6 +7,10 @@ import {
 import * as THREE from "three";
 
 import {
+  EXPERIENCE_SECTIONS,
+} from "@/config/experience";
+
+import {
   getActiveExperienceSection,
 } from "@/lib/experienceTimeline";
 
@@ -14,7 +18,23 @@ import {
   useExperienceStore,
 } from "@/store/experience";
 
-const WINE_START = 0.015;
+/**
+ * Glass:
+ *
+ * 0.14 -> tipping başlıyor
+ * 0.42 -> tipping bitiyor
+ *
+ * Şarap tam tipping'in sonuna
+ * yaklaşırken çıkıyor.
+ */
+const WINE_START =
+  THREE.MathUtils.lerp(
+    EXPERIENCE_SECTIONS.hero.start,
+
+    EXPERIENCE_SECTIONS.hero.end,
+
+    0.39,
+  );
 
 export function ScrollProgress() {
   const setScrollProgress =
@@ -38,7 +58,8 @@ export function ScrollProgress() {
   useEffect(() => {
     function update() {
       const scrollableHeight =
-        document.documentElement
+        document
+          .documentElement
           .scrollHeight -
         window.innerHeight;
 
@@ -46,9 +67,7 @@ export function ScrollProgress() {
         scrollableHeight <= 0
       ) {
         setScrollProgress(0);
-
         setWineProgress(0);
-
         setActiveSection(
           "hero",
         );
@@ -56,10 +75,6 @@ export function ScrollProgress() {
         return;
       }
 
-      /**
-       * Browser'ın gerçek global
-       * scroll progress'i.
-       */
       const progress =
         THREE.MathUtils.clamp(
           window.scrollY /
@@ -73,13 +88,6 @@ export function ScrollProgress() {
         progress,
       );
 
-      /**
-       * Wine timeline global scroll'dan
-       * bağımsız bir mapping'e sahip.
-       *
-       * İlk %1.5 scroll boyunca origin'de
-       * bekliyor.
-       */
       const wineProgress =
         THREE.MathUtils.clamp(
           (

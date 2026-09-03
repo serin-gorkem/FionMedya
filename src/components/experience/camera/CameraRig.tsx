@@ -24,6 +24,7 @@ import {
 
 import {
   EXPERIENCE_POLICIES,
+  type ExperienceMode,
 } from "@/config/experiencePolicy";
 
 import {
@@ -38,23 +39,138 @@ import {
   useExperienceStore,
 } from "@/store/experience";
 
-const HERO_POSITION =
-  new THREE.Vector3(
-    ...CAMERA_CONFIG.hero.position,
-  );
+/* ========================================
+   RESPONSIVE HERO
+======================================== */
 
-const HERO_TARGET =
-  new THREE.Vector3(
-    ...CAMERA_CONFIG.hero.target,
-  );
+const HERO_POSITIONS:
+  Record<
+    ExperienceMode,
+    THREE.Vector3
+  > = {
+  desktop:
+    new THREE.Vector3(
+      ...CAMERA_CONFIG.hero
+        .desktop.position,
+    ),
+
+  tablet:
+    new THREE.Vector3(
+      ...CAMERA_CONFIG.hero
+        .tablet.position,
+    ),
+
+  mobile:
+    new THREE.Vector3(
+      ...CAMERA_CONFIG.hero
+        .mobile.position,
+    ),
+};
+
+const HERO_TARGETS:
+  Record<
+    ExperienceMode,
+    THREE.Vector3
+  > = {
+  desktop:
+    new THREE.Vector3(
+      ...CAMERA_CONFIG.hero
+        .desktop.target,
+    ),
+
+  tablet:
+    new THREE.Vector3(
+      ...CAMERA_CONFIG.hero
+        .tablet.target,
+    ),
+
+  mobile:
+    new THREE.Vector3(
+      ...CAMERA_CONFIG.hero
+        .mobile.target,
+    ),
+};
+
+/* ========================================
+   WORLD REVEAL
+======================================== */
+
+const WORLD_REVEAL_POSITIONS:
+  Record<
+    ExperienceMode,
+    THREE.Vector3
+  > = {
+  desktop:
+    new THREE.Vector3(
+      ...CAMERA_CONFIG
+        .worldReveal
+        .desktop.position,
+    ),
+
+  tablet:
+    new THREE.Vector3(
+      ...CAMERA_CONFIG
+        .worldReveal
+        .tablet.position,
+    ),
+
+  mobile:
+    new THREE.Vector3(
+      ...CAMERA_CONFIG
+        .worldReveal
+        .mobile.position,
+    ),
+};
+
+const WORLD_REVEAL_TARGETS:
+  Record<
+    ExperienceMode,
+    THREE.Vector3
+  > = {
+  desktop:
+    new THREE.Vector3(
+      ...CAMERA_CONFIG
+        .worldReveal
+        .desktop.target,
+    ),
+
+  tablet:
+    new THREE.Vector3(
+      ...CAMERA_CONFIG
+        .worldReveal
+        .tablet.target,
+    ),
+
+  mobile:
+    new THREE.Vector3(
+      ...CAMERA_CONFIG
+        .worldReveal
+        .mobile.target,
+    ),
+};
+
+/* ========================================
+   TOP DOWN
+======================================== */
 
 const TOP_DOWN_TARGET =
   new THREE.Vector3(
     ...CAMERA_CONFIG.topDown.target,
   );
 
+const TOP_DOWN_X =
+  CAMERA_CONFIG
+    .topDown
+    .position[0];
+
 const TOP_DOWN_Z =
-  CAMERA_CONFIG.topDown.position[2];
+  CAMERA_CONFIG
+    .topDown
+    .position[2];
+
+/* ========================================
+   CAMERA
+======================================== */
 
 export function CameraRig() {
   const cameraRef =
@@ -85,19 +201,26 @@ export function CameraRig() {
       experienceMode
     ];
 
+  /* ========================================
+     REUSABLE VECTORS
+  ======================================== */
+
   const desiredPositionRef =
     useRef(
-      HERO_POSITION.clone(),
+      HERO_POSITIONS.desktop
+        .clone(),
     );
 
   const desiredTargetRef =
     useRef(
-      HERO_TARGET.clone(),
+      HERO_TARGETS.desktop
+        .clone(),
     );
 
   const currentTargetRef =
     useRef(
-      HERO_TARGET.clone(),
+      HERO_TARGETS.desktop
+        .clone(),
     );
 
   const topDownPositionRef =
@@ -110,6 +233,16 @@ export function CameraRig() {
       new THREE.Vector3(),
     );
 
+  const journeyPositionRef =
+    useRef(
+      new THREE.Vector3(),
+    );
+
+  const journeyTargetRef =
+    useRef(
+      new THREE.Vector3(),
+    );
+
   useFrame((_, delta) => {
     const camera =
       cameraRef.current;
@@ -117,6 +250,49 @@ export function CameraRig() {
     if (!camera) {
       return;
     }
+
+    /**
+     * Exact top-down kamera için
+     * default Y-up kullanamayız.
+     *
+     * Screen'in üstü = world -Z.
+     */
+    camera.up.set(
+      0,
+      0,
+      -1,
+    );
+
+    const heroPosition =
+      HERO_POSITIONS[
+        experienceMode
+      ];
+
+    const heroTarget =
+      HERO_TARGETS[
+        experienceMode
+      ];
+
+    const worldRevealPosition =
+      WORLD_REVEAL_POSITIONS[
+        experienceMode
+      ];
+
+    const worldRevealTarget =
+      WORLD_REVEAL_TARGETS[
+        experienceMode
+      ];
+
+    const heroConfig =
+      CAMERA_CONFIG.hero[
+        experienceMode
+      ];
+
+    const worldRevealConfig =
+      CAMERA_CONFIG
+        .worldReveal[
+          experienceMode
+        ];
 
     const desiredPosition =
       desiredPositionRef.current;
@@ -133,106 +309,251 @@ export function CameraRig() {
     const pathPoint =
       pathPointRef.current;
 
-    /**
-     * Responsive top-down position.
-     */
-    topDownPosition.set(
-      0,
-      policy.camera.topDownHeight,
-      TOP_DOWN_Z,
-    );
+    const journeyPosition =
+      journeyPositionRef.current;
 
-    /**
-     * HERO -> TOP DOWN
-     */
-    const transitionProgress =
-      THREE.MathUtils.smoothstep(
+    const journeyTarget =
+      journeyTargetRef.current;
+
+    /* ======================================
+       SECTION PROGRESS
+    ====================================== */
+
+    const heroProgress =
+      getSectionProgress(
         scrollProgress,
+
         EXPERIENCE_SECTIONS.hero.start,
+
+        EXPERIENCE_SECTIONS.hero.end,
+      );
+
+    const revealProgress =
+      getSectionProgress(
+        scrollProgress,
+
+        EXPERIENCE_SECTIONS.reveal.start,
+
         EXPERIENCE_SECTIONS.reveal.end,
       );
 
-    const effectiveTransitionProgress =
+    /* ======================================
+       PHASE 01 + 02
+       WEBSITE -> WORLD
+    ====================================== */
+
+    const heroExitProgress =
+      THREE.MathUtils.smoothstep(
+        heroProgress,
+
+        CAMERA_CONFIG.timing
+          .heroExitStart,
+
+        CAMERA_CONFIG.timing
+          .heroExitEnd,
+      );
+
+    const effectiveHeroExit =
       reducedMotion
-        ? scrollProgress >=
-          EXPERIENCE_SECTIONS.reveal.start
+        ? heroProgress >
+          CAMERA_CONFIG.timing
+            .heroExitStart
           ? 1
           : 0
-        : transitionProgress;
+        : heroExitProgress;
 
     desiredPosition.lerpVectors(
-      HERO_POSITION,
-      topDownPosition,
-      effectiveTransitionProgress,
+      heroPosition,
+
+      worldRevealPosition,
+
+      effectiveHeroExit,
     );
 
     desiredTarget.lerpVectors(
-      HERO_TARGET,
-      TOP_DOWN_TARGET,
-      effectiveTransitionProgress,
+      heroTarget,
+
+      worldRevealTarget,
+
+      effectiveHeroExit,
     );
 
     let desiredFov =
       THREE.MathUtils.lerp(
-        CAMERA_CONFIG.hero.fov,
-        policy.camera.topDownFov,
-        effectiveTransitionProgress,
+        heroConfig.fov,
+
+        worldRevealConfig.fov,
+
+        effectiveHeroExit,
       );
 
-    /**
-     * JOURNEY
-     */
+    /* ======================================
+       PHASE 03
+       WORLD -> ROUTE TOP DOWN
+    ====================================== */
+
+    topDownPosition.set(
+      TOP_DOWN_X,
+
+      policy.camera
+        .topDownHeight,
+
+      TOP_DOWN_Z,
+    );
+
+    const topDownProgress =
+      THREE.MathUtils.smoothstep(
+        revealProgress,
+
+        0,
+
+        CAMERA_CONFIG.timing
+          .revealTopDownEnd,
+      );
+
+    const effectiveTopDown =
+      reducedMotion
+        ? revealProgress > 0
+          ? 1
+          : 0
+        : topDownProgress;
+
+    if (
+      effectiveTopDown >
+      0
+    ) {
+      desiredPosition.lerpVectors(
+        worldRevealPosition,
+
+        topDownPosition,
+
+        effectiveTopDown,
+      );
+
+      desiredTarget.lerpVectors(
+        worldRevealTarget,
+
+        TOP_DOWN_TARGET,
+
+        effectiveTopDown,
+      );
+
+      desiredFov =
+        THREE.MathUtils.lerp(
+          worldRevealConfig.fov,
+
+          policy.camera
+            .topDownFov,
+
+          effectiveTopDown,
+        );
+    }
+
+    /* ======================================
+       PHASE 04
+       JOURNEY
+    ====================================== */
+
+    const journeyStart =
+      THREE.MathUtils.lerp(
+        EXPERIENCE_SECTIONS
+          .reveal.start,
+
+        EXPERIENCE_SECTIONS
+          .reveal.end,
+
+        CAMERA_CONFIG.timing
+          .journeyStartAtReveal,
+      );
+
     const journeyProgress =
       getSectionProgress(
         scrollProgress,
-        EXPERIENCE_SECTIONS.reveal.end,
-        EXPERIENCE_SECTIONS.contact.end,
+
+        journeyStart,
+
+        EXPERIENCE_SECTIONS
+          .contact.end,
       );
 
-    if (journeyProgress > 0) {
+    if (
+      journeyProgress >
+      0
+    ) {
       const curveProgress =
         THREE.MathUtils.lerp(
-          CAMERA_CONFIG.journey.curveStart,
+          CAMERA_CONFIG.journey
+            .curveStart,
+
           1,
+
           journeyProgress,
         );
 
       EXPERIENCE_CURVE.getPointAt(
         curveProgress,
+
         pathPoint,
       );
 
-      /**
-       * Kamera route'u takip ediyor.
-       */
-      desiredPosition.set(
+      journeyPosition.set(
         pathPoint.x *
-          policy.camera.xInfluence,
+          policy.camera
+            .xInfluence,
 
-        policy.camera.topDownHeight,
+        policy.camera
+          .topDownHeight,
 
         pathPoint.z +
-          policy.camera.zOffset,
+          policy.camera
+            .zOffset,
       );
 
-      /**
-       * Kamera route'un biraz ilerisini
-       * izliyor.
-       */
-      desiredTarget.set(
+      journeyTarget.set(
         pathPoint.x,
+
         0,
+
         pathPoint.z -
-          policy.camera.lookAhead,
+          policy.camera
+            .lookAhead,
+      );
+
+      const journeyBlend =
+        THREE.MathUtils.smoothstep(
+          journeyProgress,
+
+          0,
+
+          CAMERA_CONFIG.timing
+            .journeyBlendEnd,
+        );
+
+      desiredPosition.lerpVectors(
+        topDownPosition,
+
+        journeyPosition,
+
+        journeyBlend,
+      );
+
+      desiredTarget.lerpVectors(
+        TOP_DOWN_TARGET,
+
+        journeyTarget,
+
+        journeyBlend,
       );
 
       desiredFov =
-        policy.camera.topDownFov;
+        policy.camera
+          .topDownFov;
     }
 
-    /**
-     * DAMPING
-     */
+    /* ======================================
+       DAMPING
+    ====================================== */
+
     const positionAlpha =
       1 -
       Math.exp(
@@ -259,11 +580,13 @@ export function CameraRig() {
 
     camera.position.lerp(
       desiredPosition,
+
       positionAlpha,
     );
 
     currentTarget.lerp(
       desiredTarget,
+
       targetAlpha,
     );
 
@@ -274,7 +597,9 @@ export function CameraRig() {
     const nextFov =
       THREE.MathUtils.lerp(
         camera.fov,
+
         desiredFov,
+
         fovAlpha,
       );
 
@@ -282,12 +607,14 @@ export function CameraRig() {
       Math.abs(
         camera.fov -
           nextFov,
-      ) > 0.001
+      ) >
+      0.001
     ) {
       camera.fov =
         nextFov;
 
-      camera.updateProjectionMatrix();
+      camera
+        .updateProjectionMatrix();
     }
   });
 
@@ -295,12 +622,23 @@ export function CameraRig() {
     <PerspectiveCamera
       ref={cameraRef}
       makeDefault
+
       position={
-        CAMERA_CONFIG.hero.position
+        CAMERA_CONFIG.hero
+          .desktop.position
       }
+
       fov={
-        CAMERA_CONFIG.hero.fov
+        CAMERA_CONFIG.hero
+          .desktop.fov
       }
+
+      up={[
+        0,
+        0,
+        -1,
+      ]}
+
       near={0.1}
       far={100}
     />

@@ -2,89 +2,111 @@
 
 import * as THREE from "three";
 
-import { INNER_WINE_TRANSFORM } from "@/config/heroGlass";
-
 export function HeroWineInside() {
   return (
     <group>
-      {/* Ana iç doluluk */}
+      {/* =================================
+          WINE BODY
+      ================================= */}
+
       <mesh
-        position={
-          INNER_WINE_TRANSFORM.volumePosition
-        }
-        scale={
-          INNER_WINE_TRANSFORM.volumeScale
-        }
+        position={[
+          0,
+          0.105,
+          0.004,
+        ]}
+        scale={[
+          0.042,
+          0.026,
+          0.042,
+        ]}
         renderOrder={1}
       >
         <sphereGeometry
-          args={[1, 48, 48]}
+          args={[
+            1,
+            48,
+            48,
+          ]}
         />
 
         <meshPhysicalMaterial
-          color="#6b0018"
-          roughness={0.22}
+          color="#4b0014"
           metalness={0}
-          clearcoat={0.15}
-          transmission={0.02}
-          thickness={0.2}
-          transparent
-          opacity={0.96}
-          side={THREE.DoubleSide}
+          roughness={0.16}
+          ior={1.34}
+          clearcoat={0.24}
+          clearcoatRoughness={0.08}
+          envMapIntensity={1.25}
+          side={THREE.FrontSide}
         />
       </mesh>
 
-      {/* Üst yüzey */}
+      {/* =================================
+          LIQUID SURFACE
+      ================================= */}
+
       <mesh
-        position={
-          INNER_WINE_TRANSFORM.surfacePosition
-        }
+        position={[
+          0,
+          0.124,
+          0.004,
+        ]}
         rotation={[
           -Math.PI / 2,
           0,
           0,
         ]}
-        scale={
-          INNER_WINE_TRANSFORM.surfaceScale
-        }
         renderOrder={2}
       >
         <circleGeometry
-          args={[1, 48]}
+          args={[
+            0.037,
+            64,
+          ]}
         />
 
-        <meshStandardMaterial
-          color="#7b0824"
-          roughness={0.3}
+        <meshPhysicalMaterial
+          color="#680019"
           metalness={0}
-          transparent
-          opacity={0.92}
+          roughness={0.08}
+          clearcoat={0.5}
+          clearcoatRoughness={0.045}
+          envMapIntensity={1.5}
           side={THREE.DoubleSide}
         />
       </mesh>
 
-      {/* Dudak kısmına yaklaşan küçük hacim */}
+      {/* =================================
+          SUBTLE MENISCUS
+      ================================= */}
+
       <mesh
-        position={
-          INNER_WINE_TRANSFORM.lipBlobPosition
-        }
-        scale={
-          INNER_WINE_TRANSFORM.lipBlobScale
-        }
-        renderOrder={2}
+        position={[
+          0,
+          0.1245,
+          0.004,
+        ]}
+        rotation={[
+          -Math.PI / 2,
+          0,
+          0,
+        ]}
+        renderOrder={3}
       >
-        <sphereGeometry
-          args={[1, 32, 32]}
+        <ringGeometry
+          args={[
+            0.034,
+            0.038,
+            64,
+          ]}
         />
 
-        <meshPhysicalMaterial
-          color="#8a0a28"
-          roughness={0.18}
-          metalness={0}
-          clearcoat={0.2}
-          transmission={0.01}
+        <meshBasicMaterial
+          color="#9b2440"
           transparent
-          opacity={0.98}
+          opacity={0.3}
+          depthWrite={false}
           side={THREE.DoubleSide}
         />
       </mesh>

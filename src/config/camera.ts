@@ -1,48 +1,170 @@
 export const CAMERA_CONFIG = {
+  /**
+   * İlk sahne.
+   *
+   * Kamera TAM tepeden.
+   * Perspective olmasına rağmen
+   * kullanıcı neredeyse 2D bir
+   * website görüyor.
+   */
   hero: {
-    position: [3.8, 3.4, 6.2] as const,
-    target: [-1.5, 0, 0.5] as const,
-    fov: 40,
+    desktop: {
+      position: [
+        0,
+        9.3,
+        0,
+      ] as const,
+
+      target: [
+        0,
+        0,
+        0,
+      ] as const,
+
+      fov: 34,
+    },
+
+    tablet: {
+      position: [
+        0,
+        10.6,
+        0,
+      ] as const,
+
+      target: [
+        0,
+        0,
+        0,
+      ] as const,
+
+      fov: 35,
+    },
+
+    mobile: {
+      position: [
+        0,
+        11.2,
+        0,
+      ] as const,
+
+      target: [
+        0,
+        0,
+        0,
+      ] as const,
+
+      fov: 36,
+    },
   },
 
+  /**
+   * Kullanıcı scroll yaptıktan sonra
+   * "website'in dışına" çıktığımız
+   * kamera.
+   */
+  worldReveal: {
+    desktop: {
+      position: [
+        3,
+        8.2,
+        6.4,
+      ] as const,
+
+      target: [
+        0,
+        0,
+        -0.55,
+      ] as const,
+
+      fov: 35,
+    },
+
+    tablet: {
+      position: [
+        2.3,
+        8.8,
+        5.9,
+      ] as const,
+
+      target: [
+        0,
+        0,
+        -0.5,
+      ] as const,
+
+      fov: 37,
+    },
+
+    mobile: {
+      position: [
+        1.45,
+        9.6,
+        5.2,
+      ] as const,
+
+      target: [
+        0,
+        0,
+        -0.45,
+      ] as const,
+
+      fov: 39,
+    },
+  },
+
+  /**
+   * Reveal sonrasında tekrar
+   * editorial route kamerasına.
+   */
   topDown: {
-    position: [0, 13, 1] as const,
-    target: [0, 0, -2] as const,
+    position: [
+      0,
+      13,
+      1,
+    ] as const,
+
+    target: [
+      0,
+      0,
+      -2,
+    ] as const,
+
     fov: 23,
   },
 
   journey: {
-    height: 13,
-
-    /**
-     * Kameranın route üzerindeki noktanın
-     * ne kadar gerisinde durduğu.
-     */
-    zOffset: 2.8,
-
-    /**
-     * Route'un x hareketini kameraya
-     * birebir vermiyoruz.
-     */
-    xInfluence: 0.45,
-
-    /**
-     * Kameranın baktığı nokta route'un
-     * biraz ilerisinde.
-     */
-    lookAhead: 1.5,
-
-    /**
-     * Journey, curve'in tam origin'inden
-     * başlamasın. Kadeh kısmını zaten
-     * Hero'da gördük.
-     */
     curveStart: 0.08,
   },
 
+  timing: {
+    /**
+     * Bardak devrilene kadar kamera
+     * tam tepede kalıyor.
+     */
+    heroExitStart: 0.44,
+
+    /**
+     * Hero'nun sonunda website'in
+     * dışına çıkmış oluyoruz.
+     */
+    heroExitEnd: 0.94,
+
+    /**
+     * Reveal sırasında route
+     * top-down kamerasına dön.
+     */
+    revealTopDownEnd: 0.76,
+
+    journeyStartAtReveal: 0.88,
+
+    journeyBlendEnd: 0.08,
+  },
+
   damping: {
-    position: 5.5,
-    target: 7,
+    position: 5.8,
+
+    target: 6.8,
+
     fov: 5,
   },
 } as const;

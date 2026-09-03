@@ -1,38 +1,21 @@
 "use client";
 
-import {
-  Canvas,
-} from "@react-three/fiber";
+import { Canvas } from "@react-three/fiber";
 
-import {
-  Suspense,
-} from "react";
+import { Suspense } from "react";
 
 import * as THREE from "three";
 
-import {
-  EXPERIENCE_POLICIES,
-} from "@/config/experiencePolicy";
+import { EXPERIENCE_POLICIES } from "@/config/experiencePolicy";
 
-import {
-  useExperienceStore,
-} from "@/store/experience";
+import { useExperienceStore } from "@/store/experience";
 
-import {
-  ExperienceScene,
-} from "./ExperienceScene";
+import { ExperienceScene } from "./ExperienceScene";
 
 export function ExperienceCanvas() {
-  const experienceMode =
-    useExperienceStore(
-      (state) =>
-        state.experienceMode,
-    );
+  const experienceMode = useExperienceStore((state) => state.experienceMode);
 
-  const policy =
-    EXPERIENCE_POLICIES[
-      experienceMode
-    ];
+  const policy = EXPERIENCE_POLICIES[experienceMode];
 
   return (
     <div className="experience-canvas">
@@ -43,19 +26,15 @@ export function ExperienceCanvas() {
           antialias: true,
           alpha: false,
         }}
-        onCreated={({
-          gl,
-        }) => {
-          gl.toneMapping =
-            THREE.ACESFilmicToneMapping;
+        onCreated={({ gl }) => {
+          gl.toneMapping = THREE.ACESFilmicToneMapping;
 
-          gl.toneMappingExposure =
-            1.15;
+          gl.toneMappingExposure = 1.15;
+
+          gl.localClippingEnabled = true;
         }}
       >
-        <Suspense
-          fallback={null}
-        >
+        <Suspense fallback={null}>
           <ExperienceScene />
         </Suspense>
       </Canvas>

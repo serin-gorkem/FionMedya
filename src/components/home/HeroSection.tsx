@@ -1,26 +1,14 @@
 "use client";
 
-import { EXPERIENCE_SECTIONS } from "@/config/experience";
-import { getExperienceSection } from "@/lib/experienceSections";
-import { getSectionProgress } from "@/lib/progress";
-import { useExperienceStore } from "@/store/experience";
+import {
+  getExperienceSection,
+} from "@/lib/experienceSections";
 
 export function HeroSection() {
-  const scrollProgress = useExperienceStore((state) => state.scrollProgress);
-
-  const config = getExperienceSection("hero");
-
-  const progress = getSectionProgress(
-    scrollProgress,
-    EXPERIENCE_SECTIONS.hero.start,
-    EXPERIENCE_SECTIONS.hero.end,
-  );
-
-  /**
-   * Hero aşağı kayarken copy çok hafif geri çekiliyor.
-   * Fine tuning değil; temel choreography.
-   */
-  const exitProgress = Math.min(Math.max((progress - 0.55) / 0.45, 0), 1);
+  const config =
+    getExperienceSection(
+      "hero",
+    );
 
   return (
     <section
@@ -28,42 +16,21 @@ export function HeroSection() {
       className="home-section hero-section"
       data-experience-section="hero"
       style={{
-        minHeight: `${config.heightVh}svh`,
+        minHeight:
+          `${config.heightVh}svh`,
       }}
     >
-      <div
-        className="hero-content"
-        style={{
-          opacity: 1 - exitProgress * 0.65,
-
-          transform: `
-            translateY(
-              ${exitProgress * -30}px
-            )
-          `,
-        }}
-      >
-        <span className="section-eyebrow">FION MEDYA</span>
-
+      <div className="hero-seo-copy">
         <h1>
-          Sıradan
-          <br />
-          Olanı
-          <br />
-          Unut.
+          Sıradan Olanı Unut.
         </h1>
 
-        <div className="hero-bottom">
-          <p>
-            Markaların sadece görünmesini değil, fark edilmesini sağlayan
-            fikirler üretiyoruz.
-          </p>
-
-          <div className="hero-cta" aria-hidden="true">
-            Keşfet
-            <span>↓</span>
-          </div>
-        </div>
+        <p>
+          Markaların sadece
+          görünmesini değil,
+          fark edilmesini sağlayan
+          fikirler üretiyoruz.
+        </p>
       </div>
     </section>
   );

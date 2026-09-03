@@ -70,7 +70,13 @@ export function SiteHeader() {
   }
 
   return (
-    <header className={`site-header ${menuOpen ? "is-menu-open" : ""}`}>
+    <header
+      className={`
+    site-header
+    ${menuOpen ? "is-menu-open" : ""}
+    ${activeSection === "hero" ? "is-intro-hidden" : ""}
+  `}
+    >
       <button
         type="button"
         className="site-logo"
