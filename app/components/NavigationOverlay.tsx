@@ -326,7 +326,7 @@ export default function NavigationOverlay({
             leading-none
             tracking-[-0.07em]
 
-            text-white/[0.032]
+            text-white/[0.1]
           "
         >
           FİON MEDYA

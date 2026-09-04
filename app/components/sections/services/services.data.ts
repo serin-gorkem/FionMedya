@@ -5,25 +5,27 @@ export const services: readonly ServiceItem[] = [
     number: "01",
     title: "Sosyal Medya Yönetimi",
     description:
-      "Kaydırılıp geçilmek için değil, durup bakılmak için.",
+      "Paylaşım yapmak için değil, markayı büyüten bir iletişim kurmak için.",
     tags: ["Strateji", "Kreatif", "Yönetim"],
     mockup: "social",
     align: "left",
   },
+
   {
     number: "02",
     title: "Grafik Tasarım",
     description:
-      "Markanın nasıl göründüğünü ve hatırlandığını tasarlıyoruz.",
-    tags: ["Kimlik", "Sosyal", "Tasarım"],
+      "Markanın her temas noktasında aynı karakteri taşımasını sağlıyoruz.",
+    tags: ["Kimlik", "Kreatif", "Tasarım"],
     mockup: "design",
     align: "right",
   },
+
   {
     number: "03",
     title: "Reklam Yönetimi",
     description:
-      "İyi fikri doğru insanlarla buluşturuyoruz.",
+      "Kreatif, hedefleme ve optimizasyonu aynı sonuç hedefinde buluşturuyoruz.",
     tags: ["Meta Ads", "Hedefleme", "Optimizasyon"],
     mockup: "ads",
     align: "left",

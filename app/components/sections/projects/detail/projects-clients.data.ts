@@ -1,46 +1,22 @@
-export type ClientWorkLayout = "posts" | "duo" | "mixed";
-
-export type ClientWorkSize = "standard" | "large";
-
 export type ClientWork = {
   number: string;
-
   name: string;
   logo: string;
 
   summary: string;
-
-  /*
-   * Modal/detail açılan projelerde kullanılır.
-   * GitGit ve Kule gibi external projelerde boş bırakabiliriz.
-   */
   detail?: string;
 
   services: readonly string[];
-
   images: readonly string[];
 
   side: "left" | "right";
 
-  layout: ClientWorkLayout;
-  size?: ClientWorkSize;
-
-  logoScale?: number;
-
-  /*
-   * true:
-   *   Card click → proje modalı
-   *
-   * false:
-   *   Modal yok.
-   *   websiteUrl üzerinden ilgili siteye gider.
-   */
   hasDetail: boolean;
 
   websiteUrl?: string;
 };
 
-export const clientWorks: ClientWork[] = [
+export const clientWorks: readonly ClientWork[] = [
   /* =====================================================
      01 — BYRON
   ====================================================== */
@@ -66,11 +42,6 @@ export const clientWorks: ClientWork[] = [
 
     side: "left",
 
-    layout: "posts",
-    size: "large",
-
-    logoScale: 0.82,
-
     hasDetail: true,
   },
 
@@ -91,14 +62,9 @@ export const clientWorks: ClientWork[] = [
 
     services: ["Sosyal Medya Yönetimi"],
 
-    images: [],
+    images: ["/projects/clients/istanbul-kokorec/01.jpg"],
 
     side: "right",
-
-    layout: "posts",
-    size: "large",
-
-    logoScale: 0.72,
 
     hasDetail: true,
   },
@@ -120,13 +86,12 @@ export const clientWorks: ClientWork[] = [
 
     services: ["Sosyal Medya Yönetimi"],
 
-    images: [],
+    images: [
+      "/projects/clients/capar/01.jpg",
+      "/projects/clients/capar/02.jpg",
+    ],
 
     side: "left",
-
-    layout: "duo",
-
-    logoScale: 1.08,
 
     hasDetail: true,
   },
@@ -148,13 +113,12 @@ export const clientWorks: ClientWork[] = [
 
     services: ["Sosyal Medya Yönetimi"],
 
-    images: [],
+    images: [
+      "/projects/clients/kurye-plus/01.jpg",
+      "/projects/clients/kurye-plus/02.jpg",
+    ],
 
     side: "right",
-
-    layout: "posts",
-
-    logoScale: 1,
 
     hasDetail: true,
   },
@@ -176,13 +140,12 @@ export const clientWorks: ClientWork[] = [
 
     services: ["Sosyal Medya Yönetimi"],
 
-    images: [],
+    images: [
+      "/projects/clients/fuyapi/01.jpg",
+      "/projects/clients/fuyapi/02.jpg",
+    ],
 
     side: "left",
-
-    layout: "mixed",
-
-    logoScale: 0.9,
 
     hasDetail: true,
   },
@@ -204,20 +167,20 @@ export const clientWorks: ClientWork[] = [
 
     services: ["Sosyal Medya Yönetimi"],
 
-    images: [],
+    images: [
+      "/projects/clients/maia/01.jpg",
+      "/projects/clients/maia/02.jpg",
+      "/projects/clients/maia/03.jpg",
+    ],
 
     side: "right",
-
-    layout: "mixed",
-
-    logoScale: 0.88,
 
     hasDetail: true,
   },
 
   /* =====================================================
-     07 — GITGIT
-     QR MENU / EXTERNAL
+     07 — GIT GIT
+     BASILI MENÜ
   ====================================================== */
 
   {
@@ -226,28 +189,15 @@ export const clientWorks: ClientWork[] = [
     name: "Git Git",
     logo: "/projects/clients/gitgit.png",
 
-    summary: "QR menü deneyimi.",
+    summary: "Menü tasarımı.",
 
-    services: ["QR Menü"],
+    services: ["Menü Tasarımı"],
 
     images: [],
 
     side: "left",
 
-    layout: "posts",
-
-    logoScale: 0.62,
-
     hasDetail: false,
-
-    /*
-     * Gerçek URL geldiğinde doldur.
-     *
-     * Örnek:
-     * websiteUrl:
-     *   "https://...",
-     */
-    websiteUrl: "",
   },
 
   /* =====================================================
@@ -267,13 +217,12 @@ export const clientWorks: ClientWork[] = [
 
     services: ["Sosyal Medya Yönetimi"],
 
-    images: [],
+    images: [
+      "/projects/clients/mt-pro/01.jpg",
+      "/projects/clients/mt-pro/02.jpg",
+    ],
 
     side: "right",
-
-    layout: "duo",
-
-    logoScale: 0.78,
 
     hasDetail: true,
   },
@@ -295,21 +244,20 @@ export const clientWorks: ClientWork[] = [
 
     services: ["Sosyal Medya Yönetimi"],
 
-    images: [],
+    images: [
+      "/projects/clients/moto-express/01.jpg",
+      "/projects/clients/moto-express/02.jpg",
+      "/projects/clients/moto-express/03.jpg",
+    ],
 
     side: "left",
-
-    layout: "mixed",
-    size: "large",
-
-    logoScale: 0.68,
 
     hasDetail: true,
   },
 
   /* =====================================================
      10 — KULE
-     QR MENU / EXTERNAL
+     QR MENÜ
   ====================================================== */
 
   {
@@ -320,22 +268,23 @@ export const clientWorks: ClientWork[] = [
 
     summary: "QR menü deneyimi.",
 
+    detail:
+      "Kule için fiziksel menü kullanımını dijital ortama taşıyan, mobil cihazlardan hızlı ve kolay erişilebilen bir QR menü deneyimi hazırladık.",
+
     services: ["QR Menü"],
 
     images: [],
 
-    side: "right",
-
-    layout: "duo",
-
-    logoScale: 0.92,
+    side: "left",
 
     hasDetail: false,
 
     /*
-     * Gerçek URL geldiğinde doldur.
+     * Gerçek QR menü URL'si hazır olduğunda:
+     *
+     * websiteUrl:
+     *   "https://...",
      */
-    websiteUrl: "",
   },
 
   /* =====================================================
@@ -355,14 +304,40 @@ export const clientWorks: ClientWork[] = [
 
     services: ["Sosyal Medya Yönetimi"],
 
-    images: [],
+    images: [
+      "/projects/clients/perla/01.jpg",
+      "/projects/clients/perla/02.jpg",
+    ],
 
     side: "left",
 
-    layout: "mixed",
-
-    logoScale: 0.88,
-
     hasDetail: true,
+  },
+
+  /* =====================================================
+     12 — CAFE ROMA
+     QR MENÜ
+  ====================================================== */
+
+  {
+    number: "12",
+
+    name: "Cafe Roma",
+    logo: "/projects/clients/cafe-roma.png",
+
+    summary: "Menüyü dijital deneyime taşıdık.",
+
+    detail:
+      "Cafe Roma için müşterilerin mobil cihazlarından kolayca erişebildiği sade ve kullanışlı bir QR menü deneyimi hazırladık.",
+
+    services: ["QR Menü"],
+
+    images: [],
+
+    side: "right",
+
+    hasDetail: false,
+
+    websiteUrl: "https://www.caferoma.com.tr/",
   },
 ];

@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  motion,
-  useReducedMotion,
-} from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 import FionGraphicLayer from "./FionGraphicLayer";
 
@@ -11,19 +8,18 @@ const notUs = [
   "İçerik fabrikası.",
   "Her markaya aynı reçete.",
   "Sırf paylaşmış olmak için paylaşmak.",
-  "Beğeni sayısını başarı sanmak.",
+  "Takipçi sayısını tek başına başarı sanmak.",
 ] as const;
 
 const us = [
   "Fikri olan bir ekip.",
   "Markayı önce anlayan.",
   "Strateji, kreatif ve reklamı aynı hedefe bağlayan.",
-  "Hatırlanmayı önemseyen.",
+  "Takipçiden önce doğru müşteriyi düşünen.",
 ] as const;
 
 export default function FionNotUs() {
-  const reduceMotion =
-    useReducedMotion();
+  const reduceMotion = useReducedMotion();
 
   return (
     <section
@@ -36,9 +32,7 @@ export default function FionNotUs() {
         border-white/10
       "
     >
-      <FionGraphicLayer
-        variant="not-us"
-      />
+      <FionGraphicLayer variant="not-us" />
 
       {/* =========================================
           HEADING
@@ -120,10 +114,7 @@ export default function FionNotUs() {
           >
             Biz ne
             <br />
-
-            <em className="text-white/45">
-              değiliz?
-            </em>
+            <em className="text-white/45">değiliz?</em>
           </h2>
 
           <div
@@ -159,9 +150,7 @@ export default function FionNotUs() {
                 text-white/35
               "
             >
-              Bazen ne olmadığını
-              bilmek, ne olduğunu
-              anlatmanın en kısa
+              Bazen ne olmadığını bilmek, ne olduğunu anlatmanın en kısa
               yoludur.
             </p>
           </div>
@@ -252,54 +241,36 @@ export default function FionNotUs() {
               z-10
             "
           >
-            {notUs.map(
-              (
-                item,
-                index,
-              ) => (
-                <motion.div
-                  key={item}
-                  initial={
-                    reduceMotion
-                      ? false
-                      : {
-                          opacity:
-                            0,
+            {notUs.map((item, index) => (
+              <motion.div
+                key={item}
+                initial={
+                  reduceMotion
+                    ? false
+                    : {
+                        opacity: 0,
 
-                          x:
-                            -30,
-                        }
-                  }
-                  whileInView={{
-                    opacity:
-                      1,
+                        x: -30,
+                      }
+                }
+                whileInView={{
+                  opacity: 1,
 
-                    x:
-                      0,
-                  }}
-                  viewport={{
-                    once:
-                      true,
+                  x: 0,
+                }}
+                viewport={{
+                  once: true,
 
-                    amount:
-                      0.45,
-                  }}
-                  transition={{
-                    duration:
-                      0.65,
+                  amount: 0.45,
+                }}
+                transition={{
+                  duration: 0.65,
 
-                    delay:
-                      index *
-                      0.05,
+                  delay: index * 0.05,
 
-                    ease: [
-                      0.22,
-                      1,
-                      0.36,
-                      1,
-                    ],
-                  }}
-                  className="
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+                className="
                     group
 
                     grid
@@ -312,15 +283,15 @@ export default function FionNotUs() {
 
                     sm:py-7
                   "
-                >
-                  <div
-                    className="
+              >
+                <div
+                  className="
                       flex
                       items-start
                     "
-                  >
-                    <span
-                      className="
+                >
+                  <span
+                    className="
                         font-serif
                         text-3xl
 
@@ -334,14 +305,14 @@ export default function FionNotUs() {
                         group-hover:rotate-12
                         group-hover:scale-110
                       "
-                    >
-                      ×
-                    </span>
-                  </div>
+                  >
+                    ×
+                  </span>
+                </div>
 
-                  <div>
-                    <span
-                      className="
+                <div>
+                  <span
+                    className="
                         mb-2
                         block
 
@@ -351,19 +322,13 @@ export default function FionNotUs() {
 
                         text-white/15
                       "
-                    >
-                      NO.
-                      {String(
-                        index +
-                          1,
-                      ).padStart(
-                        2,
-                        "0",
-                      )}
-                    </span>
+                  >
+                    NO.
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
 
-                    <p
-                      className="
+                  <p
+                    className="
                         max-w-xl
 
                         font-serif
@@ -379,13 +344,12 @@ export default function FionNotUs() {
 
                         group-hover:text-white/60
                       "
-                    >
-                      {item}
-                    </p>
-                  </div>
-                </motion.div>
-              ),
-            )}
+                  >
+                    {item}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
 
@@ -491,54 +455,36 @@ export default function FionNotUs() {
               z-10
             "
           >
-            {us.map(
-              (
-                item,
-                index,
-              ) => (
-                <motion.div
-                  key={item}
-                  initial={
-                    reduceMotion
-                      ? false
-                      : {
-                          opacity:
-                            0,
+            {us.map((item, index) => (
+              <motion.div
+                key={item}
+                initial={
+                  reduceMotion
+                    ? false
+                    : {
+                        opacity: 0,
 
-                          x:
-                            30,
-                        }
-                  }
-                  whileInView={{
-                    opacity:
-                      1,
+                        x: 30,
+                      }
+                }
+                whileInView={{
+                  opacity: 1,
 
-                    x:
-                      0,
-                  }}
-                  viewport={{
-                    once:
-                      true,
+                  x: 0,
+                }}
+                viewport={{
+                  once: true,
 
-                    amount:
-                      0.45,
-                  }}
-                  transition={{
-                    duration:
-                      0.65,
+                  amount: 0.45,
+                }}
+                transition={{
+                  duration: 0.65,
 
-                    delay:
-                      index *
-                      0.05,
+                  delay: index * 0.05,
 
-                    ease: [
-                      0.22,
-                      1,
-                      0.36,
-                      1,
-                    ],
-                  }}
-                  className="
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+                className="
                     group
 
                     grid
@@ -551,10 +497,10 @@ export default function FionNotUs() {
 
                     sm:py-7
                   "
-                >
-                  <div>
-                    <span
-                      className="
+              >
+                <div>
+                  <span
+                    className="
                         inline-block
 
                         font-serif
@@ -569,14 +515,14 @@ export default function FionNotUs() {
 
                         group-hover:translate-x-2
                       "
-                    >
-                      →
-                    </span>
-                  </div>
+                  >
+                    →
+                  </span>
+                </div>
 
-                  <div>
-                    <span
-                      className="
+                <div>
+                  <span
+                    className="
                         mb-2
                         block
 
@@ -586,19 +532,13 @@ export default function FionNotUs() {
 
                         text-[#c45a78]/35
                       "
-                    >
-                      YES.
-                      {String(
-                        index +
-                          1,
-                      ).padStart(
-                        2,
-                        "0",
-                      )}
-                    </span>
+                  >
+                    YES.
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
 
-                    <p
-                      className="
+                  <p
+                    className="
                         max-w-xl
 
                         font-serif
@@ -614,13 +554,12 @@ export default function FionNotUs() {
 
                         group-hover:text-[#f4efe9]
                       "
-                    >
-                      {item}
-                    </p>
-                  </div>
-                </motion.div>
-              ),
-            )}
+                  >
+                    {item}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </div>

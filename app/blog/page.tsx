@@ -15,27 +15,24 @@ import {
 } from "@/features/blog/blog.server";
 
 export const metadata: Metadata = {
-  title:
-    "Blog",
+  title: "Blog",
 
   description:
-    "Sosyal medya yönetimi, grafik tasarım, dijital reklam ve marka iletişimi üzerine Fion Medya blog yazıları.",
+    "Sosyal medya, reklam, grafik tasarım ve marka stratejisi üzerine Fion Medya notları; işletmeler için fikirler, rehberler ve vaka çalışmaları.",
 
   alternates: {
     canonical: "/blog",
   },
 
   openGraph: {
-    title:
-      "Fion Journal",
+    title: "Fion Journal",
 
     description:
-      "Fikir, strateji, tasarım ve dijital iletişim üzerine Fion Medya notları.",
+      "Sosyal medya, reklam, tasarım ve marka iletişimi üzerine fikirler, rehberler ve vaka çalışmaları.",
 
     type: "website",
 
-    siteName:
-      "Fion Medya",
+    siteName: "Fion Medya",
   },
 };
 

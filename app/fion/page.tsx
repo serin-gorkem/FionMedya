@@ -11,11 +11,10 @@ import FionManifesto from "@/app/components/sections/fion/FionManifesto";
 import FionNotUs from "@/app/components/sections/fion/FionNotUs";
 
 export const metadata: Metadata = {
-  title:
-    "Fion",
+  title: "Fion",
 
   description:
-    "Fion Medya'nın yaratıcı bakış açısını, çalışma biçimini ve markalara yaklaşımını keşfedin.",
+    "Kuşadası merkezli Fion Medya'nın yaratıcı bakış açısını, çalışma biçimini ve markalara yaklaşımını keşfedin.",
 
   alternates: {
     canonical: "/fion",

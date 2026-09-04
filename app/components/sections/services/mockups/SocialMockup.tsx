@@ -11,12 +11,8 @@ export default function SocialMockup() {
   ];
 
   return (
-    <div className="group/mockup relative mx-auto w-full max-w-md">
-      {/*
-       * Mockup'ın tamamını tek parça küçültüyoruz.
-       * İç ölçülere dokunmadığımız için telefon oranı bozulmaz.
-       */}
-      <div className="origin-center scale-75">
+    <div className="group/mockup relative mx-auto w-full max-w-[540px]">
+      <div className="origin-center scale-[0.92] sm:scale-95 xl:scale-90">
         {/* AMBIENT GLOW */}
 
         <div
@@ -41,44 +37,7 @@ export default function SocialMockup() {
           "
         />
 
-        {/* DECORATIVE CARD */}
-
-        <div
-          aria-hidden="true"
-          className="
-            absolute
-            -right-[1%]
-            bottom-[10%]
-
-            hidden
-            w-[34%]
-
-            rotate-[7deg]
-
-            rounded-[20px]
-
-            border
-            border-[#56152b]
-
-            bg-[#240a13]
-
-            p-3
-
-            opacity-60
-
-            transition-all
-            duration-700
-
-            group-hover/mockup:translate-x-4
-            group-hover/mockup:rotate-[10deg]
-
-            xl:block
-          "
-        >
-          <div className="aspect-[4/5] rounded-[14px] bg-[#591323]" />
-        </div>
-
-        {/* PHONE */}
+        {/* ... */}
 
         <div
           className="
@@ -87,8 +46,8 @@ export default function SocialMockup() {
 
             mx-auto
 
-            w-[86%]
-            max-w-[350px]
+            w-[94%]
+            max-w-[420px]
 
             rotate-[-1.5deg]
 
@@ -207,10 +166,7 @@ export default function SocialMockup() {
               <div className="relative z-10 flex items-center gap-2">
                 {/* WIFI */}
 
-                <div
-                  aria-hidden="true"
-                  className="relative h-[13px] w-[17px]"
-                >
+                <div aria-hidden="true" className="relative h-[13px] w-[17px]">
                   <span
                     className="
                       absolute
@@ -309,9 +265,7 @@ export default function SocialMockup() {
             {/* INSTAGRAM HEADER */}
 
             <div className="flex items-center justify-between px-4 pb-3 pt-1">
-              <span className="text-[25px] leading-none text-white/90">
-                ‹
-              </span>
+              <span className="text-[25px] leading-none text-white/90">‹</span>
 
               <p className="text-[15px] font-semibold tracking-[-0.02em] text-[#f4efe9]">
                 fionmedya
@@ -359,9 +313,7 @@ export default function SocialMockup() {
                         {value}
                       </p>
 
-                      <p className="mt-1 text-[10px] text-white/70">
-                        {label}
-                      </p>
+                      <p className="mt-1 text-[10px] text-white/70">{label}</p>
                     </div>
                   ))}
                 </div>
@@ -427,13 +379,8 @@ export default function SocialMockup() {
 
                 <p className="text-[9px] leading-4 text-white/60">
                   Followed by{" "}
-                  <span className="font-medium text-white/90">
-                    melis.jpg
-                  </span>
-                  ,{" "}
-                  <span className="font-medium text-white/90">
-                    kaanworks
-                  </span>{" "}
+                  <span className="font-medium text-white/90">melis.jpg</span>,{" "}
+                  <span className="font-medium text-white/90">kaanworks</span>{" "}
                   and others
                 </p>
               </div>
@@ -466,7 +413,6 @@ export default function SocialMockup() {
                   "
                 >
                   Following
-
                   <span
                     aria-hidden="true"
                     className="
@@ -698,9 +644,7 @@ export default function SocialMockup() {
 
                   {index === 3 && (
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-[8px] text-black/70">
-                        SOCIAL
-                      </span>
+                      <span className="text-[8px] text-black/70">SOCIAL</span>
                     </div>
                   )}
 

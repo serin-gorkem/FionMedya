@@ -487,7 +487,7 @@ export default function DetailContactCTA() {
               text-white/20
             "
           >
-            Sosyal Medya · Tasarım · Reklam · Dijital Deneyim
+            Sosyal Medya · Tasarım · Reklam · Marka Stratejisi
           </span>
 
           <span

@@ -24,6 +24,12 @@ export default function ClientWorkModal({
   open,
   onClose,
 }: ClientWorkModalProps) {
+  const visuals =
+    client.images.filter(Boolean);
+
+  const visualCount =
+    visuals.length;
+
   useEffect(() => {
     if (!open) {
       return;
@@ -60,7 +66,17 @@ export default function ClientWorkModal({
         handleKeyDown,
       );
     };
-  }, [open, onClose]);
+  }, [
+    open,
+    onClose,
+  ]);
+
+  const visualLayoutClass =
+    visualCount === 1
+      ? "mx-auto max-w-[520px]"
+      : visualCount === 2
+        ? "grid sm:grid-cols-2"
+        : "grid sm:grid-cols-2 lg:grid-cols-3";
 
   return (
     <AnimatePresence>
@@ -110,7 +126,7 @@ export default function ClientWorkModal({
           />
 
           {/* =============================================
-              MODAL CONTENT
+              MODAL
           ============================================== */}
 
           <motion.div
@@ -131,6 +147,7 @@ export default function ClientWorkModal({
             }}
             transition={{
               duration: 0.5,
+
               ease: [
                 0.22,
                 1,
@@ -155,7 +172,7 @@ export default function ClientWorkModal({
             "
           >
             {/* ===========================================
-                TOP
+                TOP BAR
             ============================================ */}
 
             <div
@@ -277,31 +294,26 @@ export default function ClientWorkModal({
               {/* BRAND */}
 
               <div>
+                {/* NORMALIZED LOGO */}
+
                 <div
                   className="
-                    flex
+                    relative
+
                     h-24
-                    max-w-xs
+                    w-[220px]
 
-                    items-center
-                    justify-start
-
-                    sm:h-28
+                    sm:w-[260px]
                   "
                 >
                   <Image
                     src={client.logo}
                     alt={client.name}
-                    width={360}
-                    height={180}
-                    style={{
-                      transform: `scale(${client.logoScale ?? 1})`,
-                    }}
+                    fill
+                    sizes="260px"
                     className="
-                      max-h-full
-                      max-w-full
-
                       object-contain
+                      object-left
                     "
                   />
                 </div>
@@ -312,7 +324,9 @@ export default function ClientWorkModal({
                     max-w-4xl
 
                     font-serif
+
                     text-[clamp(3.3rem,6vw,7rem)]
+
                     leading-[0.84]
                     tracking-[-0.06em]
 
@@ -386,85 +400,50 @@ export default function ClientWorkModal({
             </div>
 
             {/* ===========================================
-                9:16 PROJECT ARCHIVE
+                VISUALS
             ============================================ */}
 
-            <div
-              className="
-                grid
+            {visualCount > 0 && (
+              <div
+                className={`
+                  gap-5
 
-                grid-cols-1
-                gap-5
-
-                sm:grid-cols-2
-
-                lg:grid-cols-3
-
-                xl:grid-cols-4
-              "
-            >
-              {Array.from({
-                length: Math.max(
-                  client.images.length,
-                  3,
-                ),
-              }).map(
-                (_, index) => {
-                  const src =
-                    client.images[
-                      index
-                    ];
-
-                  return (
+                  ${visualLayoutClass}
+                `}
+              >
+                {visuals.map(
+                  (
+                    src,
+                    index,
+                  ) => (
                     <div
-                      key={index}
+                      key={`${src}-${index}`}
                       className="
-                        group/visual
                         relative
 
-                        aspect-[1015/1350]
+                        aspect-[4/5]
 
                         overflow-hidden
 
                         border
                         border-white/10
 
-                        bg-[#0c090a]
+                        bg-[#070607]
                       "
                     >
-                      {src ? (
-                        <Image
-                          src={src}
-                          alt={`${client.name} proje görseli ${index + 1}`}
-                          fill
-                          sizes="
-                            (max-width: 640px) 100vw,
-                            (max-width: 1024px) 50vw,
-                            (max-width: 1280px) 33vw,
-                            25vw
-                          "
-                          className="
-                            object-cover
-
-                            transition-transform
-                            duration-700
-                            ease-[cubic-bezier(0.22,1,0.36,1)]
-
-                            lg:group-hover/visual:scale-[1.015]
-                          "
-                        />
-                      ) : (
-                        <ModalPlaceholder
-                          client={
-                            client.name
-                          }
-                          index={
-                            index
-                          }
-                        />
-                      )}
-
-                      {/* INDEX */}
+                      <Image
+                        src={src}
+                        alt={`${client.name} proje görseli ${index + 1}`}
+                        fill
+                        sizes="
+                          (max-width: 640px) 100vw,
+                          (max-width: 1024px) 50vw,
+                          420px
+                        "
+                        className="
+                          object-contain
+                        "
+                      />
 
                       <span
                         className="
@@ -487,10 +466,10 @@ export default function ClientWorkModal({
                         )}
                       </span>
                     </div>
-                  );
-                },
-              )}
-            </div>
+                  ),
+                )}
+              </div>
+            )}
 
             {/* ===========================================
                 FOOT
@@ -546,132 +525,5 @@ export default function ClientWorkModal({
         </motion.div>
       )}
     </AnimatePresence>
-  );
-}
-
-/* =========================================================
-   PLACEHOLDER
-========================================================= */
-
-function ModalPlaceholder({
-  client,
-  index,
-}: {
-  client: string;
-  index: number;
-}) {
-  return (
-    <div
-      className="
-        absolute
-        inset-0
-
-        overflow-hidden
-      "
-      style={{
-        background: `
-          radial-gradient(
-            circle at ${
-              index % 2 === 0
-                ? "72% 22%"
-                : "25% 70%"
-            },
-            rgba(98,22,46,.48),
-            transparent 45%
-          ),
-          linear-gradient(
-            160deg,
-            #17090e 0%,
-            #0a0909 58%,
-            #12070b 100%
-          )
-        `,
-      }}
-    >
-      {/* POST FRAME */}
-
-      <div
-        className="
-          absolute
-          inset-[6%]
-
-          border
-          border-white/[0.055]
-        "
-      >
-        <div
-          className="
-            flex
-            items-center
-            justify-between
-
-            border-b
-            border-white/[0.05]
-
-            p-4
-          "
-        >
-          <span
-            className="
-              text-[6px]
-              uppercase
-              tracking-[0.22em]
-
-              text-[#c45a78]/50
-            "
-          >
-            {client}
-          </span>
-
-          <span
-            className="
-              size-1.5
-
-              rotate-45
-
-              bg-[#c45a78]/45
-            "
-          />
-        </div>
-
-        <span
-          className="
-            absolute
-            bottom-7
-            left-5
-
-            font-serif
-            text-[5.5rem]
-            italic
-            tracking-[-0.08em]
-
-            text-white/[0.05]
-          "
-        >
-          {String(
-            index + 1,
-          ).padStart(
-            2,
-            "0",
-          )}
-        </span>
-      </div>
-
-      <span
-        className="
-          absolute
-          bottom-5
-          right-5
-
-          text-[6px]
-          uppercase
-          tracking-[0.24em]
-
-          text-[#c45a78]/45
-        "
-      >
-        Project Visual
-      </span>
-    </div>
   );
 }

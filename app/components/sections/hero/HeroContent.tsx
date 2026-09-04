@@ -36,14 +36,15 @@ export default function HeroContent() {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.95, duration: 0.9 }}
-          className="mt-10 max-w-[590px] text-sm leading-7 text-white/62 sm:text-[15px]"
+          className="mt-10 max-w-[640px] text-sm leading-7 text-white/62 sm:text-[15px]"
         >
           Fion Medya;{" "}
           <strong className="font-normal text-white/82">
-            sosyal medya yönetimi, grafik tasarım ve dijital reklam
+            sosyal medya, tasarım ve reklamı aynı hedefe bağlayan
           </strong>{" "}
-          çözümleriyle markaların daha görünür, daha güçlü ve daha akılda kalıcı
-          olmasını sağlar.
+          yaratıcı medya ekibi. Markaların yalnızca görünmesine değil, doğru
+          insanlara ulaşmasına ve daha güçlü bir marka algısı oluşturmasına
+          yardımcı oluyoruz.
         </motion.p>
 
         <motion.p

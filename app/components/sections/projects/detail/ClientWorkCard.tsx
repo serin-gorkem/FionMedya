@@ -5,180 +5,290 @@ import { useState } from "react";
 
 import ClientWorkModal from "./ClientWorkModal";
 
-import type { ClientWork } from "./projects-clients.data";
+import type {
+  ClientWork,
+} from "./projects-clients.data";
 
 type ClientWorkCardProps = {
   client: ClientWork;
 };
 
-export default function ClientWorkCard({ client }: ClientWorkCardProps) {
-  const [open, setOpen] = useState(false);
+/* =========================================================
+   CLIENT WORK CARD
 
-  const isExternal = !client.hasDetail;
+   0 image:
+   compact editorial card
 
-  const hasExternalUrl = Boolean(client.websiteUrl?.trim());
+   1 image:
+   compact horizontal card
+   visual max width is limited
 
-  /*
-   * Preview:
-   * duo   → 2 adet 9:16
-   * diğer → 3 adet 9:16
-   *
-   * Modal ise images içinde ne varsa
-   * hepsini gösterecek.
-   */
-  const previewCount = client.layout === "duo" ? 2 : 3;
+   2+:
+   actual visual grid
+
+   Images are never stretched.
+========================================================= */
+
+export default function ClientWorkCard({
+  client,
+}: ClientWorkCardProps) {
+  const [open, setOpen] =
+    useState(false);
+
+  const visuals =
+    client.images.filter(Boolean);
+
+  const visualCount =
+    visuals.length;
+
+  const hasVisuals =
+    visualCount > 0;
+
+  const hasSingleVisual =
+    visualCount === 1;
+
+  const isExternal =
+    !client.hasDetail;
+
+  const externalUrl =
+    client.websiteUrl?.trim() ??
+    "";
+
+  const hasExternalUrl =
+    /^https?:\/\//i.test(
+      externalUrl,
+    );
+
+  const normalizedServices =
+    client.services.map(
+      (service) =>
+        service.toLocaleLowerCase(
+          "tr-TR",
+        ),
+    );
+
+  const isQrMenu =
+    normalizedServices.some(
+      (service) =>
+        service.includes("qr"),
+    );
+
+  const isPrintedMenu =
+    normalizedServices.some(
+      (service) =>
+        service.includes(
+          "menü tasarımı",
+        ),
+    );
+
+  /* =====================================================
+     LABEL
+  ====================================================== */
+
+  const infoLabel =
+    isQrMenu
+      ? "Dijital Deneyim"
+      : isPrintedMenu
+        ? "Basılı Tasarım"
+        : "Selected Work";
+
+  /* =====================================================
+     ACTION
+  ====================================================== */
+
+  const actionLabel =
+    client.hasDetail
+      ? "Projeyi görüntüle"
+      : hasExternalUrl
+        ? isQrMenu
+          ? "QR menüyü aç"
+          : "Projeyi aç"
+        : null;
+
+  /* =====================================================
+     MULTI VISUAL GRID
+  ====================================================== */
+
+  const multiVisualGrid =
+    visualCount === 2
+      ? "grid-cols-2"
+      : visualCount === 3
+        ? "grid-cols-2 sm:grid-cols-3"
+        : "grid-cols-2";
+
+  /* =====================================================
+     CONTENT
+  ====================================================== */
 
   const content = (
     <div
-      className="
+      className={`
         relative
 
         grid
-
         overflow-hidden
 
         border
         border-white/10
 
-        bg-[#090708]/75
-
-        backdrop-blur-sm
+        bg-[#090708]/78
 
         transition-colors
-        duration-700
+        duration-500
 
         group-hover:border-[#713047]/75
 
-        sm:grid-cols-[190px_minmax(0,1fr)]
-
-        xl:grid-cols-[220px_minmax(0,1fr)]
-      "
+        ${
+          hasVisuals
+            ? `
+              sm:grid-cols-[180px_minmax(0,1fr)]
+              xl:grid-cols-[200px_minmax(0,1fr)]
+            `
+            : `
+              grid-cols-1
+            `
+        }
+      `}
     >
       {/* =================================================
           BRAND / INFO
       ================================================== */}
 
       <div
-        className="
+        className={`
           relative
           z-20
 
           flex
-          min-h-52
           flex-col
-          justify-between
 
           overflow-hidden
 
-          border-b
-          border-white/10
-
-          bg-[#0d090a]/85
+          bg-[#0d090a]/88
 
           p-5
 
-          sm:min-h-0
-          sm:border-b-0
-          sm:border-r
           sm:p-6
-
           xl:p-7
-        "
+
+          ${
+            hasVisuals
+              ? `
+                min-h-[270px]
+
+                border-b
+                border-white/10
+
+                sm:min-h-[340px]
+                sm:border-b-0
+                sm:border-r
+              `
+              : `
+                min-h-[280px]
+
+                sm:min-h-[310px]
+              `
+          }
+        `}
       >
-        {/* AMBIENT */}
+        {/* =============================================
+            AMBIENT
+        ============================================== */}
 
         <div
           aria-hidden="true"
           className="
-            absolute
-            -left-24
-            top-[10%]
+            pointer-events-none
 
-            size-64
+            absolute
+
+            -left-24
+            top-8
+
+            size-56
 
             rounded-full
 
-            bg-[#591323]/20
+            bg-[#591323]/18
 
             blur-3xl
-
-            transition-colors
-            duration-700
-
-            group-hover:bg-[#7a1f3c]/30
           "
         />
 
-        {/* TOP */}
+        {/* =============================================
+            NUMBER
+        ============================================== */}
 
-        <div
+        <span
           className="
             relative
             z-10
 
-            flex
-            items-start
-            justify-between
-            gap-5
+            text-[7px]
+            tracking-[0.27em]
 
-            sm:block
+            text-[#c45a78]
           "
         >
-          <span
+          {client.number}
+        </span>
+
+        {/* =============================================
+            NORMALIZED LOGO VIEWPORT
+
+            Every logo gets the same visual stage.
+            No more giant Kule / tiny Byron.
+        ============================================== */}
+
+        <div
+          className={`
+            relative
+            z-10
+
+            mt-9
+
+            ${
+              hasVisuals
+                ? `
+                  h-[72px]
+                  w-[145px]
+                `
+                : `
+                  h-[80px]
+                  w-[200px]
+
+                  sm:w-[220px]
+                `
+            }
+          `}
+        >
+          <Image
+            src={client.logo}
+            alt={client.name}
+            fill
+            sizes={
+              hasVisuals
+                ? "145px"
+                : "220px"
+            }
             className="
-              text-[7px]
-              tracking-[0.27em]
-
-              text-[#c45a78]
+              object-contain
+              object-left
             "
-          >
-            {client.number}
-          </span>
-
-          {/* LOGO */}
-
-          <div
-            className="
-              flex
-              h-20
-              w-36
-
-              items-center
-              justify-center
-
-              sm:mt-10
-              sm:h-28
-              sm:w-full
-            "
-          >
-            <Image
-              src={client.logo}
-              alt={client.name}
-              width={320}
-              height={180}
-              style={{
-                transform: `scale(${client.logoScale ?? 1})`,
-              }}
-              className="
-                max-h-full
-                max-w-full
-
-                object-contain
-              "
-            />
-          </div>
+          />
         </div>
 
-        {/* INFO */}
+        {/* =============================================
+            TEXT
+        ============================================== */}
 
         <div
           className="
             relative
             z-10
 
-            mt-7
-
-            sm:mt-12
+            mt-auto
+            pt-9
           "
         >
           <p
@@ -190,71 +300,85 @@ export default function ClientWorkCard({ client }: ClientWorkCardProps) {
               text-white/30
             "
           >
-            {isExternal ? "Dijital Deneyim" : "Selected Work"}
+            {infoLabel}
           </p>
 
           <p
-            className="
+            className={`
               mt-3
 
               font-serif
-              text-[1.8rem]
-              leading-[0.95]
+
               tracking-[-0.045em]
 
               text-[#f4efe9]
-            "
+
+              ${
+                hasVisuals
+                  ? `
+                    text-[1.75rem]
+                    leading-[0.95]
+                  `
+                  : `
+                    max-w-[520px]
+
+                    text-[clamp(2.2rem,4vw,3.8rem)]
+
+                    leading-[0.9]
+                    tracking-[-0.055em]
+                  `
+              }
+            `}
           >
             {client.summary}
           </p>
 
           {/* ==========================================
-              DESKTOP HOVER DETAIL
+              HOVER DETAIL
 
-              Görseller ASLA kapanmıyor.
-              Yalnızca sol panel genişliyor.
+              Only real detail projects.
           =========================================== */}
 
-          {!isExternal && client.detail && (
-            <div
-              className="
+          {!isExternal &&
+            client.detail && (
+              <div
+                className="
                   hidden
 
-                  max-h-0
                   overflow-hidden
-
-                  opacity-0
-
-                  transition-all
-                  duration-700
-                  ease-[cubic-bezier(0.22,1,0.36,1)]
-
-                  group-hover:max-h-40
-                  group-hover:opacity-100
 
                   lg:block
                 "
-            >
-              <p
-                className="
-                    mt-5
+              >
+                <p
+                  className="
+                    mt-4
 
-                    text-[11px]
+                    max-w-[360px]
+
+                    text-[10px]
                     leading-5
 
-                    text-white/42
-                  "
-              >
-                {client.detail}
-              </p>
-            </div>
-          )}
+                    text-white/0
 
-          {/* SERVICES */}
+                    transition-colors
+                    duration-500
+
+                    group-hover:text-white/40
+                  "
+                >
+                  {client.detail}
+                </p>
+              </div>
+            )}
+
+          {/* ==========================================
+              SERVICES
+          =========================================== */}
 
           <div
             className="
-              mt-5
+              mt-4
 
               flex
               flex-wrap
@@ -263,78 +387,82 @@ export default function ClientWorkCard({ client }: ClientWorkCardProps) {
               gap-y-2
             "
           >
-            {client.services.map((service) => (
-              <span
-                key={service}
-                className="
+            {client.services.map(
+              (service) => (
+                <span
+                  key={service}
+                  className="
                     text-[6px]
                     uppercase
                     tracking-[0.18em]
 
                     text-[#c45a78]/75
                   "
+                >
+                  {service}
+                </span>
+              ),
+            )}
+          </div>
+
+          {/* ==========================================
+              ACTION
+          =========================================== */}
+
+          {actionLabel && (
+            <div
+              className="
+                mt-6
+
+                flex
+                items-center
+                justify-between
+                gap-4
+
+                border-t
+                border-white/10
+
+                pt-4
+              "
+            >
+              <span
+                className="
+                  text-[6px]
+                  uppercase
+                  tracking-[0.21em]
+
+                  text-white/35
+
+                  transition-colors
+                  duration-300
+
+                  group-hover:text-white/65
+                "
               >
-                {service}
+                {actionLabel}
               </span>
-            ))}
-          </div>
 
-          {/* ACTION */}
+              <span
+                aria-hidden="true"
+                className="
+                  text-[#c45a78]
 
-          <div
-            className="
-              mt-6
+                  transition-transform
+                  duration-300
 
-              flex
-              items-center
-              justify-between
-              gap-4
-
-              border-t
-              border-white/10
-
-              pt-4
-            "
-          >
-            <span
-              className="
-                text-[6px]
-                uppercase
-                tracking-[0.21em]
-
-                text-white/35
-
-                transition-colors
-                duration-500
-
-                group-hover:text-white/65
-              "
-            >
-              {isExternal
-                ? hasExternalUrl
-                  ? "QR menüyü aç"
-                  : "Site linki eklenecek"
-                : "Projeyi görüntüle"}
-            </span>
-
-            <span
-              aria-hidden="true"
-              className="
-                text-[#c45a78]
-
-                transition-transform
-                duration-500
-
-                group-hover:translate-x-1
-                group-hover:-translate-y-0.5
-              "
-            >
-              ↗
-            </span>
-          </div>
+                  group-hover:translate-x-1
+                  group-hover:-translate-y-0.5
+                "
+              >
+                ↗
+              </span>
+            </div>
+          )}
         </div>
 
-        {/* WINE EDGE */}
+        {/* =============================================
+            WINE EDGE
+        ============================================== */}
 
         <span
           aria-hidden="true"
@@ -349,7 +477,7 @@ export default function ClientWorkCard({ client }: ClientWorkCardProps) {
             bg-[#591323]
 
             transition-all
-            duration-700
+            duration-500
 
             group-hover:w-full
             group-hover:bg-[#c45a78]/70
@@ -358,137 +486,135 @@ export default function ClientWorkCard({ client }: ClientWorkCardProps) {
       </div>
 
       {/* =================================================
-          9:16 PREVIEW
+          SINGLE VISUAL
+
+          Important:
+          Does NOT fill the entire right side.
+
+          4:5 viewport + object-contain.
+          Result: compact horizontal project card.
       ================================================== */}
 
-      <div
-        className="
-          relative
-          min-w-0
-
-          bg-black/20
-
-          p-3
-
-          sm:p-4
-          xl:p-5
-        "
-      >
-        <div
-          className={`
-            grid
-
-            h-full
-
-            gap-2
-
-            sm:gap-3
-
-            ${previewCount === 2 ? "grid-cols-2" : "grid-cols-3"}
-          `}
-        >
-          {Array.from({
-            length: previewCount,
-          }).map((_, index) => {
-            const src = client.images[index];
-
-            return (
-              <div
-                key={index}
-                className="
-                  relative
-
-                  aspect-[1015/1350]
-                  min-w-0
-
-                  self-center
-
-                  overflow-hidden
-
-                  border
-                  border-white/[0.08]
-
-                  bg-[#0a0909]
-                "
-              >
-                {src ? (
-                  <Image
-                    src={src}
-                    alt={`${client.name} çalışması ${index + 1}`}
-                    fill
-                    sizes="
-                      (max-width: 640px) 33vw,
-                      (max-width: 1280px) 20vw,
-                      260px
-                    "
-                    className="
-                      object-cover
-
-                      opacity-90
-
-                      transition-all
-                      duration-1000
-                      ease-[cubic-bezier(0.22,1,0.36,1)]
-
-                      group-hover:scale-[1.025]
-                      group-hover:opacity-100
-                    "
-                  />
-                ) : (
-                  <PreviewPlaceholder client={client.name} index={index} />
-                )}
-
-                <span
-                  className="
-                    absolute
-                    right-3
-                    top-3
-                    z-10
-
-                    text-[6px]
-                    tracking-[0.2em]
-
-                    text-white/20
-                  "
-                >
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* MOBILE HINT */}
-
+      {hasSingleVisual && (
         <div
           className="
-            pointer-events-none
-
-            absolute
-            bottom-5
-            right-5
+            relative
 
             flex
-            size-10
+            min-w-0
 
             items-center
             justify-center
 
-            border
-            border-white/15
+            bg-black/20
 
-            bg-black/65
+            p-5
 
-            text-[#c45a78]
-
-            backdrop-blur-md
-
-            sm:hidden
+            sm:min-h-[340px]
+            sm:p-6
           "
         >
-          ↗
+          <ProjectVisual
+            src={visuals[0]}
+            clientName={
+              client.name
+            }
+            index={0}
+            single
+          />
         </div>
-      </div>
+      )}
+
+      {/* =================================================
+          MULTIPLE VISUALS
+
+          No placeholder.
+          No forced 3 cards.
+      ================================================== */}
+
+      {visualCount >= 2 && (
+        <div
+          className="
+            relative
+            min-w-0
+
+            flex
+            items-center
+
+            bg-black/20
+
+            p-3
+
+            sm:p-4
+            xl:p-5
+          "
+        >
+          <div
+            className={`
+              grid
+              w-full
+
+              gap-2
+
+              sm:gap-3
+
+              ${multiVisualGrid}
+            `}
+          >
+            {visuals.map(
+              (
+                src,
+                index,
+              ) => (
+                <ProjectVisual
+                  key={`${src}-${index}`}
+                  src={src}
+                  clientName={
+                    client.name
+                  }
+                  index={
+                    index
+                  }
+                />
+              ),
+            )}
+          </div>
+
+          {/* MOBILE HINT */}
+
+          {(client.hasDetail ||
+            hasExternalUrl) && (
+            <div
+              className="
+                pointer-events-none
+
+                absolute
+                bottom-5
+                right-5
+
+                flex
+                size-10
+
+                items-center
+                justify-center
+
+                border
+                border-white/15
+
+                bg-black/65
+
+                text-[#c45a78]
+
+                backdrop-blur-md
+
+                sm:hidden
+              "
+            >
+              ↗
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 
@@ -502,7 +628,9 @@ export default function ClientWorkCard({ client }: ClientWorkCardProps) {
         {client.hasDetail ? (
           <button
             type="button"
-            onClick={() => setOpen(true)}
+            onClick={() =>
+              setOpen(true)
+            }
             aria-label={`${client.name} projesini görüntüle`}
             className="
               block
@@ -519,14 +647,20 @@ export default function ClientWorkCard({ client }: ClientWorkCardProps) {
           </button>
         ) : hasExternalUrl ? (
           /* ===========================================
-             EXTERNAL QR MENU
+             EXTERNAL
           ============================================ */
 
           <a
-            href={client.websiteUrl}
+            href={
+              externalUrl
+            }
             target="_blank"
             rel="noreferrer"
-            aria-label={`${client.name} QR menüsünü görüntüle`}
+            aria-label={
+              isQrMenu
+                ? `${client.name} QR menüsünü görüntüle`
+                : `${client.name} projesini görüntüle`
+            }
             className="
               block
               w-full
@@ -541,21 +675,29 @@ export default function ClientWorkCard({ client }: ClientWorkCardProps) {
             {content}
           </a>
         ) : (
-          /* URL HENÜZ YOK */
+          /* ===========================================
+             STATIC PROJECT
+          ============================================ */
 
-          <div className="w-full">{content}</div>
+          <div className="w-full">
+            {content}
+          </div>
         )}
       </article>
 
       {/* =============================================
           MODAL
+
+          Only actual detail projects.
       ============================================== */}
 
       {client.hasDetail && (
         <ClientWorkModal
           client={client}
           open={open}
-          onClose={() => setOpen(false)}
+          onClose={() =>
+            setOpen(false)
+          }
         />
       )}
     </>
@@ -563,122 +705,105 @@ export default function ClientWorkCard({ client }: ClientWorkCardProps) {
 }
 
 /* =========================================================
-   PREVIEW PLACEHOLDER
+   PROJECT VISUAL
+
+   Actual project assets in the ZIP are almost all
+   between 3:4 and 4:5.
+
+   We use a 4:5 stage but object-contain means:
+   - never stretched
+   - never cropped
+   - native image ratio remains intact
 ========================================================= */
 
-function PreviewPlaceholder({
-  client,
-  index,
-}: {
-  client: string;
+type ProjectVisualProps = {
+  src: string;
+  clientName: string;
   index: number;
-}) {
+  single?: boolean;
+};
+
+function ProjectVisual({
+  src,
+  clientName,
+  index,
+  single = false,
+}: ProjectVisualProps) {
   return (
     <div
-      className="
-        absolute
-        inset-0
+      className={`
+        group/visual
+        relative
+
+        aspect-[4/5]
 
         overflow-hidden
-      "
-      style={{
-        background: `
-          radial-gradient(
-            circle at ${index % 2 === 0 ? "25% 75%" : "75% 25%"},
-            rgba(110, 25, 52, 0.46),
-            transparent 48%
-          ),
-          linear-gradient(
-            160deg,
-            #17090e 0%,
-            #0a0909 58%,
-            #12070b 100%
-          )
-        `,
-      }}
-    >
-      {/* POST FRAME */}
 
-      <div
+        border
+        border-white/[0.08]
+
+        bg-[#070607]
+
+        ${
+          single
+            ? `
+              w-full
+              max-w-[250px]
+
+              sm:max-w-[260px]
+              xl:max-w-[280px]
+            `
+            : `
+              w-full
+              min-w-0
+            `
+        }
+      `}
+    >
+      <Image
+        src={src}
+        alt={`${clientName} çalışması ${index + 1}`}
+        fill
+        sizes={
+          single
+            ? "280px"
+            : `
+              (max-width: 640px) 45vw,
+              (max-width: 1280px) 22vw,
+              220px
+            `
+        }
+        className="
+          object-contain
+
+          transition-transform
+          duration-700
+          ease-[cubic-bezier(0.22,1,0.36,1)]
+
+          lg:group-hover/visual:scale-[1.015]
+        "
+      />
+
+      <span
         className="
           absolute
-          inset-[7%]
+          right-3
+          top-3
+          z-10
 
-          border
-          border-white/[0.055]
+          text-[6px]
+          tracking-[0.2em]
+
+          text-white/25
         "
       >
-        <div
-          className="
-            flex
-            items-center
-            justify-between
-
-            border-b
-            border-white/[0.05]
-
-            p-3
-          "
-        >
-          <span
-            className="
-              max-w-[70%]
-
-              truncate
-
-              text-[5px]
-              uppercase
-              tracking-[0.2em]
-
-              text-white/20
-            "
-          >
-            {client}
-          </span>
-
-          <span
-            className="
-              size-1
-
-              rotate-45
-
-              bg-[#c45a78]/50
-            "
-          />
-        </div>
-
-        <div
-          className="
-            absolute
-            bottom-4
-            left-4
-          "
-        >
-          <span
-            className="
-              font-serif
-              text-[clamp(2.5rem,4vw,4.5rem)]
-              italic
-              tracking-[-0.07em]
-
-              text-white/[0.055]
-            "
-          >
-            {String(index + 1).padStart(2, "0")}
-          </span>
-
-          <div
-            className="
-              mt-2
-
-              h-px
-              w-8
-
-              bg-[#591323]
-            "
-          />
-        </div>
-      </div>
+        {String(
+          index + 1,
+        ).padStart(
+          2,
+          "0",
+        )}
+      </span>
     </div>
   );
 }
