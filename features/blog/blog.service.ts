@@ -1,114 +1,90 @@
 import sanitizeHtml from "sanitize-html";
 
-import type {
-  BlogPost,
-  BlogPostInput,
-} from "./blog.types";
+import type { BlogPost, BlogPostInput } from "./blog.types";
 
-import type {
-  BlogRepository,
-  CreateBlogRecord,
-} from "./blog.repository";
+import type { BlogRepository, CreateBlogRecord } from "./blog.repository";
 
-import {
-  createSlug,
-} from "./blog.slug";
+import { createSlug } from "./blog.slug";
 
-import {
-  blogPostSchema,
-} from "./blog.validation";
+import { blogPostSchema } from "./blog.validation";
 
 /* =========================================================
    HTML
 ========================================================= */
 
-function cleanHtml(
-  html: string,
-) {
-  return sanitizeHtml(
-    html,
-    {
-      allowedTags: [
-        "p",
-        "br",
+function cleanHtml(html: string) {
+  return sanitizeHtml(html, {
+    allowedTags: [
+      "p",
+      "br",
 
-        "h2",
-        "h3",
-        "h4",
+      "h2",
+      "h3",
 
-        "strong",
-        "b",
+      "strong",
+      "em",
+      "u",
+      "s",
+      "mark",
 
-        "em",
-        "i",
+      "a",
 
-        "u",
+      "blockquote",
 
-        "blockquote",
+      "ul",
+      "ol",
+      "li",
 
-        "ul",
-        "ol",
-        "li",
+      "pre",
+      "code",
 
-        "a",
+      "hr",
 
-        "img",
+      "figure",
+      "img",
+      "figcaption",
+    ],
+    allowedAttributes: {
+      a: ["href", "target", "rel"],
 
-        "figure",
-        "figcaption",
+      p: ["style"],
+      h2: ["style"],
+      h3: ["style"],
 
-        "hr",
+      blockquote: ["data-fion-callout"],
 
-        "pre",
-        "code",
-      ],
+      figure: ["data-blog-image"],
 
-      allowedAttributes: {
-        a: [
-          "href",
-          "target",
-          "rel",
-        ],
+      img: ["src", "alt", "title", "width", "height", "loading"],
+    },
 
-        img: [
-          "src",
-          "alt",
-          "title",
-          "width",
-          "height",
-          "loading",
-        ],
+    allowedStyles: {
+      p: {
+        "text-align": [/^(left|center|right)$/],
       },
-
-      allowedSchemes: [
-        "http",
-        "https",
-        "mailto",
-      ],
-
-      transformTags: {
-        a: sanitizeHtml.simpleTransform(
-          "a",
-          {
-            rel:
-              "noopener noreferrer",
-          },
-        ),
+      h2: {
+        "text-align": [/^(left|center|right)$/],
+      },
+      h3: {
+        "text-align": [/^(left|center|right)$/],
       },
     },
-  );
+
+    allowedSchemes: ["http", "https", "mailto"],
+
+    transformTags: {
+      a: sanitizeHtml.simpleTransform("a", {
+        rel: "noopener noreferrer",
+      }),
+    },
+  });
 }
 
-function htmlToText(
-  html: string,
-) {
-  return sanitizeHtml(
-    html,
-    {
-      allowedTags: [],
-      allowedAttributes: {},
-    },
-  )
+function htmlToText(html: string) {
+  return sanitizeHtml(html, {
+    allowedTags: [],
+    allowedAttributes: {},
+  })
     .replace(/\s+/g, " ")
     .trim();
 }
@@ -117,31 +93,18 @@ function htmlToText(
    NORMALIZATION
 ========================================================= */
 
-function cleanTags(
-  tags: string[],
-) {
+function cleanTags(tags: string[]) {
   return Array.from(
-    new Set(
-      tags
-        .map((tag) =>
-          tag.trim(),
-        )
-        .filter(Boolean),
-    ),
+    new Set(tags.map((tag) => tag.trim()).filter(Boolean)),
   ).slice(0, 8);
 }
 
-function nullableText(
-  value:
-    | string
-    | null,
-) {
+function nullableText(value: string | null) {
   if (!value) {
     return null;
   }
 
-  const clean =
-    value.trim();
+  const clean = value.trim();
 
   return clean || null;
 }
@@ -151,151 +114,87 @@ function nullableText(
 ========================================================= */
 
 export class BlogService {
-  constructor(
-    private readonly repository: BlogRepository,
-  ) {}
+  constructor(private readonly repository: BlogRepository) {}
 
   async getAll() {
     return this.repository.getAll();
   }
 
-  async getPublished(
-    limit?: number,
-  ) {
-    return this.repository.getPublished(
-      limit,
-    );
+  async getPublished(limit?: number) {
+    return this.repository.getPublished(limit);
   }
 
-  async getById(
-    id: string,
-  ) {
-    return this.repository.getById(
-      id,
-    );
+  async getById(id: string) {
+    return this.repository.getById(id);
   }
 
-  async getPublishedBySlug(
-    slug: string,
-  ) {
-    return this.repository.getPublishedBySlug(
-      slug,
-    );
+  async getPublishedBySlug(slug: string) {
+    return this.repository.getPublishedBySlug(slug);
   }
 
   /* =======================================================
      CREATE
   ======================================================= */
 
-  async create(
-    input: BlogPostInput,
-  ): Promise<BlogPost> {
-    const parsed =
-      blogPostSchema.parse(
-        input,
-      );
+  async create(input: BlogPostInput): Promise<BlogPost> {
+    const parsed = blogPostSchema.parse(input);
 
-    const contentHtml =
-      cleanHtml(
-        parsed.contentHtml,
-      );
+    const contentHtml = cleanHtml(parsed.contentHtml);
 
-    this.assertPublishable(
-      {
-        ...parsed,
-        contentHtml,
-      },
-    );
+    this.assertPublishable({
+      ...parsed,
+      contentHtml,
+    });
 
-    const slug =
-      await this.createUniqueSlug(
-        parsed.slug ||
-          parsed.title,
-      );
+    const slug = await this.createUniqueSlug(parsed.slug || parsed.title);
 
-    const record: CreateBlogRecord =
-      {
-        title:
-          parsed.title.trim(),
+    const record: CreateBlogRecord = {
+      title: parsed.title.trim(),
 
-        slug,
+      slug,
 
-        excerpt:
-          parsed.excerpt.trim(),
+      excerpt: parsed.excerpt.trim(),
 
-        contentHtml,
+      contentHtml,
 
-        coverImageUrl:
-          parsed.coverImageUrl,
+      coverImageUrl: parsed.coverImageUrl,
 
-        category:
-          parsed.category.trim(),
+      category: parsed.category.trim(),
 
-        tags:
-          cleanTags(
-            parsed.tags,
-          ),
+      tags: cleanTags(parsed.tags),
 
-        seoTitle:
-          nullableText(
-            parsed.seoTitle,
-          ),
+      seoTitle: nullableText(parsed.seoTitle),
 
-        seoDescription:
-          nullableText(
-            parsed.seoDescription,
-          ),
+      seoDescription: nullableText(parsed.seoDescription),
 
-        status:
-          parsed.status,
+      status: parsed.status,
 
-        publishedAt:
-          parsed.status ===
-          "published"
-            ? new Date().toISOString()
-            : null,
-      };
+      publishedAt:
+        parsed.status === "published" ? new Date().toISOString() : null,
+    };
 
-    return this.repository.create(
-      record,
-    );
+    return this.repository.create(record);
   }
 
   /* =======================================================
      UPDATE
   ======================================================= */
 
-  async update(
-    id: string,
-    input: BlogPostInput,
-  ): Promise<BlogPost> {
-    const existing =
-      await this.repository.getById(
-        id,
-      );
+  async update(id: string, input: BlogPostInput): Promise<BlogPost> {
+    const existing = await this.repository.getById(id);
 
     if (!existing) {
-      throw new Error(
-        "Blog yazısı bulunamadı.",
-      );
+      throw new Error("Blog yazısı bulunamadı.");
     }
 
-    const parsed =
-      blogPostSchema.parse(
-        input,
-      );
+    const parsed = blogPostSchema.parse(input);
 
-    const contentHtml =
-      cleanHtml(
-        parsed.contentHtml,
-      );
+    const contentHtml = cleanHtml(parsed.contentHtml);
 
-    this.assertPublishable(
-      {
-        ...parsed,
-        contentHtml,
-      },
-    );
+    this.assertPublishable({
+      ...parsed,
+      contentHtml,
+    });
 
     /*
      * Slug admin tarafından
@@ -306,146 +205,80 @@ export class BlogService {
      * kendiliğinden değişmesini
      * istemiyoruz. SEO açısından önemli.
      */
-    let slug =
-      existing.slug;
+    let slug = existing.slug;
 
-    if (
-      parsed.slug &&
-      createSlug(
-        parsed.slug,
-      ) !==
-        existing.slug
-    ) {
-      slug =
-        await this.createUniqueSlug(
-          parsed.slug,
-          id,
-        );
+    if (parsed.slug && createSlug(parsed.slug) !== existing.slug) {
+      slug = await this.createUniqueSlug(parsed.slug, id);
     }
 
-    let publishedAt =
-      existing.publishedAt;
+    let publishedAt = existing.publishedAt;
 
-    if (
-      parsed.status ===
-        "published" &&
-      existing.status ===
-        "draft"
-    ) {
-      publishedAt =
-        new Date().toISOString();
+    if (parsed.status === "published" && existing.status === "draft") {
+      publishedAt = new Date().toISOString();
     }
 
-    if (
-      parsed.status ===
-      "draft"
-    ) {
+    if (parsed.status === "draft") {
       publishedAt = null;
     }
 
-    const record: CreateBlogRecord =
-      {
-        title:
-          parsed.title.trim(),
+    const record: CreateBlogRecord = {
+      title: parsed.title.trim(),
 
-        slug,
+      slug,
 
-        excerpt:
-          parsed.excerpt.trim(),
+      excerpt: parsed.excerpt.trim(),
 
-        contentHtml,
+      contentHtml,
 
-        coverImageUrl:
-          parsed.coverImageUrl,
+      coverImageUrl: parsed.coverImageUrl,
 
-        category:
-          parsed.category.trim(),
+      category: parsed.category.trim(),
 
-        tags:
-          cleanTags(
-            parsed.tags,
-          ),
+      tags: cleanTags(parsed.tags),
 
-        seoTitle:
-          nullableText(
-            parsed.seoTitle,
-          ),
+      seoTitle: nullableText(parsed.seoTitle),
 
-        seoDescription:
-          nullableText(
-            parsed.seoDescription,
-          ),
+      seoDescription: nullableText(parsed.seoDescription),
 
-        status:
-          parsed.status,
+      status: parsed.status,
 
-        publishedAt,
-      };
+      publishedAt,
+    };
 
-    return this.repository.update(
-      id,
-      record,
-    );
+    return this.repository.update(id, record);
   }
 
   /* =======================================================
      DELETE
   ======================================================= */
 
-  async delete(
-    id: string,
-  ) {
-    const existing =
-      await this.repository.getById(
-        id,
-      );
+  async delete(id: string) {
+    const existing = await this.repository.getById(id);
 
     if (!existing) {
-      throw new Error(
-        "Silinecek blog yazısı bulunamadı.",
-      );
+      throw new Error("Silinecek blog yazısı bulunamadı.");
     }
 
-    await this.repository.delete(
-      id,
-    );
+    await this.repository.delete(id);
   }
 
   /* =======================================================
      BUSINESS RULES
   ======================================================= */
 
-  private assertPublishable(
-    input: BlogPostInput,
-  ) {
-    if (
-      input.status !==
-      "published"
-    ) {
+  private assertPublishable(input: BlogPostInput) {
+    if (input.status !== "published") {
       return;
     }
 
-    if (
-      input.excerpt
-        .trim()
-        .length < 30
-    ) {
-      throw new Error(
-        "Yayınlamak için en az 30 karakterlik bir özet yaz.",
-      );
+    if (input.excerpt.trim().length < 30) {
+      throw new Error("Yayınlamak için en az 30 karakterlik bir özet yaz.");
     }
 
-    const text =
-      htmlToText(
-        input.contentHtml,
-      );
+    const text = htmlToText(input.contentHtml);
 
-    if (
-      text.length < 50
-    ) {
-      throw new Error(
-        "Yayınlamak için blog içeriği çok kısa.",
-      );
+    if (text.length < 50) {
+      throw new Error("Yayınlamak için blog içeriği çok kısa.");
     }
   }
 
@@ -453,32 +286,19 @@ export class BlogService {
      UNIQUE SLUG
   ======================================================= */
 
-  private async createUniqueSlug(
-    source: string,
-    excludeId?: string,
-  ) {
-    const baseSlug =
-      createSlug(source);
+  private async createUniqueSlug(source: string, excludeId?: string) {
+    const baseSlug = createSlug(source);
 
     if (!baseSlug) {
-      throw new Error(
-        "Geçerli bir blog URL'si oluşturulamadı.",
-      );
+      throw new Error("Geçerli bir blog URL'si oluşturulamadı.");
     }
 
-    let candidate =
-      baseSlug;
+    let candidate = baseSlug;
 
     let counter = 2;
 
-    while (
-      await this.repository.slugExists(
-        candidate,
-        excludeId,
-      )
-    ) {
-      candidate =
-        `${baseSlug}-${counter}`;
+    while (await this.repository.slugExists(candidate, excludeId)) {
+      candidate = `${baseSlug}-${counter}`;
 
       counter += 1;
     }

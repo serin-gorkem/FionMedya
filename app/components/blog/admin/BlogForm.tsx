@@ -46,11 +46,11 @@ function FieldLabel({
   return (
     <label
       className="
-        text-[10px]
+        text-[9px]
         font-medium
         uppercase
-        tracking-[0.18em]
-        text-[var(--text-body)]
+        tracking-[0.2em]
+        text-white/45
       "
     >
       {children}
@@ -62,30 +62,28 @@ const fieldClassName = `
   mt-3
   w-full
 
-  rounded-[12px]
-
   border
-  border-white/15
+  border-white/10
 
-  bg-[#0d0d0d]
+  bg-white/[0.025]
 
   px-4
   py-4
 
   text-[14px]
-  text-[var(--text-primary)]
+  text-[#f4efe9]
 
   outline-none
 
-  placeholder:text-[var(--text-muted)]
+  placeholder:text-white/20
 
   transition-all
   duration-200
 
-  hover:border-white/25
+  hover:border-white/20
 
-  focus:border-[#d86a88]
-  focus:bg-[#111111]
+  focus:border-[#d86a88]/70
+  focus:bg-white/[0.04]
 `;
 
 export default function BlogForm(
@@ -129,34 +127,28 @@ export default function BlogForm(
     contentHtml,
     setContentHtml,
   ] = useState(
-    post?.contentHtml ??
-      "",
+    post?.contentHtml ?? "",
   );
 
   const [
     coverImageUrl,
     setCoverImageUrl,
-  ] = useState<
-    string | null
-  >(
-    post?.coverImageUrl ??
-      null,
+  ] = useState<string | null>(
+    post?.coverImageUrl ?? null,
   );
 
   const [
     category,
     setCategory,
   ] = useState(
-    post?.category ??
-      "Genel",
+    post?.category ?? "Genel",
   );
 
   const [
     tags,
     setTags,
   ] = useState(
-    post?.tags.join(", ") ??
-      "",
+    post?.tags.join(", ") ?? "",
   );
 
   const [
@@ -170,125 +162,148 @@ export default function BlogForm(
     seoDescription,
     setSeoDescription,
   ] = useState(
-    post?.seoDescription ??
-      "",
+    post?.seoDescription ?? "",
   );
 
   const [
     status,
     setStatus,
-  ] =
-    useState<BlogStatus>(
-      post?.status ??
-        "draft",
-    );
+  ] = useState<BlogStatus>(
+    post?.status ?? "draft",
+  );
 
   const [
     error,
     setError,
-  ] = useState<
-    string | null
-  >(null);
+  ] = useState<string | null>(
+    null,
+  );
 
   const [
     saved,
     setSaved,
   ] = useState(false);
 
-  const submit =
-    () => {
-      setError(null);
-      setSaved(false);
+  /* =========================================================
+     SUBMIT
+  ========================================================= */
 
-      const input:
-        BlogPostInput = {
-        title,
-        slug,
+  const submit = () => {
+    setError(null);
+    setSaved(false);
 
-        excerpt,
-        contentHtml,
+    const input: BlogPostInput = {
+      title,
+      slug,
 
-        coverImageUrl,
+      excerpt,
+      contentHtml,
 
-        category,
+      coverImageUrl,
 
-        tags: tags
-          .split(",")
-          .map((tag) =>
-            tag.trim(),
-          )
-          .filter(Boolean),
+      category,
 
-        seoTitle:
-          seoTitle.trim() ||
-          null,
+      tags: tags
+        .split(",")
+        .map((tag) =>
+          tag.trim(),
+        )
+        .filter(Boolean),
 
-        seoDescription:
-          seoDescription.trim() ||
-          null,
+      seoTitle:
+        seoTitle.trim() ||
+        null,
 
-        status,
-      };
+      seoDescription:
+        seoDescription.trim() ||
+        null,
 
-      startTransition(
-        async () => {
-          const result =
-            props.mode ===
-            "create"
-              ? await createBlogPostAction(
-                  input,
-                )
-              : await updateBlogPostAction(
-                  props.post.id,
-                  input,
-                );
-
-          if (
-            !result.success
-          ) {
-            setError(
-              result.message,
-            );
-
-            return;
-          }
-
-          if (
-            props.mode ===
-            "create"
-          ) {
-            router.replace(
-              `/admin/blog/${result.data.id}/edit`,
-            );
-
-            return;
-          }
-
-          setSaved(true);
-
-          router.refresh();
-        },
-      );
+      status,
     };
+
+    startTransition(
+      async () => {
+        const result =
+          props.mode ===
+          "create"
+            ? await createBlogPostAction(
+                input,
+              )
+            : await updateBlogPostAction(
+                props.post.id,
+                input,
+              );
+
+        if (!result.success) {
+          setError(
+            result.message,
+          );
+
+          return;
+        }
+
+        if (
+          props.mode ===
+          "create"
+        ) {
+          router.replace(
+            `/admin/blog/${result.data.id}/edit`,
+          );
+
+          return;
+        }
+
+        setSaved(true);
+
+        router.refresh();
+      },
+    );
+  };
 
   return (
     <div
       className="
         grid
+        items-start
         gap-8
 
+        lg:grid-cols-[minmax(0,1fr)_340px]
+
         xl:grid-cols-[minmax(0,1fr)_380px]
+        xl:gap-10
       "
     >
-      {/* MAIN */}
+      {/* =====================================================
+          MAIN
+      ====================================================== */}
 
       <div className="min-w-0">
         {/* TITLE */}
 
-        <div>
-          <FieldLabel>
-            Yazı Başlığı
-          </FieldLabel>
+        <section>
+          <div
+            className="
+              flex
+              items-center
+              justify-between
+              gap-4
+            "
+          >
+            <FieldLabel>
+              Yazı Başlığı
+            </FieldLabel>
+
+            <span
+              className="
+                text-[7px]
+                uppercase
+                tracking-[0.2em]
+                text-white/20
+              "
+            >
+              H1
+            </span>
+          </div>
 
           <textarea
             value={title}
@@ -297,18 +312,18 @@ export default function BlogForm(
               event,
             ) =>
               setTitle(
-                event.target
-                  .value,
+                event.target.value,
               )
             }
-            placeholder="Örn. Sosyal Medya Yönetimi Nedir?"
+            placeholder="Yazının başlığı..."
             className="
-              mt-3
+              mt-4
               w-full
+
               resize-none
 
               border-b
-              border-white/20
+              border-white/15
 
               bg-transparent
 
@@ -316,30 +331,27 @@ export default function BlogForm(
 
               font-serif
 
-              text-[clamp(2.8rem,5vw,5.4rem)]
+              text-[clamp(2.7rem,5vw,5.5rem)]
 
               leading-[0.9]
               tracking-[-0.055em]
 
-              text-[var(--text-primary)]
+              text-[#f4efe9]
 
               outline-none
 
-              placeholder:text-[#605c59]
+              placeholder:text-white/15
 
               transition-colors
-              duration-300
 
-              hover:border-white/30
-
-              focus:border-[#d86a88]
+              focus:border-[#d86a88]/60
             "
           />
-        </div>
+        </section>
 
         {/* EXCERPT */}
 
-        <div className="mt-12">
+        <section className="mt-12">
           <div
             className="
               flex
@@ -354,9 +366,10 @@ export default function BlogForm(
 
             <span
               className="
-                text-[10px]
+                text-[9px]
                 tabular-nums
-                text-[var(--text-muted)]
+
+                text-white/25
               "
             >
               {excerpt.length}/320
@@ -371,11 +384,10 @@ export default function BlogForm(
               event,
             ) =>
               setExcerpt(
-                event.target
-                  .value,
+                event.target.value,
               )
             }
-            placeholder="Google ve blog kartında görünecek kısa açıklama..."
+            placeholder="Blog kartlarında ve yazı girişinde görünecek kısa açıklama..."
             className={`
               ${fieldClassName}
 
@@ -383,83 +395,163 @@ export default function BlogForm(
               leading-7
             `}
           />
-        </div>
+        </section>
 
-        {/* EDITOR */}
+        {/* CONTENT */}
 
-        <div className="mt-12">
-          <FieldLabel>
-            İçerik
-          </FieldLabel>
+        <section className="mt-12">
+          <div
+            className="
+              mb-3
 
-          <div className="mt-3">
-            <BlogEditor
-              value={
-                contentHtml
-              }
-              onChange={
-                setContentHtml
-              }
-            />
+              flex
+              items-center
+              justify-between
+              gap-4
+            "
+          >
+            <FieldLabel>
+              İçerik
+            </FieldLabel>
+
+            <span
+              className="
+                flex
+                items-center
+                gap-2
+
+                text-[7px]
+                uppercase
+                tracking-[0.19em]
+
+                text-white/20
+              "
+            >
+              <span
+                className="
+                  size-1
+                  rotate-45
+                  bg-[#d86a88]
+                "
+              />
+
+              Fion Editor
+            </span>
           </div>
-        </div>
+
+          <BlogEditor
+            value={contentHtml}
+            onChange={
+              setContentHtml
+            }
+          />
+        </section>
       </div>
 
-      {/* SIDEBAR */}
+      {/* =====================================================
+          SIDEBAR
+      ====================================================== */}
 
-      <aside className="space-y-6">
-        {/* PUBLISH */}
+      <aside
+        className="
+          min-w-0
+          space-y-6
+
+          lg:sticky
+          lg:top-[100px]
+        "
+      >
+        {/* =================================================
+            PUBLISH
+        ================================================== */}
 
         <section
           className="
-            rounded-[22px]
+            relative
+            overflow-hidden
 
             border
-            border-[#6c2038]
+            border-[#7c2a43]/60
 
-            bg-[#0d0d0d]
+            bg-[#100d0e]
 
             p-5
-
-            shadow-[0_20px_60px_rgba(0,0,0,0.18)]
           "
         >
+          <span
+            aria-hidden="true"
+            className="
+              absolute
+              left-0
+              top-0
+
+              h-px
+              w-16
+
+              bg-[#d86a88]
+            "
+          />
+
           <div
             className="
               flex
               items-center
               justify-between
+              gap-4
             "
           >
-            <p
-              className="
-                text-[10px]
-                font-medium
-                uppercase
-                tracking-[0.2em]
-                text-[#d86a88]
-              "
-            >
-              Yayın
-            </p>
+            <div>
+              <p
+                className="
+                  text-[8px]
+                  font-medium
+                  uppercase
+                  tracking-[0.24em]
+
+                  text-[#d86a88]
+                "
+              >
+                Yayın
+              </p>
+
+              <p
+                className="
+                  mt-2
+
+                  text-[11px]
+                  text-white/30
+                "
+              >
+                Yazının yayın durumunu seç.
+              </p>
+            </div>
 
             <span
               className={`
-                h-2
-                w-2
-                rounded-full
+                size-2
+                rotate-45
 
                 ${
                   status ===
                   "published"
                     ? "bg-[#d86a88]"
-                    : "bg-[#85817f]"
+                    : "bg-white/25"
                 }
               `}
             />
           </div>
 
-          <div className="mt-5 grid grid-cols-2 gap-2">
+          {/* STATUS */}
+
+          <div
+            className="
+              mt-6
+
+              grid
+              grid-cols-2
+              gap-2
+            "
+          >
             <button
               type="button"
               onClick={() =>
@@ -468,36 +560,32 @@ export default function BlogForm(
                 )
               }
               className={`
-                rounded-[11px]
-
                 border
 
-                px-4
+                px-3
                 py-3.5
 
-                text-[10px]
+                text-[8px]
                 font-medium
                 uppercase
-                tracking-[0.14em]
+                tracking-[0.17em]
 
                 transition-all
-                duration-200
 
                 ${
                   status ===
                   "draft"
                     ? `
-                      border-white/30
-                      bg-[#1a1a1a]
+                      border-white/25
+                      bg-white/[0.07]
                       text-[#f4efe9]
                     `
                     : `
-                      border-white/15
-                      bg-[#111111]
-                      text-[var(--text-muted)]
+                      border-white/10
+                      text-white/30
 
-                      hover:border-white/25
-                      hover:text-[var(--text-secondary)]
+                      hover:border-white/20
+                      hover:text-white/60
                     `
                 }
               `}
@@ -513,36 +601,32 @@ export default function BlogForm(
                 )
               }
               className={`
-                rounded-[11px]
-
                 border
 
-                px-4
+                px-3
                 py-3.5
 
-                text-[10px]
+                text-[8px]
                 font-medium
                 uppercase
-                tracking-[0.14em]
+                tracking-[0.17em]
 
                 transition-all
-                duration-200
 
                 ${
                   status ===
                   "published"
                     ? `
-                      border-[#d86a88]
-                      bg-[#591323]
+                      border-[#d86a88]/60
+                      bg-[#591323]/55
                       text-[#f4efe9]
                     `
                     : `
-                      border-white/15
-                      bg-[#111111]
-                      text-[var(--text-muted)]
+                      border-white/10
+                      text-white/30
 
-                      hover:border-[#d86a88]/50
-                      hover:text-[var(--text-secondary)]
+                      hover:border-[#d86a88]/30
+                      hover:text-white/60
                     `
                 }
               `}
@@ -551,53 +635,63 @@ export default function BlogForm(
             </button>
           </div>
 
+          {/* ERROR */}
+
           {error && (
-            <p
+            <div
               className="
                 mt-5
 
-                rounded-[11px]
-
                 border
-                border-[#8a304c]
+                border-[#8a304c]/70
 
-                bg-[#591323]/30
+                bg-[#591323]/20
 
                 px-4
                 py-3
-
-                text-[12px]
-                leading-5
-                text-[#ef9eb4]
               "
             >
-              {error}
-            </p>
+              <p
+                className="
+                  text-[11px]
+                  leading-5
+
+                  text-[#ef9eb4]
+                "
+              >
+                {error}
+              </p>
+            </div>
           )}
+
+          {/* SAVED */}
 
           {saved && (
-            <p
+            <div
               className="
                 mt-5
 
-                rounded-[10px]
-
                 border
-                border-white/15
+                border-white/10
 
-                bg-[#121212]
+                bg-white/[0.03]
 
                 px-4
                 py-3
-
-                text-[12px]
-                leading-5
-                text-[var(--text-secondary)]
               "
             >
-              Değişiklikler kaydedildi.
-            </p>
+              <p
+                className="
+                  text-[11px]
+                  text-white/50
+                "
+              >
+                Değişiklikler kaydedildi.
+              </p>
+            </div>
           )}
+
+          {/* SAVE */}
 
           <button
             type="button"
@@ -606,18 +700,25 @@ export default function BlogForm(
             className={`
               mt-5
               w-full
+
               ${adminPrimaryActionClassName}
             `}
           >
-            {pending
-              ? "Kaydediliyor..."
-              : status ===
-                  "published"
-                ? "Kaydet & Yayınla"
-                : "Taslağı Kaydet"}
+            <span>
+              {pending
+                ? "Kaydediliyor..."
+                : status ===
+                    "published"
+                  ? "Kaydet & Yayınla"
+                  : "Taslağı Kaydet"}
+            </span>
 
-            <span>→</span>
+            <span>
+              →
+            </span>
           </button>
+
+          {/* BACK */}
 
           <button
             type="button"
@@ -629,6 +730,7 @@ export default function BlogForm(
             className={`
               mt-2
               w-full
+
               ${adminSecondaryActionClassName}
             `}
           >
@@ -636,22 +738,36 @@ export default function BlogForm(
           </button>
         </section>
 
-        {/* COVER */}
+        {/* =================================================
+            COVER
+        ================================================== */}
 
         <section>
-          <p
+          <div
             className="
               mb-3
 
-              text-[10px]
-              font-medium
-              uppercase
-              tracking-[0.18em]
-              text-[var(--text-body)]
+              flex
+              items-center
+              justify-between
             "
           >
-            Kapak Görseli
-          </p>
+            <FieldLabel>
+              Kapak Görseli
+            </FieldLabel>
+
+            <span
+              className="
+                text-[7px]
+                uppercase
+                tracking-[0.18em]
+
+                text-white/20
+              "
+            >
+              Cover
+            </span>
+          </div>
 
           <CoverImageField
             value={
@@ -663,16 +779,16 @@ export default function BlogForm(
           />
         </section>
 
-        {/* CATEGORY */}
+        {/* =================================================
+            CATEGORY + TAGS
+        ================================================== */}
 
         <section
           className="
-            rounded-[20px]
-
             border
-            border-white/15
+            border-white/10
 
-            bg-[#0d0d0d]
+            bg-white/[0.02]
 
             p-5
           "
@@ -687,10 +803,10 @@ export default function BlogForm(
               event,
             ) =>
               setCategory(
-                event.target
-                  .value,
+                event.target.value,
               )
             }
+            placeholder="Genel"
             className={
               fieldClassName
             }
@@ -707,8 +823,7 @@ export default function BlogForm(
                 event,
               ) =>
                 setTags(
-                  event.target
-                    .value,
+                  event.target.value,
                 )
               }
               placeholder="SEO, Sosyal Medya, Reklam"
@@ -720,9 +835,11 @@ export default function BlogForm(
             <p
               className="
                 mt-3
+
                 text-[10px]
                 leading-5
-                text-[var(--text-muted)]
+
+                text-white/25
               "
             >
               Etiketleri virgülle ayır.
@@ -730,16 +847,16 @@ export default function BlogForm(
           </div>
         </section>
 
-        {/* URL */}
+        {/* =================================================
+            SLUG
+        ================================================== */}
 
         <section
           className="
-            rounded-[20px]
-
             border
-            border-white/15
+            border-white/10
 
-            bg-[#0d0d0d]
+            bg-white/[0.02]
 
             p-5
           "
@@ -754,8 +871,7 @@ export default function BlogForm(
               event,
             ) =>
               setSlug(
-                event.target
-                  .value,
+                event.target.value,
               )
             }
             placeholder="Otomatik oluşturulur"
@@ -768,21 +884,20 @@ export default function BlogForm(
             className="
               mt-3
 
-              rounded-[9px]
+              border-t
+              border-white/[0.07]
 
-              bg-[#121212]
-
-              px-3
-              py-2.5
+              pt-3
             "
           >
             <p
               className="
                 break-all
 
-                text-[10px]
+                text-[9px]
                 leading-5
-                text-[var(--text-muted)]
+
+                text-white/25
               "
             >
               /blog/
@@ -792,31 +907,51 @@ export default function BlogForm(
           </div>
         </section>
 
-        {/* SEO */}
+        {/* =================================================
+            SEO
+        ================================================== */}
 
         <section
           className="
-            rounded-[20px]
-
             border
-            border-white/15
+            border-white/10
 
-            bg-[#0d0d0d]
+            bg-white/[0.02]
 
             p-5
           "
         >
-          <p
+          <div
             className="
-              text-[10px]
-              font-medium
-              uppercase
-              tracking-[0.2em]
-              text-[#d86a88]
+              flex
+              items-center
+              gap-3
             "
           >
-            SEO
-          </p>
+            <span
+              className="
+                size-1
+                rotate-45
+
+                bg-[#d86a88]
+              "
+            />
+
+            <p
+              className="
+                text-[8px]
+                font-medium
+                uppercase
+                tracking-[0.22em]
+
+                text-[#d86a88]
+              "
+            >
+              SEO
+            </p>
+          </div>
+
+          {/* SEO TITLE */}
 
           <div className="mt-6">
             <div
@@ -824,7 +959,7 @@ export default function BlogForm(
                 flex
                 items-center
                 justify-between
-                gap-3
+                gap-4
               "
             >
               <FieldLabel>
@@ -833,9 +968,9 @@ export default function BlogForm(
 
               <span
                 className="
-                  text-[10px]
+                  text-[9px]
                   tabular-nums
-                  text-[var(--text-muted)]
+                  text-white/25
                 "
               >
                 {seoTitle.length}/60
@@ -849,8 +984,7 @@ export default function BlogForm(
                 event,
               ) =>
                 setSeoTitle(
-                  event.target
-                    .value,
+                  event.target.value,
                 )
               }
               placeholder={
@@ -863,13 +997,15 @@ export default function BlogForm(
             />
           </div>
 
+          {/* SEO DESCRIPTION */}
+
           <div className="mt-6">
             <div
               className="
                 flex
                 items-center
                 justify-between
-                gap-3
+                gap-4
               "
             >
               <FieldLabel>
@@ -878,9 +1014,9 @@ export default function BlogForm(
 
               <span
                 className="
-                  text-[10px]
+                  text-[9px]
                   tabular-nums
-                  text-[var(--text-muted)]
+                  text-white/25
                 "
               >
                 {seoDescription.length}/160
@@ -897,8 +1033,7 @@ export default function BlogForm(
                 event,
               ) =>
                 setSeoDescription(
-                  event.target
-                    .value,
+                  event.target.value,
                 )
               }
               placeholder={
@@ -915,6 +1050,94 @@ export default function BlogForm(
           </div>
         </section>
       </aside>
+
+      {/* =====================================================
+          MOBILE SAVE BAR
+
+          Sidebar aşağıda olsa bile kayıt aksiyonu kaybolmasın.
+      ====================================================== */}
+
+      <div
+        className="
+          fixed
+          inset-x-0
+          bottom-0
+          z-30
+
+          border-t
+          border-white/10
+
+          bg-[#100d0e]/95
+
+          p-3
+
+          backdrop-blur-xl
+
+          lg:hidden
+        "
+      >
+        <div
+          className="
+            mx-auto
+
+            flex
+            max-w-[700px]
+            gap-2
+          "
+        >
+          <button
+            type="button"
+            onClick={() =>
+              setStatus(
+                status ===
+                  "draft"
+                  ? "published"
+                  : "draft",
+              )
+            }
+            className="
+              min-w-[100px]
+
+              border
+              border-white/10
+
+              px-3
+
+              text-[7px]
+              uppercase
+              tracking-[0.15em]
+
+              text-white/45
+            "
+          >
+            {status ===
+            "draft"
+              ? "Taslak"
+              : "Yayında"}
+          </button>
+
+          <button
+            type="button"
+            disabled={pending}
+            onClick={submit}
+            className={`
+              flex-1
+              ${adminPrimaryActionClassName}
+            `}
+          >
+            {pending
+              ? "Kaydediliyor..."
+              : status ===
+                  "published"
+                ? "Kaydet & Yayınla"
+                : "Taslağı Kaydet"}
+
+            <span>
+              →
+            </span>
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

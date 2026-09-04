@@ -1,0 +1,45 @@
+FION BLOG EDITOR BASELINE
+=========================
+
+Bu paket, 2026-09-04 tarihinde yüklenen fion-blog-debug.zip üzerinden düzenlendi.
+
+Tespit edilen ana karışıklık:
+- İki ayrı BlogEditor vardı.
+  1) app/components/blog/admin/BlogEditor.tsx -> eski/basic editor ve BlogForm bunu kullanıyordu.
+  2) app/components/admin/blog/editor/BlogEditor.tsx -> yeni/gelişmiş editor ama uygulamada kullanılmıyordu.
+
+Bu baseline'da:
+- app/components/blog/admin/BlogEditor.tsx bir compatibility bridge oldu ve gelişmiş editörü export ediyor.
+- Böylece mevcut BlogForm değişmeden gelişmiş editörü kullanıyor.
+- Slash menu içindeki useEffect -> setState kaldırıldı (React 19 lint problemi).
+- BlogImage HTML çıktısı sadeleştirildi: figure[data-blog-image=true] > img + figcaption.
+- Sanitizer Fion Callout ve Blog Image custom attributelarını koruyor.
+- Sanitizer text-align style'ını sadece left/center/right için güvenli biçimde koruyor; hizalama artık save sonrası kaybolmuyor.
+- Public BlogArticle zaten BlogArticleContent üzerinden render ediyor; callout/image stilleri site tarafına bağlı.
+
+Canonical editor:
+app/components/admin/blog/editor/BlogEditor.tsx
+
+Mevcut BlogForm importu:
+app/components/blog/admin/BlogForm.tsx -> ./BlogEditor
+Bu dosya compatibility bridge üzerinden canonical editöre gider.
+
+Test sırası:
+1. /admin/blog/new
+2. normal text
+3. H2/H3
+4. text select -> bubble menu
+5. yeni satırda / -> slash menu
+6. Fion Callout
+7. Image butonu
+8. drag/drop image
+9. paste image
+10. image select -> ALT / Caption / Sil
+11. hizalama
+12. draft save
+13. publish
+14. /blog/[slug] kontrol
+
+Not:
+- .env dosyaları bu pakette yok.
+- blog-media bucket ve mevcut Supabase Storage policy'lerinin upload'a izin vermesi gerekir.

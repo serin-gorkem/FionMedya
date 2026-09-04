@@ -1,14 +1,11 @@
 import type { Metadata } from "next";
 
-import Link from "next/link";
-
 import DetailPageShell from "@/app/components/pages/DetailPageShell";
 
 import ServiceDetailSection from "@/app/components/sections/services/detail/ServiceDetailSection";
 
 import { serviceDetails } from "@/app/components/sections/services/detail/services-detail.data";
 import DetailLavaBackground from "@/app/components/pages/DetailLavaBackground";
-import { getWhatsAppUrl } from "@/app/config/contact";
 import DetailContactCTA from "../components/pages/DetailContactCTA";
 
 export const metadata: Metadata = {

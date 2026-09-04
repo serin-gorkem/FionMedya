@@ -9,13 +9,19 @@ export default function NewBlogPostPage() {
         mx-auto
         max-w-[1500px]
 
-        px-6
-        py-12
+        px-5
+        pb-28
+        pt-10
 
-        sm:px-10
-        sm:py-16
+        sm:px-8
+        sm:pt-14
+
+        lg:px-10
+        lg:pb-16
       "
     >
+      {/* HEADER */}
+
       <div
         className="
           mb-12
@@ -25,7 +31,7 @@ export default function NewBlogPostPage() {
           gap-8
 
           border-b
-          border-white/15
+          border-white/10
 
           pb-8
 
@@ -37,15 +43,15 @@ export default function NewBlogPostPage() {
         <div>
           <p
             className="
-              text-[10px]
+              text-[8px]
               font-medium
               uppercase
-              tracking-[0.22em]
+              tracking-[0.25em]
 
               text-[#d86a88]
             "
           >
-            Fion CMS
+            Fion CMS / Editor
           </p>
 
           <h1
@@ -54,18 +60,18 @@ export default function NewBlogPostPage() {
 
               font-serif
 
-              text-[clamp(2.8rem,5vw,5rem)]
+              text-[clamp(3.2rem,5vw,5.5rem)]
 
-              leading-[0.88]
-              tracking-[-0.055em]
+              leading-[0.85]
+              tracking-[-0.06em]
 
-              text-[var(--text-primary)]
+              text-[#f4efe9]
             "
           >
             Yeni
             <br />
 
-            <em className="text-[var(--text-secondary)]">
+            <em className="text-white/55">
               yazı.
             </em>
           </h1>
@@ -73,11 +79,12 @@ export default function NewBlogPostPage() {
           <p
             className="
               mt-6
-              max-w-[450px]
+              max-w-[480px]
 
-              text-[14px]
+              text-[13px]
               leading-7
-              text-[var(--text-body)]
+
+              text-white/45
             "
           >
             İçeriğini oluştur,
@@ -96,34 +103,32 @@ export default function NewBlogPostPage() {
             items-center
             gap-3
 
-            rounded-[10px]
-
             border
-            border-white/15
+            border-white/10
 
-            bg-[#111111]
+            bg-white/[0.025]
 
             px-4
             py-3
 
-            text-[10px]
+            text-[8px]
             font-medium
             uppercase
-            tracking-[0.14em]
+            tracking-[0.17em]
 
-            text-[var(--text-secondary)]
+            text-white/50
 
             transition-all
-            duration-200
 
-            hover:border-white/25
-            hover:bg-[#171717]
+            hover:border-white/20
             hover:text-white
           "
         >
           ← Bloglar
         </Link>
       </div>
+
+      {/* FULL BLOG FORM */}
 
       <BlogForm
         mode="create"

@@ -1,13 +1,9 @@
 import Link from "next/link";
 
-import type {
-  BlogPost,
-} from "@/features/blog/blog.types";
+import type { BlogPost } from "@/features/blog/blog.types";
 
-import {
-  getReadingTime,
-} from "@/features/blog/blog.reading-time";
-
+import { getReadingTime } from "@/features/blog/blog.reading-time";
+import BlogArticleContent from "@/app/components/sections/blog/BlogArticleContent";
 import DetailContactCTA from "@/app/components/pages/DetailContactCTA";
 
 type BlogArticleProps = {
@@ -15,36 +11,22 @@ type BlogArticleProps = {
   relatedPosts: BlogPost[];
 };
 
-function formatDate(
-  value: string | null,
-) {
+function formatDate(value: string | null) {
   if (!value) {
     return null;
   }
 
-  return new Intl.DateTimeFormat(
-    "tr-TR",
-    {
-      day: "2-digit",
-      month: "long",
-      year: "numeric",
-    },
-  ).format(new Date(value));
+  return new Intl.DateTimeFormat("tr-TR", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  }).format(new Date(value));
 }
 
-export default function BlogArticle({
-  post,
-  relatedPosts,
-}: BlogArticleProps) {
-  const readingTime =
-    getReadingTime(
-      post.contentHtml,
-    );
+export default function BlogArticle({ post, relatedPosts }: BlogArticleProps) {
+  const readingTime = getReadingTime(post.contentHtml);
 
-  const publishedDate =
-    formatDate(
-      post.publishedAt,
-    );
+  const publishedDate = formatDate(post.publishedAt);
 
   return (
     <article
@@ -175,10 +157,7 @@ export default function BlogArticle({
 
           {publishedDate && (
             <time
-              dateTime={
-                post.publishedAt ??
-                undefined
-              }
+              dateTime={post.publishedAt ?? undefined}
               className="
                 text-[7px]
                 uppercase
@@ -280,22 +259,20 @@ export default function BlogArticle({
                   gap-y-2
                 "
               >
-                {post.tags.map(
-                  (tag) => (
-                    <span
-                      key={tag}
-                      className="
+                {post.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="
                         text-[6px]
                         uppercase
                         tracking-[0.19em]
 
                         text-[#d36b88]/85
                       "
-                    >
-                      {tag}
-                    </span>
-                  ),
-                )}
+                  >
+                    {tag}
+                  </span>
+                ))}
               </div>
             )}
           </div>
@@ -342,9 +319,7 @@ export default function BlogArticle({
               "
             >
               <img
-                src={
-                  post.coverImageUrl
-                }
+                src={post.coverImageUrl}
                 alt={`${post.title} kapak görseli`}
                 className="
                   h-full
@@ -628,120 +603,7 @@ export default function BlogArticle({
           {/* =================================================
               TIPTAP CONTENT
           ================================================== */}
-
-          <div
-            className="
-              min-w-0
-
-              text-[16px]
-              leading-[1.9]
-
-              text-white/78
-
-              sm:text-[17px]
-
-              [&_p]:mb-8
-
-              [&_p:first-child]:text-[1.12em]
-              [&_p:first-child]:leading-[1.85]
-              [&_p:first-child]:text-white/88
-
-              [&_h2]:mb-7
-              [&_h2]:mt-20
-              [&_h2]:font-serif
-              [&_h2]:text-[clamp(2.8rem,5vw,4.8rem)]
-              [&_h2]:leading-[0.92]
-              [&_h2]:tracking-[-0.05em]
-              [&_h2]:text-[#f4efe9]
-
-              [&_h3]:mb-6
-              [&_h3]:mt-14
-              [&_h3]:font-serif
-              [&_h3]:text-[clamp(2rem,3.3vw,3.1rem)]
-              [&_h3]:leading-[0.98]
-              [&_h3]:tracking-[-0.04em]
-              [&_h3]:text-[#f4efe9]
-
-              [&_h4]:mb-5
-              [&_h4]:mt-12
-              [&_h4]:text-[12px]
-              [&_h4]:font-medium
-              [&_h4]:uppercase
-              [&_h4]:tracking-[0.2em]
-              [&_h4]:text-[#d36b88]
-
-              [&_strong]:font-medium
-              [&_strong]:text-[#f4efe9]
-
-              [&_em]:text-white/90
-
-              [&_blockquote]:relative
-              [&_blockquote]:my-16
-              [&_blockquote]:border-l
-              [&_blockquote]:border-[#d36b88]
-              [&_blockquote]:py-2
-              [&_blockquote]:pl-7
-              [&_blockquote]:font-serif
-              [&_blockquote]:text-[clamp(1.9rem,3vw,3rem)]
-              [&_blockquote]:italic
-              [&_blockquote]:leading-[1.18]
-              [&_blockquote]:tracking-[-0.035em]
-              [&_blockquote]:text-white/82
-
-              [&_blockquote_p]:mb-0
-
-              [&_ul]:my-9
-              [&_ul]:space-y-3
-              [&_ul]:pl-5
-              [&_ul]:list-disc
-
-              [&_ol]:my-9
-              [&_ol]:space-y-3
-              [&_ol]:pl-5
-              [&_ol]:list-decimal
-
-              [&_li]:pl-2
-
-              [&_li::marker]:text-[#d36b88]
-
-              [&_a]:text-[#e487a1]
-              [&_a]:underline
-              [&_a]:decoration-[#7c2a43]
-              [&_a]:underline-offset-[5px]
-              [&_a]:transition-colors
-
-              [&_a:hover]:text-[#f4efe9]
-
-              [&_hr]:my-16
-              [&_hr]:border-white/10
-
-              [&_img]:my-14
-              [&_img]:block
-              [&_img]:w-full
-              [&_img]:border-y
-              [&_img]:border-white/10
-
-              [&_code]:bg-white/[0.07]
-              [&_code]:px-1.5
-              [&_code]:py-1
-              [&_code]:text-[0.88em]
-              [&_code]:text-[#e5a0b4]
-
-              [&_pre]:my-12
-              [&_pre]:overflow-x-auto
-              [&_pre]:border
-              [&_pre]:border-white/10
-              [&_pre]:bg-black/25
-              [&_pre]:p-5
-
-              [&_pre_code]:bg-transparent
-              [&_pre_code]:p-0
-            "
-            dangerouslySetInnerHTML={{
-              __html:
-                post.contentHtml,
-            }}
-          />
+          <BlogArticleContent html={post.contentHtml} />
         </div>
       </section>
 
@@ -808,10 +670,7 @@ export default function BlogArticle({
                 >
                   Biraz daha
                   <br />
-
-                  <em className="text-white/50">
-                    oku.
-                  </em>
+                  <em className="text-white/50">oku.</em>
                 </h2>
               </div>
 
@@ -839,7 +698,6 @@ export default function BlogArticle({
                 "
               >
                 Tüm yazılar
-
                 <span
                   className="
                     text-[#d36b88]
@@ -867,25 +725,14 @@ export default function BlogArticle({
                 md:grid-cols-2
               "
             >
-              {relatedPosts
-                .slice(0, 2)
-                .map(
-                  (
-                    related,
-                    index,
-                  ) => {
-                    const relatedReadingTime =
-                      getReadingTime(
-                        related.contentHtml,
-                      );
+              {relatedPosts.slice(0, 2).map((related, index) => {
+                const relatedReadingTime = getReadingTime(related.contentHtml);
 
-                    return (
-                      <Link
-                        key={
-                          related.id
-                        }
-                        href={`/blog/${related.slug}`}
-                        className={`
+                return (
+                  <Link
+                    key={related.id}
+                    href={`/blog/${related.slug}`}
+                    className={`
                           group
                           relative
 
@@ -894,16 +741,15 @@ export default function BlogArticle({
                           py-9
 
                           ${
-                            index ===
-                            0
+                            index === 0
                               ? "md:border-r md:border-white/10 md:pr-10"
                               : "border-t border-white/10 md:border-t-0 md:pl-10"
                           }
                         `}
-                      >
-                        <span
-                          aria-hidden="true"
-                          className="
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="
                             pointer-events-none
 
                             absolute
@@ -920,58 +766,49 @@ export default function BlogArticle({
 
                             group-hover:scale-y-100
                           "
-                        />
+                    />
 
-                        <div
-                          className="
+                    <div
+                      className="
                             relative
                             z-10
                           "
-                        >
-                          <div
-                            className="
+                    >
+                      <div
+                        className="
                               flex
                               items-center
                               justify-between
                               gap-5
                             "
-                          >
-                            <span
-                              className="
+                      >
+                        <span
+                          className="
                                 font-serif
                                 text-3xl
                                 tracking-[-0.05em]
 
                                 text-white/20
                               "
-                            >
-                              {String(
-                                index +
-                                  1,
-                              ).padStart(
-                                2,
-                                "0",
-                              )}
-                            </span>
+                        >
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
 
-                            <span
-                              className="
+                        <span
+                          className="
                                 text-[7px]
                                 uppercase
                                 tracking-[0.22em]
 
                                 text-white/40
                               "
-                            >
-                              {
-                                relatedReadingTime
-                              }{" "}
-                              dk
-                            </span>
-                          </div>
+                        >
+                          {relatedReadingTime} dk
+                        </span>
+                      </div>
 
-                          <p
-                            className="
+                      <p
+                        className="
                               mt-10
 
                               text-[7px]
@@ -980,14 +817,12 @@ export default function BlogArticle({
 
                               text-[#d36b88]
                             "
-                          >
-                            {
-                              related.category
-                            }
-                          </p>
+                      >
+                        {related.category}
+                      </p>
 
-                          <h3
-                            className="
+                      <h3
+                        className="
                               mt-4
                               max-w-xl
 
@@ -998,14 +833,12 @@ export default function BlogArticle({
 
                               text-[#f4efe9]
                             "
-                          >
-                            {
-                              related.title
-                            }
-                          </h3>
+                      >
+                        {related.title}
+                      </h3>
 
-                          <div
-                            className="
+                      <div
+                        className="
                               mt-10
 
                               flex
@@ -1017,9 +850,9 @@ export default function BlogArticle({
 
                               pt-5
                             "
-                          >
-                            <span
-                              className="
+                      >
+                        <span
+                          className="
                                 text-[7px]
                                 uppercase
                                 tracking-[0.22em]
@@ -1030,12 +863,12 @@ export default function BlogArticle({
 
                                 group-hover:text-white/70
                               "
-                            >
-                              Yazıyı oku
-                            </span>
+                        >
+                          Yazıyı oku
+                        </span>
 
-                            <span
-                              className="
+                        <span
+                          className="
                                 text-[#d36b88]
 
                                 transition-transform
@@ -1044,15 +877,14 @@ export default function BlogArticle({
                                 group-hover:translate-x-1
                                 group-hover:-translate-y-0.5
                               "
-                            >
-                              ↗
-                            </span>
-                          </div>
-                        </div>
-                      </Link>
-                    );
-                  },
-                )}
+                        >
+                          ↗
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
 
             <Link
@@ -1074,10 +906,7 @@ export default function BlogArticle({
               "
             >
               Tüm yazılar
-
-              <span className="text-[#d36b88]">
-                →
-              </span>
+              <span className="text-[#d36b88]">→</span>
             </Link>
           </div>
         </section>

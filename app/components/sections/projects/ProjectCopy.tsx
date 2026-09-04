@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import PillList from "@/app/components/ui/PillList";
 import TextLink from "@/app/components/ui/TextLink";
 
