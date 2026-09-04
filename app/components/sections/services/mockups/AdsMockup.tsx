@@ -1,5 +1,14 @@
 export default function AdsMockup() {
-  const bars = [34, 48, 42, 58, 54, 71, 64, 83];
+  const bars = [
+    34,
+    48,
+    42,
+    58,
+    54,
+    71,
+    64,
+    83,
+  ];
 
   const campaigns = [
     {
@@ -23,302 +32,655 @@ export default function AdsMockup() {
   ];
 
   return (
-    <div className="group/mockup relative mx-auto w-full max-w-lg">
-      {/*
-       * Dashboard'ın tamamı birlikte küçülüyor.
-       * Chart, kartlar ve tablo oranları aynı kalıyor.
-       */}
-      <div className="origin-center scale-90">
-        {/* AMBIENT */}
+    <div
+      className="
+        group/mockup
+        relative
+
+        mx-auto
+        w-full
+        min-w-0
+        max-w-lg
+      "
+    >
+      {/* AMBIENT */}
+
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+
+          absolute
+          left-1/2
+          top-1/2
+
+          h-[70%]
+          w-[78%]
+
+          -translate-x-1/2
+          -translate-y-1/2
+
+          rounded-full
+
+          bg-[#591323]/20
+
+          blur-3xl
+        "
+      />
+
+      {/* DASHBOARD */}
+
+      <div
+        className="
+          relative
+          z-10
+
+          w-full
+          min-w-0
+
+          overflow-hidden
+
+          rounded-3xl
+
+          border
+          border-[#5f1c31]
+
+          bg-[#0a0a0a]
+
+          p-4
+
+          shadow-[0_30px_100px_rgba(72,12,31,0.30)]
+
+          transition-transform
+          duration-700
+          ease-[cubic-bezier(0.22,1,0.36,1)]
+
+          sm:p-6
+
+          lg:group-hover/mockup:-translate-y-2
+        "
+      >
+        {/* =============================================
+            HEADER
+        ============================================== */}
 
         <div
-          aria-hidden="true"
           className="
-            pointer-events-none
-            absolute
-            left-1/2
-            top-1/2
+            border-b
+            border-white/10
 
-            h-[74%]
-            w-[74%]
+            pb-5
 
-            -translate-x-1/2
-            -translate-y-1/2
-
-            rounded-full
-
-            bg-[#591323]/18
-
-            blur-[100px]
-          "
-        />
-
-        {/* DASHBOARD */}
-
-        <div
-          className="
-            relative
-            z-10
-
-            rounded-[30px]
-
-            border
-            border-[#5f1c31]
-
-            bg-[#0a0a0a]
-
-            p-6
-
-            shadow-[0_30px_100px_rgba(72,12,31,0.30)]
-
-            transition-all
-            duration-700
-
-            ease-[cubic-bezier(0.22,1,0.36,1)]
-
-            group-hover/mockup:-translate-y-2
+            sm:flex
+            sm:items-start
+            sm:justify-between
+            sm:gap-5
           "
         >
-          {/* HEADER */}
-
-          <div className="flex items-start justify-between gap-4 border-b border-white/10 pb-5">
-            <div>
-              <p className="text-[10px] uppercase tracking-[0.32em] text-[#c45a78]">
-                Campaign Manager
-              </p>
-
-              <h4 className="mt-3 font-serif text-[46px] leading-[0.9] tracking-[-0.05em] text-[#f4efe9]">
-                Reklam
-                <br />
-                Yönetimi
-              </h4>
-            </div>
-
-            <button
-              type="button"
+          <div className="min-w-0">
+            <p
               className="
-                rounded-[14px]
+                text-[8px]
+                uppercase
+                tracking-[0.28em]
+                text-[#c45a78]
 
-                bg-[#7a1636]
-
-                px-5
-                py-3
-
-                text-sm
-                font-medium
-                text-white
+                sm:text-[10px]
+                sm:tracking-[0.32em]
               "
             >
-              + Campaign
-            </button>
+              Campaign Manager
+            </p>
+
+            <h4
+              className="
+                mt-3
+
+                font-serif
+                text-[34px]
+                leading-[0.86]
+                tracking-[-0.05em]
+
+                text-[#f4efe9]
+
+                sm:text-[46px]
+              "
+            >
+              Reklam
+              <br />
+              Yönetimi
+            </h4>
           </div>
 
-          {/* METRICS */}
+          <button
+            type="button"
+            className="
+              mt-5
 
-          <div className="mt-5 grid grid-cols-3 gap-3">
-            {[
-              ["Reach", "XY.K", "+ZT%"],
-              ["CTR", "Z.T%", "+AB%"],
-              ["Results", "AB", "Active"],
-            ].map(([label, value, meta], index) => (
-              <div
-                key={label}
-                className={`
-                  rounded-[20px]
+              inline-flex
+              items-center
+              justify-center
 
-                  border
+              bg-[#7a1636]
 
-                  p-4
+              px-4
+              py-3
 
-                  ${
-                    index === 1
-                      ? "border-[#622036] bg-[#2a0d17]"
-                      : "border-white/10 bg-[#111111]"
-                  }
-                `}
+              text-[11px]
+              font-medium
+              text-white
+
+              sm:mt-0
+              sm:shrink-0
+              sm:px-5
+              sm:text-sm
+            "
+          >
+            + Campaign
+          </button>
+        </div>
+
+        {/* =============================================
+            METRICS
+        ============================================== */}
+
+        <div
+          className="
+            mt-5
+
+            grid
+            grid-cols-3
+            gap-2
+
+            sm:gap-4
+          "
+        >
+          <MetricCard
+            label="Reach"
+            value="XY.K"
+            sub="+ZT%"
+          />
+
+          <MetricCard
+            label="CTR"
+            value="Z.T%"
+            sub="+AB%"
+            featured
+          />
+
+          <MetricCard
+            label="Results"
+            value="AB"
+            sub="Active"
+          />
+        </div>
+
+        {/* =============================================
+            CHART
+        ============================================== */}
+
+        <div
+          className="
+            mt-5
+
+            rounded-[22px]
+
+            border
+            border-white/10
+
+            bg-[#0d0d0d]
+
+            p-4
+
+            sm:mt-6
+            sm:rounded-3xl
+            sm:p-6
+          "
+        >
+          <div
+            className="
+              flex
+              items-start
+              justify-between
+              gap-4
+            "
+          >
+            <div>
+              <p
+                className="
+                  text-[12px]
+                  font-medium
+                  text-white/70
+
+                  sm:text-sm
+                "
               >
-                <p className="text-[9px] uppercase tracking-[0.24em] text-white/35">
-                  {label}
-                </p>
+                Campaign activity
+              </p>
 
-                <p className="mt-4 font-serif text-[44px] tracking-[-0.05em] text-[#f4efe9]">
-                  {value}
-                </p>
+              <p
+                className="
+                  mt-1
+                  text-[9px]
+                  text-white/30
 
-                <p className="mt-2 text-[10px] text-[#c45a78]">
-                  {meta}
-                </p>
-              </div>
-            ))}
+                  sm:text-[10px]
+                "
+              >
+                Last 8 periods
+              </p>
+            </div>
+
+            <span
+              className="
+                text-[8px]
+                text-white/25
+
+                sm:text-[9px]
+              "
+            >
+              Reach
+            </span>
           </div>
-
-          {/* CHART */}
 
           <div
             className="
-              mt-4
+              mt-7
 
-              rounded-[24px]
+              flex
+              h-32
+              items-end
+              gap-2
 
-              border
-              border-white/10
-
-              bg-[#101010]
-
-              p-5
+              sm:mt-9
+              sm:h-44
+              sm:gap-3
             "
           >
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-white/70">
-                  Campaign activity
-                </p>
-
-                <p className="mt-1 text-[11px] text-white/28">
-                  Last 8 periods
-                </p>
-              </div>
-
-              <span className="text-[11px] text-white/28">
-                Reach
-              </span>
-            </div>
-
-            <div className="mt-6 flex h-[170px] items-end gap-3">
-              {bars.map((height, index) => (
+            {bars.map(
+              (bar, index) => (
                 <div
-                  key={`${height}-${index}`}
-                  className="flex h-full w-full items-end"
+                  key={index}
+                  className="
+                    flex
+                    h-full
+                    flex-1
+                    items-end
+                  "
                 >
                   <div
                     className={`
                       w-full
-
-                      rounded-t-[8px]
+                      min-w-0
+                      rounded-t-lg
 
                       ${
-                        index === bars.length - 1
+                        index ===
+                        bars.length -
+                          1
                           ? "bg-[#c45a78]"
-                          : "bg-[#74203b]"
+                          : "bg-[#7f2040]"
                       }
                     `}
                     style={{
-                      height: `${height}%`,
+                      height: `${bar}%`,
                     }}
                   />
                 </div>
-              ))}
-            </div>
+              ),
+            )}
           </div>
+        </div>
 
-          {/* CAMPAIGNS */}
+        {/* =============================================
+            CAMPAIGNS
+        ============================================== */}
+
+        <div
+          className="
+            mt-5
+
+            overflow-hidden
+
+            rounded-[22px]
+
+            border
+            border-white/10
+
+            bg-[#0d0d0d]
+
+            sm:mt-6
+            sm:rounded-3xl
+          "
+        >
+          {/* DESKTOP TABLE HEADER */}
 
           <div
             className="
-              mt-4
+              hidden
 
-              overflow-hidden
+              grid-cols-[minmax(0,1fr)_90px_70px_70px]
 
-              rounded-[24px]
-
-              border
+              border-b
               border-white/10
 
-              bg-[#0f0f0f]
+              px-5
+              py-3
+
+              text-[7px]
+              uppercase
+              tracking-[0.2em]
+              text-white/25
+
+              sm:grid
             "
           >
-            {/* TABLE HEADER */}
+            <span>
+              Campaign
+            </span>
 
-            <div
-              className="
-                grid
-                grid-cols-[1fr_88px_72px_56px]
+            <span>
+              Status
+            </span>
 
-                border-b
-                border-white/10
+            <span>
+              Reach
+            </span>
 
-                px-5
-                py-4
-              "
-            >
-              {[
-                "Campaign",
-                "Status",
-                "Reach",
-                "Result",
-              ].map((header) => (
-                <span
-                  key={header}
+            <span>
+              Result
+            </span>
+          </div>
+
+          <div>
+            {campaigns.map(
+              (campaign) => (
+                <div
+                  key={
+                    campaign.name
+                  }
                   className="
-                    text-[10px]
-                    uppercase
-                    tracking-[0.2em]
-                    text-white/25
+                    border-b
+                    border-white/[0.07]
+
+                    px-4
+                    py-4
+
+                    last:border-b-0
+
+                    sm:grid
+                    sm:grid-cols-[minmax(0,1fr)_90px_70px_70px]
+                    sm:items-center
+                    sm:px-5
                   "
                 >
-                  {header}
-                </span>
-              ))}
-            </div>
+                  {/* MOBILE TOP */}
 
-            {/* ROWS */}
+                  <div
+                    className="
+                      flex
+                      min-w-0
+                      items-center
+                      justify-between
+                      gap-4
 
-            {campaigns.map((campaign, index) => (
-              <div
-                key={campaign.name}
-                className={`
-                  grid
-                  grid-cols-[1fr_88px_72px_56px]
-
-                  items-center
-
-                  px-5
-                  py-5
-
-                  ${
-                    index !== campaigns.length - 1
-                      ? "border-b border-white/[0.06]"
-                      : ""
-                  }
-                `}
-              >
-                <span className="text-sm text-white/65">
-                  {campaign.name}
-                </span>
-
-                <div>
-                  <span
-                    className={`
-                      rounded-full
-
-                      px-3
-                      py-1
-
-                      text-[10px]
-
-                      ${
-                        campaign.status === "Active"
-                          ? "bg-[#39101f] text-[#db6d8a]"
-                          : "bg-white/[0.05] text-white/35"
-                      }
-                    `}
+                      sm:block
+                    "
                   >
-                    {campaign.status}
-                  </span>
+                    <p
+                      className="
+                        truncate
+
+                        text-[10px]
+                        text-white/65
+                      "
+                    >
+                      {
+                        campaign.name
+                      }
+                    </p>
+
+                    <CampaignStatus
+                      status={
+                        campaign.status
+                      }
+                      className="sm:hidden"
+                    />
+                  </div>
+
+                  {/* DESKTOP STATUS */}
+
+                  <CampaignStatus
+                    status={
+                      campaign.status
+                    }
+                    className="hidden sm:inline-flex"
+                  />
+
+                  {/* MOBILE STATS */}
+
+                  <div
+                    className="
+                      mt-3
+                      flex
+                      gap-6
+
+                      sm:contents
+                    "
+                  >
+                    <div>
+                      <span
+                        className="
+                          text-[6px]
+                          uppercase
+                          tracking-[0.18em]
+                          text-white/20
+
+                          sm:hidden
+                        "
+                      >
+                        Reach
+                      </span>
+
+                      <p
+                        className="
+                          mt-1
+                          text-[9px]
+                          text-white/45
+
+                          sm:mt-0
+                        "
+                      >
+                        {
+                          campaign.reach
+                        }
+                      </p>
+                    </div>
+
+                    <div>
+                      <span
+                        className="
+                          text-[6px]
+                          uppercase
+                          tracking-[0.18em]
+                          text-white/20
+
+                          sm:hidden
+                        "
+                      >
+                        Result
+                      </span>
+
+                      <p
+                        className="
+                          mt-1
+                          text-[9px]
+                          text-[#c45a78]
+
+                          sm:mt-0
+                        "
+                      >
+                        {
+                          campaign.result
+                        }
+                      </p>
+                    </div>
+                  </div>
                 </div>
-
-                <span className="text-sm text-white/45">
-                  {campaign.reach}
-                </span>
-
-                <span className="text-sm text-white/68">
-                  {campaign.result}
-                </span>
-              </div>
-            ))}
+              ),
+            )}
           </div>
         </div>
       </div>
     </div>
+  );
+}
+
+/* =========================================================
+   METRIC
+========================================================= */
+
+type MetricCardProps = {
+  label: string;
+  value: string;
+  sub: string;
+  featured?: boolean;
+};
+
+function MetricCard({
+  label,
+  value,
+  sub,
+  featured = false,
+}: MetricCardProps) {
+  return (
+    <div
+      className={`
+        min-w-0
+
+        rounded-[20px]
+
+        border
+
+        px-3
+        py-4
+
+        sm:rounded-3xl
+        sm:px-5
+        sm:py-6
+
+        ${
+          featured
+            ? `
+              border-[#7b2340]
+              bg-[#2b0b15]
+            `
+            : `
+              border-white/10
+              bg-[#0d0d0d]
+            `
+        }
+      `}
+    >
+      <p
+        className="
+          truncate
+
+          text-[6px]
+          uppercase
+          tracking-[0.2em]
+          text-white/30
+
+          sm:text-[8px]
+        "
+      >
+        {label}
+      </p>
+
+      <p
+        className="
+          mt-5
+
+          whitespace-nowrap
+
+          font-serif
+          text-[28px]
+          leading-none
+          tracking-[-0.06em]
+
+          text-[#f4efe9]
+
+          sm:mt-7
+          sm:text-[42px]
+        "
+      >
+        {value}
+      </p>
+
+      <p
+        className="
+          mt-5
+
+          text-[8px]
+          text-[#c45a78]
+
+          sm:mt-7
+          sm:text-[9px]
+        "
+      >
+        {sub}
+      </p>
+    </div>
+  );
+}
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function CampaignStatus({
+  status,
+  className = "",
+}: {
+  status: string;
+  className?: string;
+}) {
+  const active =
+    status === "Active";
+
+  return (
+    <span
+      className={`
+        items-center
+        gap-1.5
+
+        text-[7px]
+        uppercase
+        tracking-[0.15em]
+
+        ${
+          active
+            ? "text-[#c45a78]"
+            : "text-white/25"
+        }
+
+        ${className}
+      `}
+    >
+      <span
+        className={`
+          size-1.5
+          rounded-full
+
+          ${
+            active
+              ? "bg-[#c45a78]"
+              : "bg-white/20"
+          }
+        `}
+      />
+
+      {status}
+    </span>
   );
 }

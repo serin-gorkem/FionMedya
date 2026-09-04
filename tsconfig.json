@@ -34,7 +34,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/dev/types/**/*.ts"
-  ],
+, "app/components/sections/projects/project-proof.data"  ],
   "exclude": [
     "node_modules"
   ]

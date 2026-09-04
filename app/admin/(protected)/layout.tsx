@@ -1,29 +1,20 @@
 import Link from "next/link";
 
-import type {
-  ReactNode,
-} from "react";
+import type { ReactNode } from "react";
 
-import {
-  requireAdmin,
-} from "@/features/auth/admin-auth";
+import { requireAdmin } from "@/features/auth/admin-auth";
 
-import {
-  logoutAdminAction,
-} from "@/features/auth/admin.actions";
+import { logoutAdminAction } from "@/features/auth/admin.actions";
+import Image from "next/image";
 
-export const dynamic =
-  "force-dynamic";
+export const dynamic = "force-dynamic";
 
 type AdminLayoutProps = {
   children: ReactNode;
 };
 
-export default async function AdminLayout({
-  children,
-}: AdminLayoutProps) {
-  const admin =
-    await requireAdmin();
+export default async function AdminLayout({ children }: AdminLayoutProps) {
+  const admin = await requireAdmin();
 
   return (
     <div
@@ -67,48 +58,46 @@ export default async function AdminLayout({
         >
           {/* LEFT */}
 
-          <div
-            className="
-              flex
-              items-center
-              gap-8
-            "
-          >
+          <div className="flex items-center gap-5">
             <Link
-              href="/admin/blog"
+              href="/"
+              aria-label="Fion Medya ana sayfa"
               className="
-                font-serif
-
-                text-[22px]
-                tracking-[-0.04em]
-
-                text-[var(--text-primary)]
-
-                transition-colors
-                duration-200
-
-                hover:text-white
-              "
+      group
+      flex
+      items-center
+    "
             >
-              Fion
+              <div
+                className="
+        relative
+        h-8
+        w-[104px]
+
+        sm:h-9
+        sm:w-[116px]
+      "
+              >
+                <Image
+                  src="/fion-logo.png"
+                  alt="Fion Medya"
+                  fill
+                  priority
+                  sizes="116px"
+                  className="
+          object-contain
+          object-left
+
+          opacity-95
+
+          transition-opacity
+          duration-300
+
+          group-hover:opacity-100
+        "
+                />
+              </div>
             </Link>
-
-            <span
-              className="
-                hidden
-
-                text-[10px]
-                font-medium
-                uppercase
-                tracking-[0.2em]
-
-                text-[#d86a88]
-
-                sm:block
-              "
-            >
-              Content Studio
-            </span>
           </div>
 
           {/* RIGHT */}
@@ -130,8 +119,7 @@ export default async function AdminLayout({
                 md:block
               "
             >
-              {admin.email ??
-                "Admin"}
+              {admin.email ?? "Admin"}
             </span>
 
             <Link
@@ -158,11 +146,7 @@ export default async function AdminLayout({
               Site ↗
             </Link>
 
-            <form
-              action={
-                logoutAdminAction
-              }
-            >
+            <form action={logoutAdminAction}>
               <button
                 type="submit"
                 className="

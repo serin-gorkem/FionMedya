@@ -1,15 +1,23 @@
-import type { Metadata } from "next";
+import type {
+  Metadata,
+} from "next";
 
-import Image from "next/image";
-import Link from "next/link";
+import {
+  notFound,
+} from "next/navigation";
 
-import { notFound } from "next/navigation";
+import BlogArticle from "@/app/components/sections/blog/BlogArticle";
 
-import BlogArticle from "@/app/components/blog/public/BlogArticle";
-import BlogEditorialBackground from "@/app/components/blog/public/BlogEditorialBackground";
-import BlogReadingProgress from "@/app/components/blog/public/BlogReadingProgress";
+import BlogEditorialBackground from "@/app/components/sections/blog/BlogEditorialBackground";
+import BlogJournalHeader from "@/app/components/sections/blog/BlogJournalHeader";
+import BlogReadingProgress from "@/app/components/sections/blog/BlogReadingProgress";
 
-import { createBlogService } from "@/features/blog/blog.server";
+import {
+  createBlogService,
+} from "@/features/blog/blog.server";
+
+const siteUrl =
+  "https://fionmedya.com";
 
 type BlogPostPageProps = {
   params: Promise<{
@@ -24,7 +32,8 @@ type BlogPostPageProps = {
 export async function generateMetadata({
   params,
 }: BlogPostPageProps): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug } =
+    await params;
 
   const service =
     await createBlogService();
@@ -41,18 +50,17 @@ export async function generateMetadata({
     };
   }
 
-  const title =
-    post.seoTitle ||
-    `${post.title} | Fion Medya`;
-
-  const description =
-    post.seoDescription ||
-    post.excerpt;
+  const canonicalUrl =
+    `${siteUrl}/blog/${post.slug}`;
 
   return {
-    title,
+    title:
+      post.seoTitle ||
+      `${post.title} | Fion Medya`,
 
-    description,
+    description:
+      post.seoDescription ||
+      post.excerpt,
 
     alternates: {
       canonical:
@@ -62,37 +70,45 @@ export async function generateMetadata({
     openGraph: {
       type: "article",
 
-      title,
+      title:
+        post.seoTitle ||
+        post.title,
 
-      description,
+      description:
+        post.seoDescription ||
+        post.excerpt,
+
+      url: canonicalUrl,
+
+      siteName: "Fion Medya",
+
+      images: post.coverImageUrl
+        ? [
+            {
+              url:
+                post.coverImageUrl,
+              alt:
+                post.title,
+            },
+          ]
+        : undefined,
 
       publishedTime:
-        post.publishedAt ??
+        post.publishedAt ||
         undefined,
-
-      modifiedTime:
-        post.updatedAt,
-
-      images:
-        post.coverImageUrl
-          ? [
-              {
-                url:
-                  post.coverImageUrl,
-              },
-            ]
-          : undefined,
     },
 
     twitter: {
       card:
-        post.coverImageUrl
-          ? "summary_large_image"
-          : "summary",
+        "summary_large_image",
 
-      title,
+      title:
+        post.seoTitle ||
+        post.title,
 
-      description,
+      description:
+        post.seoDescription ||
+        post.excerpt,
 
       images:
         post.coverImageUrl
@@ -107,9 +123,6 @@ export async function generateMetadata({
 /* =========================================================
    PAGE
 ========================================================= */
-
-export const dynamic =
-  "force-dynamic";
 
 export default async function BlogPostPage({
   params,
@@ -129,12 +142,16 @@ export default async function BlogPostPage({
     notFound();
   }
 
-  /* =======================================================
-     RELATED POSTS
-  ======================================================== */
+  /*
+   * Önce yayınlanmış yazıları alıyoruz,
+   * sonra mevcut yazıyı çıkarıp
+   * maksimum 2 ilgili yazı gösteriyoruz.
+   */
 
   const publishedPosts =
-    await service.getPublished(5);
+    await service.getPublished(
+      5,
+    );
 
   const relatedPosts =
     publishedPosts
@@ -145,19 +162,11 @@ export default async function BlogPostPage({
       )
       .slice(0, 2);
 
-  /* =======================================================
-     STRUCTURED DATA
-  ======================================================== */
+  /* =====================================================
+     ARTICLE STRUCTURED DATA
+  ====================================================== */
 
-  const siteUrl =
-    process.env
-      .NEXT_PUBLIC_SITE_URL ??
-    "https://fionmedya.com";
-
-  const articleUrl =
-    `${siteUrl}/blog/${post.slug}`;
-
-  const structuredData = {
+  const articleJsonLd = {
     "@context":
       "https://schema.org",
 
@@ -168,22 +177,18 @@ export default async function BlogPostPage({
       post.title,
 
     description:
-      post.seoDescription ||
       post.excerpt,
 
+    image:
+      post.coverImageUrl
+        ? [
+            post.coverImageUrl,
+          ]
+        : undefined,
+
     datePublished:
-      post.publishedAt,
-
-    dateModified:
-      post.updatedAt,
-
-    mainEntityOfPage: {
-      "@type":
-        "WebPage",
-
-      "@id":
-        articleUrl,
-    },
+      post.publishedAt ||
+      undefined,
 
     author: {
       "@type":
@@ -191,6 +196,9 @@ export default async function BlogPostPage({
 
       name:
         "Fion Medya",
+
+      url:
+        siteUrl,
     },
 
     publisher: {
@@ -202,15 +210,23 @@ export default async function BlogPostPage({
 
       url:
         siteUrl,
+
+      logo: {
+        "@type":
+          "ImageObject",
+
+        url:
+          `${siteUrl}/fion-logo.png`,
+      },
     },
 
-    ...(post.coverImageUrl
-      ? {
-          image: [
-            post.coverImageUrl,
-          ],
-        }
-      : {}),
+    mainEntityOfPage: {
+      "@type":
+        "WebPage",
+
+      "@id":
+        `${siteUrl}/blog/${post.slug}`,
+    },
   };
 
   return (
@@ -220,161 +236,48 @@ export default async function BlogPostPage({
         isolate
 
         min-h-screen
+
         overflow-x-clip
 
-        bg-[#0d090a]
-
-        px-6
-
+        bg-[#171214]
         text-[#f4efe9]
-
-        sm:px-10
       "
     >
-      {/* ================================================
+      {/* =============================================
+          JOURNAL ATMOSPHERE
+      ============================================== */}
+
+      <BlogEditorialBackground />
+
+      {/* =============================================
+          FION LOGO HEADER
+      ============================================== */}
+
+      <BlogJournalHeader />
+
+      {/* =============================================
+          READING PROGRESS
+      ============================================== */}
+
+      <BlogReadingProgress />
+
+      {/* =============================================
           JSON-LD
-      ================================================= */}
+      ============================================== */}
 
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html:
             JSON.stringify(
-              structuredData,
-            ).replace(
-              /</g,
-              "\\u003c",
+              articleJsonLd,
             ),
         }}
       />
 
-      {/* ================================================
-          BACKGROUND
-      ================================================= */}
-
-      <div
-        aria-hidden="true"
-        className="
-          absolute
-          inset-0
-          z-0
-        "
-      >
-        <BlogEditorialBackground />
-      </div>
-
-      {/* ================================================
-          TOP BAR
-      ================================================= */}
-
-      <header
-        className="
-          fixed
-          left-0
-          right-0
-          top-0
-          z-50
-
-          border-b
-          border-white/[0.07]
-
-          bg-[#0d090a]/65
-
-          backdrop-blur-xl
-        "
-      >
-        <div
-          className="
-            mx-auto
-
-            flex
-            h-[76px]
-            max-w-[1500px]
-
-            items-center
-            justify-between
-
-            px-6
-            sm:px-10
-          "
-        >
-          <Link
-            href="/"
-            aria-label="Fion Medya ana sayfa"
-            className="
-              transition-opacity
-              duration-300
-
-              hover:opacity-75
-            "
-          >
-            <Image
-              src="/fion-logo.png"
-              alt="Fion Medya"
-              width={100}
-              height={38}
-              priority
-              className="
-                h-auto
-                w-20
-
-                brightness-0
-                invert
-
-                sm:w-[104px]
-              "
-            />
-          </Link>
-
-          <div
-            className="
-              flex
-              items-center
-              gap-6
-            "
-          >
-            <span
-              className="
-                hidden
-
-                text-[8px]
-                uppercase
-                tracking-[0.28em]
-
-                text-[#c45a78]
-
-                sm:block
-              "
-            >
-              Journal
-            </span>
-
-            <Link
-              href="/blog"
-              className="
-                text-[8px]
-                uppercase
-                tracking-[0.22em]
-
-                text-white/45
-
-                transition-colors
-                duration-300
-
-                hover:text-white
-              "
-            >
-              ← Yazılar
-            </Link>
-          </div>
-        </div>
-      </header>
-
-      <BlogReadingProgress />
-
-      {/* ================================================
+      {/* =============================================
           ARTICLE
-      ================================================= */}
+      ============================================== */}
 
       <div className="relative z-10">
         <BlogArticle

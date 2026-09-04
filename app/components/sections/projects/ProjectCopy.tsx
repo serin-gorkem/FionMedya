@@ -123,40 +123,6 @@ export default function ProjectCopy({ project }: ProjectCopyProps) {
         "
       >
         <TextLink href="#contact">Benzer bir proje konuşalım</TextLink>
-
-        <Link
-          href="/isler"
-          className="
-            group
-            inline-flex
-            items-center
-            gap-3
-
-            text-[9px]
-            uppercase
-            tracking-[0.22em]
-            text-muted
-
-            transition-colors
-            duration-300
-
-            hover:text-ivory
-          "
-        >
-          Tüm işleri incele
-          <span
-            aria-hidden="true"
-            className="
-              transition-transform
-              duration-300
-
-              group-hover:translate-x-1
-              group-hover:-translate-y-0.5
-            "
-          >
-            ↗
-          </span>
-        </Link>
       </div>
     </div>
   );

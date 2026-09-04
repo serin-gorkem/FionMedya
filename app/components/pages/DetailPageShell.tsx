@@ -230,10 +230,8 @@ export default function DetailPageShell({
                 max-w-[1500px]
 
                 px-6
-                py-20
 
                 sm:px-10
-                sm:py-28
               "
             >
               {children}

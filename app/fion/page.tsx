@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import DetailLavaBackground from "@/app/components/pages/DetailLavaBackground";
 import DetailPageShell from "@/app/components/pages/DetailPageShell";
+import DetailContactCTA from "../components/pages/DetailContactCTA";
 
 export const metadata: Metadata = {
   title: "Fion | Fion Medya",
@@ -99,6 +100,7 @@ export default function FionPage() {
           </p>
         </div>
       </div>
+      <DetailContactCTA />
     </DetailPageShell>
   );
 }

@@ -114,7 +114,7 @@ export default async function AdminLoginPage() {
               text-[#d86a88]
             "
           >
-            Fion CMS
+            Fion Blog Yönetim Paneli
           </span>
 
           <span

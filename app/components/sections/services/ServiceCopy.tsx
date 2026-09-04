@@ -90,41 +90,6 @@ export default function ServiceCopy({
         <TextLink href="#contact">
           Bir proje konuşalım
         </TextLink>
-
-        <Link
-          href="/hizmetler"
-          className="
-            group
-            inline-flex
-            items-center
-            gap-3
-
-            text-[9px]
-            uppercase
-            tracking-[0.22em]
-
-            text-muted
-
-            transition-colors
-            duration-300
-
-            hover:text-ivory
-          "
-        >
-          Tüm hizmetleri incele
-
-          <span
-            aria-hidden="true"
-            className="
-              transition-transform
-              duration-300
-              group-hover:translate-x-1
-              group-hover:-translate-y-0.5
-            "
-          >
-            ↗
-          </span>
-        </Link>
       </div>
     </div>
   );

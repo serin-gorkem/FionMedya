@@ -2,18 +2,19 @@ import type {
   Metadata,
 } from "next";
 
-import Image from "next/image";
-import Link from "next/link";
+import BlogHero from "@/app/components/sections/blog/BlogHero";
+import BlogGrid from "@/app/components/sections/blog/BlogGrid";
 
-import BlogHero from "@/app/components/blog/public/BlogHero";
-import BlogGrid from "@/app/components/blog/public/BlogGrid";
+import BlogEditorialBackground from "@/app/components/sections/blog/BlogEditorialBackground";
+import BlogJournalHeader from "@/app/components/sections/blog/BlogJournalHeader";
+
+import DetailContactCTA from "@/app/components/pages/DetailContactCTA";
 
 import {
   createBlogService,
 } from "@/features/blog/blog.server";
 
-export const metadata:
-  Metadata = {
+export const metadata: Metadata = {
   title:
     "Blog | Fion Medya",
 
@@ -22,6 +23,19 @@ export const metadata:
 
   alternates: {
     canonical: "/blog",
+  },
+
+  openGraph: {
+    title:
+      "Fion Journal | Fion Medya",
+
+    description:
+      "Fikir, strateji, tasarım ve dijital iletişim üzerine Fion Medya notları.",
+
+    type: "website",
+
+    siteName:
+      "Fion Medya",
   },
 };
 
@@ -38,209 +52,305 @@ export default async function BlogPage() {
   return (
     <main
       className="
+        relative
+        isolate
+
         min-h-screen
-        bg-[#0d080a]
-        text-ivory
+
+        overflow-x-clip
+
+        bg-[#171214]
+        text-[#f4efe9]
       "
     >
-      {/* TOP NAV */}
+      {/* =============================================
+          EDITORIAL BACKGROUND
+      ============================================== */}
 
-      <header
-        className="
-          fixed
-          left-0
-          right-0
-          top-0
-          z-50
+      <BlogEditorialBackground />
 
-          border-b
-          border-white/[0.07]
+      {/* =============================================
+          FION LOGO / JOURNAL HEADER
+      ============================================== */}
 
-          bg-[#0d080a]/80
+      <BlogJournalHeader />
 
-          backdrop-blur-xl
-        "
-      >
+      {/* =============================================
+          PAGE
+      ============================================== */}
+
+      <div className="relative z-10">
+        {/* ===========================================
+            HERO
+        ============================================ */}
+
         <div
           className="
             mx-auto
-            flex
-            h-[76px]
             max-w-[1500px]
-            items-center
-            justify-between
 
-            px-6
-            sm:px-10
+            px-5
+
+            sm:px-8
+            lg:px-12
           "
         >
-          <Link
-            href="/"
-            aria-label="Fion Medya ana sayfa"
-            className="
-              transition-opacity
-              duration-300
-              hover:opacity-75
-            "
-          >
-            <Image
-              src="/fion-logo.png"
-              alt="Fion Medya"
-              width={100}
-              height={38}
-              priority
-              className="
-                h-auto
-                w-20
-                brightness-0
-                invert
+          <BlogHero />
+        </div>
 
-                sm:w-[104px]
-              "
-            />
-          </Link>
+        {/* ===========================================
+            INDEX BAR
+        ============================================ */}
 
+        <section
+          className="
+            relative
+            left-1/2
+
+            w-screen
+            -translate-x-1/2
+
+            border-y
+            border-white/10
+          "
+        >
           <div
             className="
+              mx-auto
+
               flex
-              items-center
-              gap-6
+              min-h-24
+              max-w-[1500px]
+
+              flex-col
+              justify-center
+              gap-5
+
+              px-5
+              py-6
+
+              sm:flex-row
+              sm:items-center
+              sm:justify-between
+
+              sm:px-8
+              lg:px-12
             "
           >
-            <span
+            <div
               className="
-                hidden
-
-                text-[8px]
-                uppercase
-                tracking-[0.28em]
-                text-wine-light
-
-                sm:block
+                flex
+                items-center
+                gap-4
               "
             >
-              Journal
-            </span>
+              <span
+                aria-hidden="true"
+                className="
+                  size-1.5
 
-            <Link
-              href="/"
+                  rotate-45
+
+                  bg-[#d36b88]
+                "
+              />
+
+              <span
+                className="
+                  text-[8px]
+                  uppercase
+                  tracking-[0.3em]
+
+                  text-[#d36b88]
+                "
+              >
+                Journal Index
+              </span>
+
+              <span
+                aria-hidden="true"
+                className="
+                  h-px
+                  w-10
+
+                  bg-[#7c2a43]
+                "
+              />
+            </div>
+
+            <div
               className="
-                text-[8px]
-                uppercase
-                tracking-[0.24em]
-                text-white/40
-
-                transition-colors
-                duration-300
-
-                hover:text-white
+                flex
+                items-center
+                gap-6
               "
             >
-              ← Ana sayfa
-            </Link>
+              <span
+                className="
+                  text-[7px]
+                  uppercase
+                  tracking-[0.23em]
+
+                  text-white/40
+                "
+              >
+                {posts.length
+                  .toString()
+                  .padStart(
+                    2,
+                    "0",
+                  )}{" "}
+                yazı
+              </span>
+
+              <span
+                className="
+                  text-[7px]
+                  uppercase
+                  tracking-[0.23em]
+
+                  text-white/30
+                "
+              >
+                Fion / Journal
+              </span>
+            </div>
           </div>
-        </div>
-      </header>
+        </section>
 
-      <div
-        className="
-          mx-auto
-          max-w-[1500px]
+        {/* ===========================================
+            ARTICLES
+        ============================================ */}
 
-          px-6
-          sm:px-10
-        "
-      >
-        <BlogHero />
-
-        {/* LIST HEADER */}
-
-        <div
+        <section
           className="
-            flex
-            items-end
-            justify-between
+            mx-auto
+            max-w-[1500px]
 
-            border-t
-            border-white/10
+            px-5
 
-            pb-5
-            pt-8
+            sm:px-8
+            lg:px-12
           "
         >
-          <p
+          {posts.length > 0 ? (
+            <BlogGrid
+              posts={posts}
+            />
+          ) : (
+            <div
+              className="
+                flex
+                min-h-[420px]
+
+                items-center
+                justify-center
+
+                border-b
+                border-white/10
+              "
+            >
+              <div className="text-center">
+                <p
+                  className="
+                    text-[8px]
+                    uppercase
+                    tracking-[0.3em]
+
+                    text-[#d36b88]
+                  "
+                >
+                  Fion Journal
+                </p>
+
+                <p
+                  className="
+                    mt-5
+
+                    font-serif
+                    text-4xl
+                    tracking-[-0.05em]
+
+                    text-[#f4efe9]
+                  "
+                >
+                  İlk notlar
+                  hazırlanıyor.
+                </p>
+              </div>
+            </div>
+          )}
+        </section>
+
+        {/* ===========================================
+            JOURNAL END
+        ============================================ */}
+
+        {posts.length > 0 && (
+          <div
             className="
-              text-[8px]
-              uppercase
-              tracking-[0.3em]
-              text-white/35
+              mx-auto
+              max-w-[1500px]
+
+              px-5
+              pb-20
+              pt-8
+
+              sm:px-8
+              sm:pb-24
+
+              lg:px-12
+              lg:pb-28
             "
           >
-            Son Yazılar
-          </p>
+            <div
+              className="
+                flex
+                flex-col
+                gap-5
 
-          <p
-            className="
-              text-[8px]
-              uppercase
-              tracking-[0.24em]
-              text-white/25
-            "
-          >
-            {posts.length
-              .toString()
-              .padStart(
-                2,
-                "0",
-              )}{" "}
-            yazı
-          </p>
-        </div>
+                border-t
+                border-white/10
 
-        <BlogGrid
-          posts={posts}
-        />
+                pt-5
 
-        {/* FOOTER */}
+                sm:flex-row
+                sm:items-center
+                sm:justify-between
+              "
+            >
+              <span
+                className="
+                  text-[7px]
+                  uppercase
+                  tracking-[0.26em]
 
-        <footer
-          className="
-            mt-20
+                  text-white/30
+                "
+              >
+                Fikir · Strateji · Tasarım · Dijital
+              </span>
 
-            flex
-            flex-col
-            gap-5
+              <span
+                className="
+                  font-serif
+                  text-lg
+                  italic
 
-            border-t
-            border-white/10
+                  text-white/40
+                "
+              >
+                Sıradan olanı unut.
+              </span>
+            </div>
+          </div>
+        )}
 
-            py-10
+        {/* ===========================================
+            COMMON CTA
+        ============================================ */}
 
-            text-[8px]
-            uppercase
-            tracking-[0.22em]
-            text-white/30
-
-            sm:flex-row
-            sm:items-center
-            sm:justify-between
-          "
-        >
-          <span>
-            © 2026 Fion Medya
-          </span>
-
-          <Link
-            href="/"
-            className="
-              text-white/45
-              transition-colors
-              hover:text-white
-            "
-          >
-            Fion&apos;a dön →
-          </Link>
-        </footer>
+        <DetailContactCTA />
       </div>
     </main>
   );

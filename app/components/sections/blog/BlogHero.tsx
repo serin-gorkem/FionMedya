@@ -23,7 +23,7 @@ export default function BlogHero() {
             text-wine-light
           "
         >
-          Fion Journal
+          Fion Blog
         </p>
 
         <h1

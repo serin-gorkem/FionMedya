@@ -34,7 +34,7 @@ export default function BlogGrid({
             text-[#c45a78]
           "
         >
-          Journal
+          Blog
         </p>
 
         <h2
