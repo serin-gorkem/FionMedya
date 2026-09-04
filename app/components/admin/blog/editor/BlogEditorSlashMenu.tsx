@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  forwardRef,
-  useCallback,
-  useEffect,
-  useImperativeHandle,
-  useState,
-} from "react";
+import { forwardRef, useCallback, useImperativeHandle, useState } from "react";
 
 import type { Editor } from "@tiptap/core";
 
@@ -217,23 +211,21 @@ type SlashMenuProps = SuggestionProps<SlashCommandItem>;
 export const BlogEditorSlashMenu = forwardRef<SlashMenuRef, SlashMenuProps>(
   function BlogEditorSlashMenu(props, ref) {
     const [selectedIndex, setSelectedIndex] = useState(0);
-
+    const { items, command } = props;
     const safeSelectedIndex =
-      props.items.length === 0
-        ? 0
-        : Math.min(selectedIndex, props.items.length - 1);
+      items.length === 0 ? 0 : Math.min(selectedIndex, items.length - 1);
 
     const selectItem = useCallback(
       (index: number) => {
-        const item = props.items[index];
+        const item = items[index];
 
         if (!item) {
           return;
         }
 
-        props.command(item);
+        command(item);
       },
-      [props.items, props.command],
+      [items, command],
     );
 
     useImperativeHandle(
@@ -244,9 +236,9 @@ export const BlogEditorSlashMenu = forwardRef<SlashMenuRef, SlashMenuProps>(
             event.preventDefault();
 
             setSelectedIndex((current) =>
-              props.items.length === 0
+              items.length === 0
                 ? 0
-                : (current - 1 + props.items.length) % props.items.length,
+                : (current - 1 + items.length) % items.length,
             );
 
             return true;
@@ -256,7 +248,7 @@ export const BlogEditorSlashMenu = forwardRef<SlashMenuRef, SlashMenuProps>(
             event.preventDefault();
 
             setSelectedIndex((current) =>
-              props.items.length === 0 ? 0 : (current + 1) % props.items.length,
+              items.length === 0 ? 0 : (current + 1) % items.length,
             );
 
             return true;
@@ -273,7 +265,7 @@ export const BlogEditorSlashMenu = forwardRef<SlashMenuRef, SlashMenuProps>(
           return false;
         },
       }),
-      [props.items.length,safeSelectedIndex, selectItem],
+      [items.length, safeSelectedIndex, selectItem],
     );
 
     return (
@@ -357,7 +349,7 @@ export const BlogEditorSlashMenu = forwardRef<SlashMenuRef, SlashMenuProps>(
               p-2
             "
         >
-          {props.items.length === 0 ? (
+          {items.length === 0 ? (
             <p
               className="
                   px-4
@@ -374,7 +366,7 @@ export const BlogEditorSlashMenu = forwardRef<SlashMenuRef, SlashMenuProps>(
               Komut bulunamadı
             </p>
           ) : (
-            props.items.map((item, index) => {
+            items.map((item, index) => {
               const active = index === safeSelectedIndex;
 
               return (
@@ -400,7 +392,7 @@ export const BlogEditorSlashMenu = forwardRef<SlashMenuRef, SlashMenuProps>(
 
                         transition-colors
 
-                        ${active ? "bg-[#591323]/35" : "hover:bg-white/[0.04]"}
+                        ${active ? "bg-[#591323]/35" : "hover:bg-white/4"}
                       `}
                 >
                   <span

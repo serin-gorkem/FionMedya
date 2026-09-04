@@ -1,5 +1,5 @@
 type PillListProps = {
-  items: string[];
+  items: readonly string[];
   className?: string;
 };
 

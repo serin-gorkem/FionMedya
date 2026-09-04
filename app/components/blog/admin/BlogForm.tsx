@@ -1,13 +1,8 @@
 "use client";
 
-import {
-  useState,
-  useTransition,
-} from "react";
+import { useState, useTransition } from "react";
 
-import {
-  useRouter,
-} from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import type {
   BlogPost,
@@ -25,7 +20,7 @@ import {
   adminSecondaryActionClassName,
 } from "@/app/components/admin/admin.styles";
 
-import BlogEditor from "./BlogEditor";
+import BlogEditor from "@/app/components/admin/blog/editor/BlogEditor";
 import CoverImageField from "./CoverImageField";
 
 type BlogFormProps =
@@ -38,11 +33,7 @@ type BlogFormProps =
       post: BlogPost;
     };
 
-function FieldLabel({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+function FieldLabel({ children }: { children: React.ReactNode }) {
   return (
     <label
       className="
@@ -86,103 +77,40 @@ const fieldClassName = `
   focus:bg-white/[0.04]
 `;
 
-export default function BlogForm(
-  props: BlogFormProps,
-) {
-  const router =
-    useRouter();
+export default function BlogForm(props: BlogFormProps) {
+  const router = useRouter();
 
-  const [
-    pending,
-    startTransition,
-  ] = useTransition();
+  const [pending, startTransition] = useTransition();
 
-  const post =
-    props.mode === "edit"
-      ? props.post
-      : null;
+  const post = props.mode === "edit" ? props.post : null;
 
-  const [
-    title,
-    setTitle,
-  ] = useState(
-    post?.title ?? "",
-  );
+  const [title, setTitle] = useState(post?.title ?? "");
 
-  const [
-    slug,
-    setSlug,
-  ] = useState(
-    post?.slug ?? "",
-  );
+  const [slug, setSlug] = useState(post?.slug ?? "");
 
-  const [
-    excerpt,
-    setExcerpt,
-  ] = useState(
-    post?.excerpt ?? "",
-  );
+  const [excerpt, setExcerpt] = useState(post?.excerpt ?? "");
 
-  const [
-    contentHtml,
-    setContentHtml,
-  ] = useState(
-    post?.contentHtml ?? "",
-  );
+  const [contentHtml, setContentHtml] = useState(post?.contentHtml ?? "");
 
-  const [
-    coverImageUrl,
-    setCoverImageUrl,
-  ] = useState<string | null>(
+  const [coverImageUrl, setCoverImageUrl] = useState<string | null>(
     post?.coverImageUrl ?? null,
   );
 
-  const [
-    category,
-    setCategory,
-  ] = useState(
-    post?.category ?? "Genel",
-  );
+  const [category, setCategory] = useState(post?.category ?? "Genel");
 
-  const [
-    tags,
-    setTags,
-  ] = useState(
-    post?.tags.join(", ") ?? "",
-  );
+  const [tags, setTags] = useState(post?.tags.join(", ") ?? "");
 
-  const [
-    seoTitle,
-    setSeoTitle,
-  ] = useState(
-    post?.seoTitle ?? "",
-  );
+  const [seoTitle, setSeoTitle] = useState(post?.seoTitle ?? "");
 
-  const [
-    seoDescription,
-    setSeoDescription,
-  ] = useState(
+  const [seoDescription, setSeoDescription] = useState(
     post?.seoDescription ?? "",
   );
 
-  const [
-    status,
-    setStatus,
-  ] = useState<BlogStatus>(
-    post?.status ?? "draft",
-  );
+  const [status, setStatus] = useState<BlogStatus>(post?.status ?? "draft");
 
-  const [
-    error,
-    setError,
-  ] = useState<string | null>(
-    null,
-  );
+  const [error, setError] = useState<string | null>(null);
 
-  const [
-    saved,
-    setSaved,
-  ] = useState(false);
+  const [saved, setSaved] = useState(false);
 
   /* =========================================================
      SUBMIT
@@ -205,59 +133,38 @@ export default function BlogForm(
 
       tags: tags
         .split(",")
-        .map((tag) =>
-          tag.trim(),
-        )
+        .map((tag) => tag.trim())
         .filter(Boolean),
 
-      seoTitle:
-        seoTitle.trim() ||
-        null,
+      seoTitle: seoTitle.trim() || null,
 
-      seoDescription:
-        seoDescription.trim() ||
-        null,
+      seoDescription: seoDescription.trim() || null,
 
       status,
     };
 
-    startTransition(
-      async () => {
-        const result =
-          props.mode ===
-          "create"
-            ? await createBlogPostAction(
-                input,
-              )
-            : await updateBlogPostAction(
-                props.post.id,
-                input,
-              );
+    startTransition(async () => {
+      const result =
+        props.mode === "create"
+          ? await createBlogPostAction(input)
+          : await updateBlogPostAction(props.post.id, input);
 
-        if (!result.success) {
-          setError(
-            result.message,
-          );
+      if (!result.success) {
+        setError(result.message);
 
-          return;
-        }
+        return;
+      }
 
-        if (
-          props.mode ===
-          "create"
-        ) {
-          router.replace(
-            `/admin/blog/${result.data.id}/edit`,
-          );
+      if (props.mode === "create") {
+        router.replace(`/admin/blog/${result.data.id}/edit`);
 
-          return;
-        }
+        return;
+      }
 
-        setSaved(true);
+      setSaved(true);
 
-        router.refresh();
-      },
-    );
+      router.refresh();
+    });
   };
 
   return (
@@ -289,9 +196,7 @@ export default function BlogForm(
               gap-4
             "
           >
-            <FieldLabel>
-              Yazı Başlığı
-            </FieldLabel>
+            <FieldLabel>Yazı Başlığı</FieldLabel>
 
             <span
               className="
@@ -308,13 +213,7 @@ export default function BlogForm(
           <textarea
             value={title}
             rows={2}
-            onChange={(
-              event,
-            ) =>
-              setTitle(
-                event.target.value,
-              )
-            }
+            onChange={(event) => setTitle(event.target.value)}
             placeholder="Yazının başlığı..."
             className="
               mt-4
@@ -360,9 +259,7 @@ export default function BlogForm(
               gap-4
             "
           >
-            <FieldLabel>
-              Kısa Özet
-            </FieldLabel>
+            <FieldLabel>Kısa Özet</FieldLabel>
 
             <span
               className="
@@ -380,13 +277,7 @@ export default function BlogForm(
             value={excerpt}
             maxLength={320}
             rows={4}
-            onChange={(
-              event,
-            ) =>
-              setExcerpt(
-                event.target.value,
-              )
-            }
+            onChange={(event) => setExcerpt(event.target.value)}
             placeholder="Blog kartlarında ve yazı girişinde görünecek kısa açıklama..."
             className={`
               ${fieldClassName}
@@ -410,9 +301,7 @@ export default function BlogForm(
               gap-4
             "
           >
-            <FieldLabel>
-              İçerik
-            </FieldLabel>
+            <FieldLabel>İçerik</FieldLabel>
 
             <span
               className="
@@ -434,17 +323,11 @@ export default function BlogForm(
                   bg-[#d86a88]
                 "
               />
-
               Fion Editor
             </span>
           </div>
 
-          <BlogEditor
-            value={contentHtml}
-            onChange={
-              setContentHtml
-            }
-          />
+          <BlogEditor value={contentHtml} onChange={setContentHtml} />
         </section>
       </div>
 
@@ -531,12 +414,7 @@ export default function BlogForm(
                 size-2
                 rotate-45
 
-                ${
-                  status ===
-                  "published"
-                    ? "bg-[#d86a88]"
-                    : "bg-white/25"
-                }
+                ${status === "published" ? "bg-[#d86a88]" : "bg-white/25"}
               `}
             />
           </div>
@@ -554,11 +432,7 @@ export default function BlogForm(
           >
             <button
               type="button"
-              onClick={() =>
-                setStatus(
-                  "draft",
-                )
-              }
+              onClick={() => setStatus("draft")}
               className={`
                 border
 
@@ -573,8 +447,7 @@ export default function BlogForm(
                 transition-all
 
                 ${
-                  status ===
-                  "draft"
+                  status === "draft"
                     ? `
                       border-white/25
                       bg-white/[0.07]
@@ -595,11 +468,7 @@ export default function BlogForm(
 
             <button
               type="button"
-              onClick={() =>
-                setStatus(
-                  "published",
-                )
-              }
+              onClick={() => setStatus("published")}
               className={`
                 border
 
@@ -614,8 +483,7 @@ export default function BlogForm(
                 transition-all
 
                 ${
-                  status ===
-                  "published"
+                  status === "published"
                     ? `
                       border-[#d86a88]/60
                       bg-[#591323]/55
@@ -707,26 +575,19 @@ export default function BlogForm(
             <span>
               {pending
                 ? "Kaydediliyor..."
-                : status ===
-                    "published"
+                : status === "published"
                   ? "Kaydet & Yayınla"
                   : "Taslağı Kaydet"}
             </span>
 
-            <span>
-              →
-            </span>
+            <span>→</span>
           </button>
 
           {/* BACK */}
 
           <button
             type="button"
-            onClick={() =>
-              router.push(
-                "/admin/blog",
-              )
-            }
+            onClick={() => router.push("/admin/blog")}
             className={`
               mt-2
               w-full
@@ -752,9 +613,7 @@ export default function BlogForm(
               justify-between
             "
           >
-            <FieldLabel>
-              Kapak Görseli
-            </FieldLabel>
+            <FieldLabel>Kapak Görseli</FieldLabel>
 
             <span
               className="
@@ -769,14 +628,7 @@ export default function BlogForm(
             </span>
           </div>
 
-          <CoverImageField
-            value={
-              coverImageUrl
-            }
-            onChange={
-              setCoverImageUrl
-            }
-          />
+          <CoverImageField value={coverImageUrl} onChange={setCoverImageUrl} />
         </section>
 
         {/* =================================================
@@ -793,43 +645,23 @@ export default function BlogForm(
             p-5
           "
         >
-          <FieldLabel>
-            Kategori
-          </FieldLabel>
+          <FieldLabel>Kategori</FieldLabel>
 
           <input
             value={category}
-            onChange={(
-              event,
-            ) =>
-              setCategory(
-                event.target.value,
-              )
-            }
+            onChange={(event) => setCategory(event.target.value)}
             placeholder="Genel"
-            className={
-              fieldClassName
-            }
+            className={fieldClassName}
           />
 
           <div className="mt-7">
-            <FieldLabel>
-              Etiketler
-            </FieldLabel>
+            <FieldLabel>Etiketler</FieldLabel>
 
             <input
               value={tags}
-              onChange={(
-                event,
-              ) =>
-                setTags(
-                  event.target.value,
-                )
-              }
+              onChange={(event) => setTags(event.target.value)}
               placeholder="SEO, Sosyal Medya, Reklam"
-              className={
-                fieldClassName
-              }
+              className={fieldClassName}
             />
 
             <p
@@ -861,23 +693,13 @@ export default function BlogForm(
             p-5
           "
         >
-          <FieldLabel>
-            URL / Slug
-          </FieldLabel>
+          <FieldLabel>URL / Slug</FieldLabel>
 
           <input
             value={slug}
-            onChange={(
-              event,
-            ) =>
-              setSlug(
-                event.target.value,
-              )
-            }
+            onChange={(event) => setSlug(event.target.value)}
             placeholder="Otomatik oluşturulur"
-            className={
-              fieldClassName
-            }
+            className={fieldClassName}
           />
 
           <div
@@ -901,8 +723,7 @@ export default function BlogForm(
               "
             >
               /blog/
-              {slug ||
-                "otomatik-olusturulur"}
+              {slug || "otomatik-olusturulur"}
             </p>
           </div>
         </section>
@@ -962,9 +783,7 @@ export default function BlogForm(
                 gap-4
               "
             >
-              <FieldLabel>
-                SEO Başlığı
-              </FieldLabel>
+              <FieldLabel>SEO Başlığı</FieldLabel>
 
               <span
                 className="
@@ -980,20 +799,9 @@ export default function BlogForm(
             <input
               value={seoTitle}
               maxLength={60}
-              onChange={(
-                event,
-              ) =>
-                setSeoTitle(
-                  event.target.value,
-                )
-              }
-              placeholder={
-                title ||
-                "SEO başlığı"
-              }
-              className={
-                fieldClassName
-              }
+              onChange={(event) => setSeoTitle(event.target.value)}
+              placeholder={title || "SEO başlığı"}
+              className={fieldClassName}
             />
           </div>
 
@@ -1008,9 +816,7 @@ export default function BlogForm(
                 gap-4
               "
             >
-              <FieldLabel>
-                SEO Açıklaması
-              </FieldLabel>
+              <FieldLabel>SEO Açıklaması</FieldLabel>
 
               <span
                 className="
@@ -1024,21 +830,12 @@ export default function BlogForm(
             </div>
 
             <textarea
-              value={
-                seoDescription
-              }
+              value={seoDescription}
               maxLength={160}
               rows={4}
-              onChange={(
-                event,
-              ) =>
-                setSeoDescription(
-                  event.target.value,
-                )
-              }
+              onChange={(event) => setSeoDescription(event.target.value)}
               placeholder={
-                excerpt ||
-                "Arama sonuçlarında görünecek açıklama..."
+                excerpt || "Arama sonuçlarında görünecek açıklama..."
               }
               className={`
                 ${fieldClassName}
@@ -1088,12 +885,7 @@ export default function BlogForm(
           <button
             type="button"
             onClick={() =>
-              setStatus(
-                status ===
-                  "draft"
-                  ? "published"
-                  : "draft",
-              )
+              setStatus(status === "draft" ? "published" : "draft")
             }
             className="
               min-w-[100px]
@@ -1110,10 +902,7 @@ export default function BlogForm(
               text-white/45
             "
           >
-            {status ===
-            "draft"
-              ? "Taslak"
-              : "Yayında"}
+            {status === "draft" ? "Taslak" : "Yayında"}
           </button>
 
           <button
@@ -1127,14 +916,11 @@ export default function BlogForm(
           >
             {pending
               ? "Kaydediliyor..."
-              : status ===
-                  "published"
+              : status === "published"
                 ? "Kaydet & Yayınla"
                 : "Taslağı Kaydet"}
 
-            <span>
-              →
-            </span>
+            <span>→</span>
           </button>
         </div>
       </div>

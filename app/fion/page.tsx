@@ -1,106 +1,65 @@
-import type { Metadata } from "next";
+import type {
+  Metadata,
+} from "next";
+
+import DetailHeader from "@/app/components/pages/DetailHeader";
 import DetailLavaBackground from "@/app/components/pages/DetailLavaBackground";
-import DetailPageShell from "@/app/components/pages/DetailPageShell";
-import DetailContactCTA from "../components/pages/DetailContactCTA";
+import DetailContactCTA from "@/app/components/pages/DetailContactCTA";
+
+import FionHero from "@/app/components/sections/fion/FionHero";
+import FionManifesto from "@/app/components/sections/fion/FionManifesto";
+import FionNotUs from "@/app/components/sections/fion/FionNotUs";
 
 export const metadata: Metadata = {
-  title: "Fion | Fion Medya",
+  title:
+    "Fion | Fion Medya",
 
   description:
-    "Fion Medya'nın yaklaşımı, çalışma biçimi ve yaratıcı marka iletişimi anlayışı.",
+    "Fion Medya'nın yaratıcı bakış açısını, çalışma biçimini ve markalara yaklaşımını keşfedin.",
+
+  alternates: {
+    canonical: "/fion",
+  },
 };
 
 export default function FionPage() {
   return (
-    <DetailPageShell
-      background={<DetailLavaBackground variant="fion" />}
-      eyebrow="Fion / Biz"
-      title={
-        <>
-          Biz
-          <br />
-          <em className="text-[#b9b1ad]">Fion&apos;uz.</em>
-        </>
-      }
-      description="Markaların fark edilmesini ve doğru müşterilere ulaşmasını sağlayan yaratıcı işler üretiyoruz."
+    <main
+      className="
+        relative
+        isolate
+
+        min-h-screen
+
+        overflow-x-clip
+
+        bg-black
+        text-[#f4efe9]
+      "
     >
-      <div
-        className="
-          grid
-          gap-14
-          lg:grid-cols-2
-          lg:gap-24
-        "
-      >
-        <div>
-          <p
-            className="
-              text-[10px]
-              uppercase
-              tracking-[0.22em]
-              text-[var(--wine-light)]
-            "
-          >
-            Nasıl çalışıyoruz?
-          </p>
+      {/* =============================================
+          BACKGROUND
+      ============================================== */}
 
-          <div
-            className="
-              mt-7
-              font-serif
-              text-[clamp(2.6rem,4vw,5rem)]
-              leading-[0.92]
-              tracking-[-0.05em]
-            "
-          >
-            <p>Markaya bakarız.</p>
+      <DetailLavaBackground
+        variant="fion"
+      />
 
-            <p>Müşteriyi düşünürüz.</p>
+      {/* =============================================
+          PAGE
+      ============================================== */}
 
-            <p className="text-[#b9b1ad]">Sonra işi üretiriz.</p>
-          </div>
-        </div>
+      <div className="relative z-10">
+        <DetailHeader />
 
-        <div
-          className="
-            border-t
-            border-white/10
-            pt-8
-            lg:border-l
-            lg:border-t-0
-            lg:pl-10
-            lg:pt-0
-          "
-        >
-          <p
-            className="
-              max-w-[500px]
-              font-serif
-              text-[clamp(2rem,3vw,3.5rem)]
-              leading-[1]
-              tracking-[-0.045em]
-            "
-          >
-            Daha fazla içerik üretmek için değil,
-            <em className="text-[var(--wine-light)]"> daha iyi fikirler </em>
-            üretmek için buradayız.
-          </p>
+        <FionHero />
 
-          <p
-            className="
-              mt-8
-              max-w-[460px]
-              text-[14px]
-              leading-7
-              text-[var(--muted)]
-            "
-          >
-            Kuşadası merkezli Fion Medya; sosyal medya, grafik tasarım, dijital
-            reklam ve marka iletişimini aynı hedef etrafında buluşturur.
-          </p>
-        </div>
+        <FionManifesto />
+
+        <FionNotUs />
+
+        <DetailContactCTA />
       </div>
-      <DetailContactCTA />
-    </DetailPageShell>
+    </main>
   );
 }

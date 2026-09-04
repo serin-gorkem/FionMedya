@@ -1,13 +1,18 @@
-import Image from "next/image";
-import Link from "next/link";
+import type {
+  ReactNode,
+} from "react";
 
-import type { ReactNode } from "react";
+import DetailHeader from "@/app/components/pages/DetailHeader";
 
 type DetailPageShellProps = {
   eyebrow: string;
+
   title: ReactNode;
+
   description: string;
+
   children?: ReactNode;
+
   background?: ReactNode;
 };
 
@@ -23,21 +28,26 @@ export default function DetailPageShell({
       className="
         relative
         isolate
+
         min-h-screen
+
         overflow-x-clip
+
         bg-[#0d0709]
+
         text-[var(--ivory)]
       "
     >
-      {/* =====================================================
+      {/* =============================================
           BACKGROUND
-      ====================================================== */}
+      ============================================== */}
 
       {background && (
         <div
           aria-hidden="true"
           className="
             pointer-events-none
+
             absolute
             inset-0
             z-0
@@ -47,86 +57,20 @@ export default function DetailPageShell({
         </div>
       )}
 
-      {/* =====================================================
+      {/* =============================================
           PAGE
-      ====================================================== */}
+      ============================================== */}
 
       <div className="relative z-10">
-        {/* ===================================================
-            TOP BAR
-        ==================================================== */}
+        {/* ===========================================
+            SHARED DETAIL HEADER
+        ============================================ */}
 
-        <header
-          className="
-            border-b
-            border-white/10
-          "
-        >
-          <div
-            className="
-              mx-auto
-              flex
-              h-[82px]
-              max-w-[1500px]
-              items-center
-              justify-between
+        <DetailHeader />
 
-              px-6
-              sm:px-10
-            "
-          >
-            <Link
-              href="/"
-              aria-label="Fion Medya ana sayfa"
-              className="
-                inline-flex
-                items-center
-
-                transition-opacity
-                duration-300
-
-                hover:opacity-75
-              "
-            >
-              <Image
-                src="/fion-logo.png"
-                alt="Fion Medya"
-                width={100}
-                height={38}
-                priority
-                className="
-                  h-auto
-                  w-20
-                  brightness-0
-                  invert
-
-                  sm:w-[104px]
-                "
-              />
-            </Link>
-
-            <Link
-              href="/"
-              className="
-                text-[10px]
-                uppercase
-                tracking-[0.18em]
-                text-[var(--muted)]
-
-                transition-colors
-                duration-300
-
-                hover:text-[var(--ivory)]
-              "
-            >
-              ← Ana sayfa
-            </Link>
-          </div>
-        </header>
-
-        {/* ===================================================
+        {/* ===========================================
             HERO
-        ==================================================== */}
+        ============================================ */}
 
         <section
           className="
@@ -160,6 +104,7 @@ export default function DetailPageShell({
                   font-medium
                   uppercase
                   tracking-[0.25em]
+
                   text-[var(--wine-light)]
                 "
               >
@@ -174,6 +119,7 @@ export default function DetailPageShell({
                   font-serif
 
                   text-[clamp(4rem,8vw,8.5rem)]
+
                   leading-[0.82]
                   tracking-[-0.065em]
 
@@ -190,6 +136,7 @@ export default function DetailPageShell({
               className="
                 border-t
                 border-white/10
+
                 pt-7
 
                 lg:border-l
@@ -204,6 +151,7 @@ export default function DetailPageShell({
 
                   text-[15px]
                   leading-7
+
                   text-[#c2bab6]
                 "
               >
@@ -213,9 +161,9 @@ export default function DetailPageShell({
           </div>
         </section>
 
-        {/* ===================================================
-            PAGE CONTENT
-        ==================================================== */}
+        {/* ===========================================
+            CONTENT
+        ============================================ */}
 
         {children && (
           <section
