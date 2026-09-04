@@ -14,12 +14,10 @@ export default function DetailContactCTA() {
 
         border-t
         border-white/10
-    "
+      "
     >
       {/* =================================================
           PAGE-CONTINUING ATMOSPHERE
-          Ayrı background yok.
-          Sadece lokal wine ışıkları.
       ================================================== */}
 
       <div
@@ -58,7 +56,9 @@ export default function DetailContactCTA() {
         "
       />
 
-      {/* GHOST FION */}
+      {/* =================================================
+          GHOST FION
+      ================================================== */}
 
       <span
         aria-hidden="true"
@@ -108,7 +108,9 @@ export default function DetailContactCTA() {
           lg:py-32
         "
       >
-        {/* META */}
+        {/* =================================================
+            META
+        ================================================== */}
 
         <div
           className="
@@ -183,7 +185,9 @@ export default function DetailContactCTA() {
             lg:gap-24
           "
         >
-          {/* LEFT */}
+          {/* =============================================
+              LEFT
+          ============================================== */}
 
           <div>
             <h2
@@ -200,7 +204,10 @@ export default function DetailContactCTA() {
             >
               Markanı
               <br />
-              <em className="text-white/42">konuşalım.</em>
+
+              <em className="text-white/42">
+                konuşalım.
+              </em>
             </h2>
 
             <div
@@ -235,7 +242,9 @@ export default function DetailContactCTA() {
             </div>
           </div>
 
-          {/* RIGHT */}
+          {/* =============================================
+              RIGHT
+          ============================================== */}
 
           <div
             className="
@@ -263,12 +272,12 @@ export default function DetailContactCTA() {
                 sm:leading-8
               "
             >
-              Nereden başlayacağından emin olman gerekmiyor. Markanı anlat,
-              doğru yolu birlikte bulalım.
+              Nereden başlayacağından emin olman gerekmiyor.
+              Markanı anlat, doğru yolu birlikte bulalım.
             </p>
 
             {/* ===========================================
-                CTA
+                WHATSAPP CTA
             ============================================ */}
 
             <a
@@ -456,47 +465,110 @@ export default function DetailContactCTA() {
 
         {/* =================================================
             FOOT META
+            TEK ÇİZGİ / TEK SATIR
         ================================================== */}
 
         <div
           className="
             mt-20
 
-            flex
-            flex-col
-            gap-4
+            grid
+            gap-5
 
             border-t
             border-white/[0.08]
 
-            pt-5
+            pt-6
 
-            sm:flex-row
+            text-[8px]
+            uppercase
+            tracking-[0.22em]
+
+            text-white/38
+
+            sm:grid-cols-[1fr_auto_1fr]
             sm:items-center
-            sm:justify-between
 
             lg:mt-28
           "
         >
+          {/* =============================================
+              SERVICES
+          ============================================== */}
+
           <span
             className="
-              text-[7px]
-              uppercase
-              tracking-[0.26em]
-
-              text-white/20
+              sm:justify-self-start
             "
           >
             Sosyal Medya · Tasarım · Reklam · Marka Stratejisi
           </span>
 
+          {/* =============================================
+              CREATOR CREDIT
+          ============================================== */}
+
+          <a
+            href="https://gorkemserin.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="
+              group
+
+              inline-flex
+              items-center
+              gap-1.5
+
+              transition-colors
+              duration-300
+
+              hover:text-white/70
+
+              sm:justify-self-center
+            "
+          >
+            <span>
+              Tasarım &amp; Geliştirme:
+            </span>
+
+            <strong
+              className="
+                font-medium
+
+                text-white/60
+
+                transition-colors
+                duration-300
+
+                group-hover:text-white
+              "
+            >
+              Görkem Serin
+            </strong>
+
+            <span
+              aria-hidden="true"
+              className="
+                text-[#c45a78]
+
+                transition-transform
+                duration-300
+
+                group-hover:translate-x-0.5
+                group-hover:-translate-y-0.5
+              "
+            >
+              ↗
+            </span>
+          </a>
+
+          {/* =============================================
+              LOCATIONS
+          ============================================== */}
+
           <span
             className="
-              text-[7px]
-              uppercase
-              tracking-[0.24em]
-
-              text-white/18
+              sm:justify-self-end
             "
           >
             Kuşadası · Aydın · İzmir

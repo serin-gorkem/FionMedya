@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     },
   ],
 
-  creator: "Fion Medya",
+  creator: "Görkem Serin",
 
   publisher: "Fion Medya",
 
