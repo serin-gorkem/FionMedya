@@ -49,7 +49,7 @@ export const clientWorks: ClientWork[] = [
     number: "01",
 
     name: "Byron",
-    logo: "/clients/byron.png",
+    logo: "/projects/clients/byron.png",
 
     summary: "Sosyal medya yönetimi.",
 
@@ -82,7 +82,7 @@ export const clientWorks: ClientWork[] = [
     number: "02",
 
     name: "İstanbul Kokoreç",
-    logo: "/clients/istanbul-kokorec.png",
+    logo: "/projects/clients/istanbul-kokorec.png",
 
     summary: "Sosyal medya yönetimi.",
 
@@ -111,7 +111,7 @@ export const clientWorks: ClientWork[] = [
     number: "03",
 
     name: "Çapar Tesisat",
-    logo: "/clients/capar.png",
+    logo: "/projects/clients/capar.png",
 
     summary: "Sosyal medya yönetimi.",
 
@@ -139,7 +139,7 @@ export const clientWorks: ClientWork[] = [
     number: "04",
 
     name: "Kurye Plus",
-    logo: "/clients/kurye-plus.png",
+    logo: "/projects/clients/kurye-plus.png",
 
     summary: "Sosyal medya yönetimi.",
 
@@ -167,7 +167,7 @@ export const clientWorks: ClientWork[] = [
     number: "05",
 
     name: "FUYAPI",
-    logo: "/clients/fuyapi.png",
+    logo: "/projects/clients/fuyapi.png",
 
     summary: "Sosyal medya yönetimi.",
 
@@ -195,7 +195,7 @@ export const clientWorks: ClientWork[] = [
     number: "06",
 
     name: "Maia",
-    logo: "/clients/maia.png",
+    logo: "/projects/clients/maia.png",
 
     summary: "Sosyal medya yönetimi.",
 
@@ -224,7 +224,7 @@ export const clientWorks: ClientWork[] = [
     number: "07",
 
     name: "Git Git",
-    logo: "/clients/gitgit.png",
+    logo: "/projects/clients/gitgit.png",
 
     summary: "QR menü deneyimi.",
 
@@ -258,7 +258,7 @@ export const clientWorks: ClientWork[] = [
     number: "08",
 
     name: "MT Pro",
-    logo: "/clients/mt-pro.png",
+    logo: "/projects/clients/mt-pro.png",
 
     summary: "Sosyal medya yönetimi.",
 
@@ -286,7 +286,7 @@ export const clientWorks: ClientWork[] = [
     number: "09",
 
     name: "Moto Express",
-    logo: "/clients/moto-express.png",
+    logo: "/projects/clients/moto-express.png",
 
     summary: "Sosyal medya yönetimi.",
 
@@ -316,7 +316,7 @@ export const clientWorks: ClientWork[] = [
     number: "10",
 
     name: "Kule",
-    logo: "/clients/kule.png",
+    logo: "/projects/clients/kule.png",
 
     summary: "QR menü deneyimi.",
 
@@ -346,7 +346,7 @@ export const clientWorks: ClientWork[] = [
     number: "11",
 
     name: "Perla",
-    logo: "/clients/perla.png",
+    logo: "/projects/clients/perla.png",
 
     summary: "Sosyal medya yönetimi.",
 
