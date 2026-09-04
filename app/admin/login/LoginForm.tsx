@@ -223,7 +223,7 @@ export default function LoginForm() {
             autoCapitalize="none"
             spellCheck={false}
             required
-            placeholder="hello@fionmedya.com"
+            placeholder="info@fionmedya.com"
             className="
               w-full
 
