@@ -16,7 +16,7 @@ import {
 
 export const metadata: Metadata = {
   title:
-    "Blog | Fion Medya",
+    "Blog",
 
   description:
     "Sosyal medya yönetimi, grafik tasarım, dijital reklam ve marka iletişimi üzerine Fion Medya blog yazıları.",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 
   openGraph: {
     title:
-      "Fion Journal | Fion Medya",
+      "Fion Journal",
 
     description:
       "Fikir, strateji, tasarım ve dijital iletişim üzerine Fion Medya notları.",

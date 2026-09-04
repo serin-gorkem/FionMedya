@@ -1,5 +1,6 @@
 "use client";
 
+import useMobilePerformanceMode from "@/app/hooks/useMobilePerformanceMode";
 import {
   motion,
   useReducedMotion,
@@ -669,8 +670,24 @@ export default function DetailLavaBackground({
   const prefersReducedMotion =
     useReducedMotion();
 
+  const mobilePerformanceMode =
+    useMobilePerformanceMode();
+
   const config =
     palettes[variant];
+
+  if (
+    prefersReducedMotion ||
+    mobilePerformanceMode
+  ) {
+    return (
+      <StaticLavaBackground
+        background={
+          config.base
+        }
+      />
+    );
+  }
 
   return (
     <div
@@ -682,8 +699,7 @@ export default function DetailLavaBackground({
         overflow-hidden
       "
       style={{
-        background:
-          config.base,
+        background: config.base,
       }}
     >
       {/* =================================================
@@ -975,6 +991,113 @@ export default function DetailLavaBackground({
         style={{
           boxShadow:
             "inset 0 0 140px 10px rgba(0,0,0,0.30)",
+        }}
+      />
+    </div>
+  );
+}
+function StaticLavaBackground({
+  background,
+}: {
+  background: string;
+}) {
+  return (
+    <div
+      aria-hidden="true"
+      className="
+        pointer-events-none
+
+        fixed
+        inset-0
+
+        overflow-hidden
+      "
+      style={{
+        background,
+      }}
+    >
+      {/* STATIC WINE DEPTH */}
+
+      <div
+        className="
+          absolute
+          inset-0
+        "
+        style={{
+          background: `
+            radial-gradient(
+              ellipse at 50% 46%,
+              rgba(89,19,35,0.22) 0%,
+              rgba(89,19,35,0.08) 35%,
+              transparent 68%
+            )
+          `,
+        }}
+      />
+
+      {/* STATIC LIGHT */}
+
+      <div
+        className="
+          absolute
+          inset-0
+        "
+        style={{
+          background: `
+            radial-gradient(
+              ellipse at 50% -8%,
+              rgba(244,239,233,0.07),
+              transparent 46%
+            )
+          `,
+        }}
+      />
+
+      {/* DEPTH */}
+
+      <div
+        className="
+          absolute
+          inset-0
+
+          bg-gradient-to-b
+
+          from-transparent
+          via-black/[0.04]
+          to-black/20
+        "
+      />
+
+      {/* STATIC GRAIN */}
+
+      <div
+        className="
+          absolute
+          inset-0
+
+          opacity-[0.018]
+        "
+        style={{
+          backgroundImage: `
+            radial-gradient(
+              rgba(255,255,255,0.75) 0.5px,
+              transparent 0.6px
+            )
+          `,
+
+          backgroundSize:
+            "6px 6px",
+        }}
+      />
+
+      <div
+        className="
+          absolute
+          inset-0
+        "
+        style={{
+          boxShadow:
+            "inset 0 0 100px rgba(0,0,0,0.28)",
         }}
       />
     </div>

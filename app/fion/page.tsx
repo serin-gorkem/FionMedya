@@ -12,7 +12,7 @@ import FionNotUs from "@/app/components/sections/fion/FionNotUs";
 
 export const metadata: Metadata = {
   title:
-    "Fion | Fion Medya",
+    "Fion",
 
   description:
     "Fion Medya'nın yaratıcı bakış açısını, çalışma biçimini ve markalara yaklaşımını keşfedin.",

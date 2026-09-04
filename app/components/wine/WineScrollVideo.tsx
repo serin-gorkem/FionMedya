@@ -1,18 +1,25 @@
 "use client";
 
-import { useMotionValueEvent, useReducedMotion, useScroll } from "framer-motion";
+import {
+  useMotionValueEvent,
+  useReducedMotion,
+  useScroll,
+} from "framer-motion";
 import { useEffect, useRef, type RefObject } from "react";
 
 const VIDEO_END_PADDING = 0.05;
-const SEEK_THRESHOLD = 0.01;
+const SEEK_THRESHOLD = 0.0015;
 
-const clamp = (value: number, min = 0, max = 1) => Math.min(Math.max(value, min), max);
+const clamp = (value: number, min = 0, max = 1) =>
+  Math.min(Math.max(value, min), max);
 
 type WineScrollVideoProps = {
   containerRef: RefObject<HTMLDivElement | null>;
 };
 
-export default function WineScrollVideo({ containerRef }: WineScrollVideoProps) {
+export default function WineScrollVideo({
+  containerRef,
+}: WineScrollVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const scrubFrameRef = useRef<number | null>(null);
   const latestScrollRef = useRef(0);
@@ -25,10 +32,13 @@ export default function WineScrollVideo({ containerRef }: WineScrollVideoProps) 
 
   const seekVideo = (progress: number) => {
     const video = videoRef.current;
-    if (!video || !Number.isFinite(video.duration) || video.duration <= 0) return;
+    if (!video || !Number.isFinite(video.duration) || video.duration <= 0)
+      return;
 
-    const targetTime = clamp(progress) * Math.max(video.duration - VIDEO_END_PADDING, 0);
-    if (Math.abs(video.currentTime - targetTime) > SEEK_THRESHOLD) video.currentTime = targetTime;
+    const targetTime =
+      clamp(progress) * Math.max(video.duration - VIDEO_END_PADDING, 0);
+    if (Math.abs(video.currentTime - targetTime) > SEEK_THRESHOLD)
+      video.currentTime = targetTime;
   };
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
@@ -43,31 +53,62 @@ export default function WineScrollVideo({ containerRef }: WineScrollVideoProps) 
 
   useEffect(() => {
     return () => {
-      if (scrubFrameRef.current !== null) cancelAnimationFrame(scrubFrameRef.current);
+      if (scrubFrameRef.current !== null)
+        cancelAnimationFrame(scrubFrameRef.current);
     };
   }, []);
 
   if (reduceMotion) return null;
 
   return (
-    <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-[7] overflow-hidden">
+    <div
+      aria-hidden="true"
+      className="pointer-events-none fixed inset-0 z-[7] overflow-hidden"
+    >
       <div className="absolute left-[78%] top-[6vh] h-screen w-[56.25vh] -translate-x-1/2 md:left-[64%] md:top-0 xl:left-1/2">
         <video
           ref={videoRef}
-          src="/videos/wine/wine.mp4"
           muted
           playsInline
           preload="auto"
           controls={false}
           disablePictureInPicture
-          className="absolute inset-0 h-full w-full object-cover mix-blend-lighten opacity-[0.28] sm:opacity-[0.38] md:opacity-[0.52] lg:opacity-[0.70] xl:opacity-[0.88]"
-          style={{ filter: "contrast(1.2) brightness(0.9)" }}
+          className="
+    absolute
+    inset-0
+
+    h-full
+    w-full
+
+    object-cover
+    mix-blend-lighten
+
+    opacity-[0.28]
+    sm:opacity-[0.38]
+    md:opacity-[0.52]
+    lg:opacity-[0.70]
+    xl:opacity-[0.88]
+  "
+          style={{
+            filter: "contrast(1.2) brightness(0.9)",
+          }}
           onLoadedMetadata={(event) => {
             const video = event.currentTarget;
-            video.currentTime = scrollYProgress.get() * Math.max(video.duration - VIDEO_END_PADDING, 0);
+
+            video.currentTime =
+              scrollYProgress.get() *
+              Math.max(video.duration - VIDEO_END_PADDING, 0);
           }}
           onLoadedData={() => seekVideo(scrollYProgress.get())}
-        />
+        >
+          <source
+            src="/videos/wine/wine-mobile.mp4"
+            media="(max-width: 767px)"
+            type="video/mp4"
+          />
+
+          <source src="/videos/wine/wine.mp4" type="video/mp4" />
+        </video>
       </div>
     </div>
   );

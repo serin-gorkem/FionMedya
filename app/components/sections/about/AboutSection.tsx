@@ -2,11 +2,9 @@ import Link from "next/link";
 
 import SectionContainer from "@/app/components/ui/SectionContainer";
 import WineLane from "@/app/components/ui/WineLane";
-import TextLink from "@/app/components/ui/TextLink";
 import SectionEyebrow from "@/app/components/ui/SectionEyebrow";
 
 import AboutIntro from "./AboutIntro";
-import AboutManifesto from "./AboutManifesto";
 
 export default function AboutSection() {
   return (
@@ -27,8 +25,6 @@ export default function AboutSection() {
 
       <SectionContainer>
         <AboutIntro />
-
-        <AboutManifesto />
 
         {/* =================================================
             SUMMARY / CTA ROW

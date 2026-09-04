@@ -46,7 +46,7 @@ export async function generateMetadata({
   if (!post) {
     return {
       title:
-        "Yazı Bulunamadı | Fion Medya",
+        "Yazı Bulunamadı",
     };
   }
 
@@ -56,7 +56,7 @@ export async function generateMetadata({
   return {
     title:
       post.seoTitle ||
-      `${post.title} | Fion Medya`,
+      `${post.title}`,
 
     description:
       post.seoDescription ||

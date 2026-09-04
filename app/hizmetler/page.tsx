@@ -9,7 +9,7 @@ import DetailLavaBackground from "@/app/components/pages/DetailLavaBackground";
 import DetailContactCTA from "../components/pages/DetailContactCTA";
 
 export const metadata: Metadata = {
-  title: "Hizmetler | Fion Medya",
+  title: "Hizmetler",
 
   description:
     "Fion Medya sosyal medya yönetimi, grafik tasarım ve dijital reklam yönetimi hizmetleri. Strateji, kreatif üretim ve reklam süreçlerini aynı marka hedefi etrafında birleştiriyoruz.",

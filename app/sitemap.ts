@@ -3,9 +3,7 @@ import type { MetadataRoute } from "next";
 import { createBlogService } from "@/features/blog/blog.server";
 
 function getSiteUrl() {
-  const value =
-    process.env.NEXT_PUBLIC_SITE_URL ??
-    "https://fionmedya.com";
+  const value = process.env.NEXT_PUBLIC_SITE_URL ?? "https://fionmedya.com";
 
   return value.replace(/\/+$/, "");
 }
@@ -35,6 +33,26 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
       changeFrequency: "weekly",
 
+      priority: 0.8,
+    },
+    {
+      url: `${siteUrl}/hizmetler`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+
+    {
+      url: `${siteUrl}/isler`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+
+    {
+      url: `${siteUrl}/fion`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
       priority: 0.8,
     },
   ];

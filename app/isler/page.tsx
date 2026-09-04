@@ -8,7 +8,7 @@ import ClientWorkGallery from "@/app/components/sections/projects/detail/ClientW
 import DetailContactCTA from "../components/pages/DetailContactCTA";
 
 export const metadata: Metadata = {
-  title: "İşler | Fion Medya",
+  title: "İşler",
 
   description:
     "Fion Medya'nın farklı markalar için ürettiği sosyal medya ve dijital deneyim çalışmalarından seçkiler.",
