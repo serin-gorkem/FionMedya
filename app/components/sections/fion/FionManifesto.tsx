@@ -28,13 +28,13 @@ const statements = [
     index: "02",
 
     first:
-      "TAKİPÇİDEN",
+      "Marka ",
 
     second:
-      "ÖNCE",
+      "İmajınızı ",
 
     accent:
-      "MÜŞTERİYİ DÜŞÜNÜYORUZ.",
+      "Koruyoruz",
 
     meta:
       "İnsan / Metrik",
@@ -44,13 +44,13 @@ const statements = [
     index: "03",
 
     first:
-      "GÖRÜNMEK",
+      "Sıradanı unutturan",
 
     second:
-      "YETMEZ.",
+      "Projelerle.",
 
     accent:
-      "HATIRLANMAK GEREK.",
+      "Markanızı unutulmaz kılıyoruz",
 
     meta:
       "İz / Görünürlük",
@@ -243,7 +243,7 @@ export default function FionManifesto() {
                   font-serif
                   text-[clamp(12rem,27vw,29rem)]
 
-                  leading-none
+                  leading-1
                   tracking-[-0.09em]
 
                   text-white/[0.02]
@@ -378,7 +378,7 @@ export default function FionManifesto() {
 
                       text-[clamp(3.5rem,9vw,9.8rem)]
 
-                      leading-[0.81]
+                      leading-[1.0]
                       tracking-[-0.065em]
 
                       text-[#f4efe9]

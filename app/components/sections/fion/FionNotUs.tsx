@@ -15,7 +15,7 @@ const us = [
   "Fikri olan bir ekip.",
   "Markayı önce anlayan.",
   "Strateji, kreatif ve reklamı aynı hedefe bağlayan.",
-  "Takipçiden önce doğru müşteriyi düşünen.",
+  "Yeni müşteri kazandırmak.",
 ] as const;
 
 export default function FionNotUs() {
@@ -672,7 +672,7 @@ export default function FionNotUs() {
                 text-white/45
               "
             >
-              Formülden çok fikir.
+              Sıradanlıktan uzak, ilham verici.
             </span>
           </div>
         </div>
