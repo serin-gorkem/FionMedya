@@ -33,13 +33,8 @@ const additionalServices = [
     number: "05",
     title: "Marka Stratejisi",
     description:
-      "Markanın ne söyleyeceğini, kime söyleyeceğini ve nasıl hatırlanacağını netleştiriyoruz.",
-    scope: [
-      "Konumlandırma",
-      "İletişim dili",
-      "Hedef kitle",
-      "Kreatif yön",
-    ],
+      "Markanın ne söyleyeceğini, hedef kitlesini, nasıl hatırlanacağını ve nasıl gelişip büyüme sağlayacağını netleştiriyoruz. ",
+    scope: ["Konumlandırma", "İletişim dili", "Hedef kitle", "Kreatif yön"],
   },
 ] as const;
 
@@ -50,49 +45,34 @@ const supportServices = [
   "Video prodüksiyon",
   "QR menü tasarımı",
   "AI destekli kreatif üretim",
+  "Organizasyon",
 ] as const;
 
 export default function HizmetlerPage() {
   return (
     <DetailPageShell
-      background={
-        <DetailLavaBackground
-          variant="services"
-        />
-      }
+      background={<DetailLavaBackground variant="services" />}
       eyebrow="Fion / Hizmetler"
       title={
         <>
-          Fikri
+          Markaların
           <br />
-          görünür,
+          iz, bırakmalarını
           <br />
-
-          <em className="text-white/55">
-            hatırlanır
-          </em>
-
-          <br />
-          ve etkili
-          <br />
-          hale getiriyoruz.
+          sağlıyoruz
         </>
       }
-      description="Sosyal medya, tasarım ve reklamı ayrı ayrı teslim edilen işler olarak değil, markanın aynı hedefe çalışan parçaları olarak ele alıyoruz."
+      description="Strateji, tasarım, sosyal medya ve reklamı tek bir vizyon altında bir araya getiriyor, her çalışmayı markanın büyüme yolculuğuna değer katacak şekilde tasarlıyoruz. 
+"
     >
       {/* =================================================
           CORE SERVICES
       ================================================== */}
 
       <div>
-        {serviceDetails.map(
-          (service) => (
-            <ServiceDetailSection
-              key={service.number}
-              service={service}
-            />
-          ),
-        )}
+        {serviceDetails.map((service) => (
+          <ServiceDetailSection key={service.number} service={service} />
+        ))}
       </div>
 
       {/* =================================================
@@ -101,9 +81,6 @@ export default function HizmetlerPage() {
 
       <section
         className="
-          border-t
-          border-white/10
-
           py-20
 
           sm:py-28
@@ -150,10 +127,7 @@ export default function HizmetlerPage() {
             >
               Görselden
               <br />
-
-              <em className="text-white/55">
-                önce fikir.
-              </em>
+              <em className="text-white/55">önce fikir.</em>
             </h2>
 
             <p
@@ -172,46 +146,38 @@ export default function HizmetlerPage() {
               şekillendiriyoruz.
             </p>
           </div>
-
           {/* SERVICES */}
-
           <div
             className="
-              border-t
-              border-white/10
             "
           >
-            {additionalServices.map(
-              (service) => (
-                <article
-                  key={service.number}
-                  className="
+            {additionalServices.map((service) => (
+              <article
+                key={service.number}
+                className="
                     grid
                     gap-8
-
-                    border-b
-                    border-white/10
 
                     py-10
 
                     sm:grid-cols-[70px_minmax(0,1fr)]
                     sm:py-12
                   "
-                >
-                  <span
-                    className="
+              >
+                <span
+                  className="
                       font-serif
                       text-3xl
 
                       text-white/25
                     "
-                  >
-                    {service.number}
-                  </span>
+                >
+                  {service.number}
+                </span>
 
-                  <div>
-                    <h3
-                      className="
+                <div>
+                  <h3
+                    className="
                         font-serif
 
                         text-[clamp(2.2rem,4vw,4.2rem)]
@@ -221,12 +187,12 @@ export default function HizmetlerPage() {
 
                         text-ivory
                       "
-                    >
-                      {service.title}
-                    </h3>
+                  >
+                    {service.title}
+                  </h3>
 
-                    <p
-                      className="
+                  <p
+                    className="
                         mt-5
                         max-w-[600px]
 
@@ -235,12 +201,12 @@ export default function HizmetlerPage() {
 
                         text-white/55
                       "
-                    >
-                      {service.description}
-                    </p>
+                  >
+                    {service.description}
+                  </p>
 
-                    <div
-                      className="
+                  <div
+                    className="
                         mt-7
 
                         flex
@@ -248,28 +214,25 @@ export default function HizmetlerPage() {
                         gap-x-6
                         gap-y-3
                       "
-                    >
-                      {service.scope.map(
-                        (item) => (
-                          <span
-                            key={item}
-                            className="
+                  >
+                    {service.scope.map((item) => (
+                      <span
+                        key={item}
+                        className="
                               text-[9px]
                               uppercase
                               tracking-[0.18em]
 
                               text-white/38
                             "
-                          >
-                            {item}
-                          </span>
-                        ),
-                      )}
-                    </div>
+                      >
+                        {item}
+                      </span>
+                    ))}
                   </div>
-                </article>
-              ),
-            )}
+                </div>
+              </article>
+            ))}
           </div>
         </div>
       </section>
@@ -280,9 +243,6 @@ export default function HizmetlerPage() {
 
       <section
         className="
-          border-t
-          border-white/10
-
           py-16
 
           sm:py-20
@@ -324,11 +284,10 @@ export default function HizmetlerPage() {
                 text-ivory
               "
             >
-              Gerektiğinde
+              Markanızın büyümesi için
               <br />
-
               <em className="text-white/50">
-                alanı genişletiyoruz.
+                kapsamlı reklam hizmeti sağlıyoruz.
               </em>
             </h2>
           </div>
@@ -343,11 +302,10 @@ export default function HizmetlerPage() {
               sm:grid-cols-2
             "
           >
-            {supportServices.map(
-              (service, index) => (
-                <div
-                  key={service}
-                  className="
+            {supportServices.map((service, index) => (
+              <div
+                key={service}
+                className="
                     flex
                     min-h-28
                     items-end
@@ -361,35 +319,29 @@ export default function HizmetlerPage() {
                     sm:px-6
                     sm:odd:border-r
                   "
-                >
-                  <span
-                    className="
+              >
+                <span
+                  className="
                       text-sm
 
                       text-ivory
                     "
-                  >
-                    {service}
-                  </span>
+                >
+                  {service}
+                </span>
 
-                  <span
-                    className="
+                <span
+                  className="
                       text-[8px]
                       tracking-[0.22em]
 
                       text-white/25
                     "
-                  >
-                    {String(
-                      index + 1,
-                    ).padStart(
-                      2,
-                      "0",
-                    )}
-                  </span>
-                </div>
-              ),
-            )}
+                >
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       </section>

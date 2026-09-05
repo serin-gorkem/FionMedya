@@ -1,8 +1,7 @@
-import Link from "next/link";
-
 import SectionContainer from "@/app/components/ui/SectionContainer";
 import WineLane from "@/app/components/ui/WineLane";
 import SectionEyebrow from "@/app/components/ui/SectionEyebrow";
+import SectionDetailCTA from "@/app/components/ui/SectionDetailCTA";
 
 import AboutIntro from "./AboutIntro";
 
@@ -50,7 +49,9 @@ export default function AboutSection() {
           ============================================== */}
 
           <div>
-            <SectionEyebrow>Ne için buradayız?</SectionEyebrow>
+            <SectionEyebrow>
+              Ne için buradayız?
+            </SectionEyebrow>
 
             <p
               className="
@@ -69,7 +70,10 @@ export default function AboutSection() {
             >
               Sıradanı
               <br />
-              <em className="text-white/50">Unutmak için.</em>
+
+              <em className="text-white/50">
+                Unutmak için.
+              </em>
             </p>
           </div>
 
@@ -93,65 +97,16 @@ export default function AboutSection() {
             className="
               mt-12
 
+              flex
+
               xl:mt-0
-              xl:flex
-              xl:justify-end
+              xl:justify-center
             "
           >
-            <div
-              className="
-                w-full
-                max-w-[420px]
-              "
-            >
-              {/* FION */}
-
-              <Link
-                href="/fion"
-                className="
-                  group
-
-                  flex
-                  w-full
-
-                  items-center
-                  justify-between
-                  gap-6
-
-                  border-b
-                  border-white/15
-
-                  py-5
-
-                  text-[10px]
-                  font-medium
-                  uppercase
-                  tracking-[0.18em]
-
-                  text-[var(--ivory)]
-
-                  transition-colors
-                  duration-300
-
-                  hover:border-[var(--wine-light)]
-                "
-              >
-                <span>Fion&apos;u daha yakından tanı</span>
-
-                <span
-                  className="
-                    text-[var(--wine-light)]
-
-                    transition-transform
-                    duration-300
-
-                    group-hover:translate-x-2
-                  "
-                >
-                  →
-                </span>
-              </Link>
-            </div>
+            <SectionDetailCTA
+              href="/fion"
+              label="Fion'u daha yakından tanı"
+            />
           </div>
         </div>
       </SectionContainer>

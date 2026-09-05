@@ -13,7 +13,7 @@ const items = [
   {
     id: "about",
     number: "02",
-    label: "Bizi Tanıyın",
+    label: "Fion'u Tanıyın",
   },
   {
     id: "blog",

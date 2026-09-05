@@ -102,7 +102,7 @@ export default function FooterLocation() {
             >
               Türkmen
               <br />
-              Candan Tarhan Blv. No:72
+              Candan Tarhan Blv. No:72 Kat 1
               <br />
               09400 Kuşadası / Aydın
             </address>

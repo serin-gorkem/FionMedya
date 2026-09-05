@@ -27,7 +27,7 @@ const items = [
     number: "03",
   },
   {
-    label: "Fion",
+    label: "Fion'u Tanıyın",
     href: "#about",
     number: "04",
   },

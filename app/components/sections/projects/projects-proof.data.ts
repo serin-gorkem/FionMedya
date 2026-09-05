@@ -17,6 +17,12 @@ export type ProjectTestimonial = {
 
 export const clientLogos: ClientLogo[] = [
   {
+    name: "MonaLimo",
+    logo: "/projects/clients/mona-limo.png",
+    sliderScale: 1,
+    wallScale: 0.95,
+  },
+  {
     name: "Seven For Life",
     logo: "/projects/clients/seven-for-life.png",
     sliderScale: 1.08,

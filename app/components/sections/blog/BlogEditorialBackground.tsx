@@ -149,41 +149,6 @@ export default function BlogEditorialBackground() {
         }}
       />
 
-      {/* PAPER FRAME */}
-
-      <motion.div
-        className="
-          absolute
-          right-[8%]
-          top-[20%]
-
-          hidden
-          h-[270px]
-          w-[200px]
-
-          border
-          border-white/[0.045]
-
-          lg:block
-        "
-        animate={
-          reduceMotion
-            ? undefined
-            : {
-                y: [0, -16, 0],
-                rotate: [
-                  1,
-                  -1,
-                  1,
-                ],
-              }
-        }
-        transition={{
-          duration: 14,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      />
 
       {/* EDITORIAL RULE */}
 
@@ -222,31 +187,6 @@ export default function BlogEditorialBackground() {
           ease: "linear",
         }}
       />
-
-      {/* JOURNAL GHOST */}
-
-      <span
-        className="
-          absolute
-          bottom-[-0.13em]
-          left-[-0.04em]
-
-          hidden
-
-          select-none
-
-          font-serif
-          text-[clamp(12rem,24vw,29rem)]
-          leading-none
-          tracking-[-0.09em]
-
-          text-white/[0.018]
-
-          xl:block
-        "
-      >
-        Journal
-      </span>
 
       {/* TEXTURE */}
 

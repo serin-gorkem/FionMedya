@@ -64,7 +64,9 @@ export const clientWorks: readonly ClientWork[] = [
 
     side: "right",
 
-    hasDetail: true,
+    hasDetail: false,
+
+    websiteUrl: "https://dogubatiinsaat.tr/",
   },
   /* =====================================================
      03 — MT PRO
@@ -243,7 +245,6 @@ export const clientWorks: readonly ClientWork[] = [
 
     images: [
       "/projects/clients/perla/01.jpg",
-      "/projects/clients/perla/02.jpg",
     ],
 
     side: "right",

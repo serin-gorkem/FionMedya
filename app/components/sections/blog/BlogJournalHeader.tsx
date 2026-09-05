@@ -86,22 +86,6 @@ export default function BlogJournalHeader() {
               sm:block
             "
           />
-
-          <span
-            className="
-              hidden
-
-              text-[7px]
-              uppercase
-              tracking-[0.26em]
-
-              text-white/45
-
-              sm:block
-            "
-          >
-            Journal
-          </span>
         </Link>
 
         {/* =========================================
@@ -137,7 +121,7 @@ export default function BlogJournalHeader() {
               "
             />
 
-            Fion Journal
+            Fion Blog
           </span>
 
           <Link

@@ -60,33 +60,6 @@ export default function BlogArticle({ post, relatedPosts }: BlogArticleProps) {
           lg:pt-48
         "
       >
-        {/* GHOST TYPE */}
-
-        <span
-          aria-hidden="true"
-          className="
-            pointer-events-none
-
-            absolute
-            right-[-0.08em]
-            top-[0.28em]
-
-            hidden
-
-            select-none
-
-            font-serif
-            text-[clamp(9rem,19vw,21rem)]
-            leading-none
-            tracking-[-0.09em]
-
-            text-white/[0.022]
-
-            xl:block
-          "
-        >
-          Journal
-        </span>
 
         {/* TOP META */}
 
@@ -201,7 +174,7 @@ export default function BlogArticle({ post, relatedPosts }: BlogArticleProps) {
                 text-white/40
               "
             >
-              Fion / Journal
+              Fion / Blog
             </p>
 
             <h1
@@ -385,7 +358,7 @@ export default function BlogArticle({ post, relatedPosts }: BlogArticleProps) {
                     text-white/45
                   "
                 >
-                  Fion Journal
+                  Fion Blog
                 </span>
               </div>
             </div>
@@ -489,7 +462,7 @@ export default function BlogArticle({ post, relatedPosts }: BlogArticleProps) {
                   text-white/40
                 "
               >
-                Fion Journal
+                Fion Blog
               </p>
 
               <span

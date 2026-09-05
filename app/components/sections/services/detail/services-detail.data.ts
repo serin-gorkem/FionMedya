@@ -1,6 +1,4 @@
-import type {
-  ServiceMockupType,
-} from "../services.types";
+import type { ServiceMockupType } from "../services.types";
 
 export type ServiceDetailItem = {
   number: string;
@@ -13,28 +11,19 @@ export type ServiceDetailItem = {
   mockup: ServiceMockupType;
 };
 
-export const serviceDetails:
-  readonly ServiceDetailItem[] = [
+export const serviceDetails: readonly ServiceDetailItem[] = [
   {
     number: "01",
-    eyebrow:
-      "Sosyal Medya Yönetimi",
+    eyebrow: "Sosyal Medya Yönetimi",
 
-    title:
-      "Kaydırılıp geçilmek için değil.",
+    title: "Akılda kalıcı, unutulmayan içerikler için.",
 
-    statement:
-      "Durup bakılmak için.",
+    statement: "",
 
     description:
-      "Markanın sosyal medyada yalnızca var olmasıyla ilgilenmiyoruz. Ne söyleyeceğini, nasıl görüneceğini ve insanlarda nasıl bir iz bırakacağını birlikte kurguluyoruz.",
+      "Markanın sosyal medyada yalnızca görünür olmasını değil, hikayesinin ve hizmetinin hedef kitlesinde nasıl bir iz bırakacağını amaçlıyoruz.",
 
-    tags: [
-      "Strateji",
-      "İçerik",
-      "Kreatif",
-      "Yönetim",
-    ],
+    tags: ["Strateji", "İçerik", "Kreatif", "Yönetim"],
 
     scope: [
       "İçerik stratejisi",
@@ -48,24 +37,16 @@ export const serviceDetails:
 
   {
     number: "02",
-    eyebrow:
-      "Grafik Tasarım",
+    eyebrow: "Grafik Tasarım",
 
-    title:
-      "Görünmek yetmez.",
+    title: "Görünmek yetmez.",
 
-    statement:
-      "Hatırlanmak gerekir.",
+    statement: "Hatırlanmak gerekir.",
 
     description:
-      "Renkten tipografiye, sosyal medya görsellerinden marka materyallerine kadar her temasın aynı karakteri taşımasını sağlıyoruz.",
+      "Logodan afişe, sosyal medya görsellerinden kurumsal kimliğe kadar her tasarımın bir karakter taşımasını sağlıyoruz.",
 
-    tags: [
-      "Marka",
-      "Kimlik",
-      "Sosyal",
-      "Tasarım",
-    ],
+    tags: ["Marka", "Kimlik", "Sosyal", "Tasarım"],
 
     scope: [
       "Görsel kimlik",
@@ -79,24 +60,21 @@ export const serviceDetails:
 
   {
     number: "03",
-    eyebrow:
-      "Reklam Yönetimi",
+    eyebrow: "Reklam Yönetimi",
 
-    title:
-      "İyi fikir.",
+    title: "Doğru hedef,",
 
-    statement:
-      "Doğru insan.",
+    statement: "İyi sonuç",
 
     description:
-      "Reklamı yalnızca bütçe harcanan bir alan olarak görmüyoruz. Kreatif, hedef kitle ve optimizasyonu aynı amaç etrafında çalıştırıyoruz.",
+      "Markaların bütçelerini en iyi şekilde optimize ederek doğru hedefle iyi sonuç almalarını sağlıyoruz.",
 
     tags: [
       "Meta Ads",
       "Hedefleme",
       "Kreatif",
       "Optimizasyon",
-      "Geleneksel Reklam"
+      "Geleneksel Reklam",
     ],
 
     scope: [

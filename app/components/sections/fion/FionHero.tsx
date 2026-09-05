@@ -22,58 +22,6 @@ export default function FionHero() {
       "
     >
       {/* =========================================
-          GIANT FION
-      ========================================== */}
-
-      <motion.div
-        aria-hidden="true"
-        initial={
-          reduceMotion
-            ? false
-            : {
-                opacity: 0,
-                y: 80,
-              }
-        }
-        animate={{
-          opacity: 1,
-          y: 0,
-        }}
-        transition={{
-          duration: 1.2,
-          ease: [0.22, 1, 0.36, 1],
-        }}
-        className="
-          pointer-events-none
-
-          absolute
-          inset-x-0
-          top-[13%]
-
-          select-none
-
-          overflow-hidden
-        "
-      >
-        <div
-          className="
-            whitespace-nowrap
-
-            font-serif
-
-            text-[clamp(9rem,29vw,32rem)]
-
-            leading-[0.68]
-            tracking-[-0.09em]
-
-            text-white/[0.045]
-          "
-        >
-          FION
-        </div>
-      </motion.div>
-
-      {/* =========================================
           SMALL INDEX
       ========================================== */}
 

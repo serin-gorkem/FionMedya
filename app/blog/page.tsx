@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    title: "Fion Journal",
+    title: "Fion Blog",
 
     description:
       "Sosyal medya, reklam, tasarım ve marka iletişimi üzerine fikirler, rehberler ve vaka çalışmaları.",
@@ -257,7 +257,7 @@ export default async function BlogPage() {
                     text-[#d36b88]
                   "
                 >
-                  Fion Journal
+                  Fion Blog
                 </p>
 
                 <p

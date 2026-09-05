@@ -2,9 +2,7 @@
 
 import SmoothAnchor from "@/app/components/navigation/SmoothAnchor";
 
-import {
-  motion,
-} from "framer-motion";
+import { motion } from "framer-motion";
 
 export default function HeroContent() {
   return (
@@ -72,17 +70,9 @@ export default function HeroContent() {
           "
         >
           Sosyal Medya
-
-          <span className="mx-2 text-white/20">
-            •
-          </span>
-
+          <span className="mx-2 text-white/20">•</span>
           Grafik Tasarım
-
-          <span className="mx-2 text-white/20">
-            •
-          </span>
-
+          <span className="mx-2 text-white/20">•</span>
           Reklam Yönetimi
         </motion.p>
 
@@ -95,24 +85,17 @@ export default function HeroContent() {
           initial={{
             opacity: 0,
             y: 30,
-            filter:
-              "blur(8px)",
+            filter: "blur(8px)",
           }}
           animate={{
             opacity: 1,
             y: 0,
-            filter:
-              "blur(0px)",
+            filter: "blur(0px)",
           }}
           transition={{
             delay: 0.45,
             duration: 1.2,
-            ease: [
-              0.22,
-              1,
-              0.36,
-              1,
-            ],
+            ease: [0.22, 1, 0.36, 1],
           }}
           className="
             relative
@@ -166,19 +149,16 @@ export default function HeroContent() {
           "
         >
           Fion Medya;{" "}
-
           <strong
             className="
               font-medium
               text-white/82
             "
           >
-            sosyal medya, tasarım ve reklamı aynı hedefe bağlayan
+            tasarım, strateji ve yaratıcılığı
           </strong>{" "}
-
-          yaratıcı medya ekibi. Markaların yalnızca görünmesine değil,
-          doğru insanlara ulaşmasına ve daha güçlü bir marka algısı
-          oluşturmasına yardımcı oluyoruz.
+          bir araya getirerek markaları yalnızca görünür değil, fark edilir,
+          tercih edilir ve hatırlanır hale getiren yaratıcı medya ekibidir.
         </motion.p>
 
         {/* =============================================
@@ -207,17 +187,9 @@ export default function HeroContent() {
           "
         >
           Kuşadası
-
-          <span className="mx-2 text-[#c45a78]">
-            /
-          </span>
-
+          <span className="mx-2 text-[#c45a78]">/</span>
           Aydın
-
-          <span className="mx-2 text-[#c45a78]">
-            /
-          </span>
-
+          <span className="mx-2 text-[#c45a78]">/</span>
           İzmir
         </motion.p>
 
@@ -269,7 +241,6 @@ export default function HeroContent() {
             "
           >
             Neler Yapıyoruz?
-
             <span
               className="
                 transition-transform
@@ -282,7 +253,6 @@ export default function HeroContent() {
             >
               →
             </span>
-
             <span
               aria-hidden="true"
               className="
@@ -384,10 +354,7 @@ export default function HeroContent() {
               bg-[#c45a78]
             "
             animate={{
-              y: [
-                -12,
-                28,
-              ],
+              y: [-12, 28],
             }}
             transition={{
               duration: 1.6,

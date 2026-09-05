@@ -140,41 +140,6 @@ export default function FionGraphicLayer({
         </motion.div>
 
         {/* =====================================
-            VERTICAL FION
-        ====================================== */}
-
-        <div
-          className="
-            absolute
-            bottom-[5%]
-            right-[-0.03em]
-
-            hidden
-
-            select-none
-
-            text-right
-            font-serif
-            text-[clamp(6rem,10vw,10rem)]
-
-            leading-[0.66]
-            tracking-[-0.08em]
-
-            text-white/[0.025]
-
-            lg:block
-          "
-        >
-          F
-          <br />
-          I
-          <br />
-          O
-          <br />
-          N
-        </div>
-
-        {/* =====================================
             WINE TRAJECTORY
         ====================================== */}
 
