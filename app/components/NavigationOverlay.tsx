@@ -2,15 +2,9 @@
 
 import Image from "next/image";
 
-import {
-  useState,
-  type MouseEvent,
-} from "react";
+import { useState, type MouseEvent } from "react";
 
-import {
-  motion,
-  type Variants,
-} from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 
 type NavigationOverlayProps = {
   onNavigate: (href: string) => void;
@@ -44,12 +38,7 @@ const items = [
   },
 ] as const;
 
-const ease = [
-  0.22,
-  1,
-  0.36,
-  1,
-] as const;
+const ease = [0.22, 1, 0.36, 1] as const;
 
 /* =========================================================
    ANIMATION VARIANTS
@@ -166,12 +155,7 @@ const logoVariants: Variants = {
 export default function NavigationOverlay({
   onNavigate,
 }: NavigationOverlayProps) {
-  const [
-    hoveredIndex,
-    setHoveredIndex,
-  ] = useState<number | null>(
-    null,
-  );
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const handleNavigation = (
     event: MouseEvent<HTMLAnchorElement>,
@@ -213,10 +197,8 @@ export default function NavigationOverlay({
         bg-black/[0.94]
       "
       style={{
-        backdropFilter:
-          "brightness(0.24) saturate(0.72) blur(2px)",
-        WebkitBackdropFilter:
-          "brightness(0.24) saturate(0.72) blur(2px)",
+        backdropFilter: "brightness(0.24) saturate(0.72) blur(2px)",
+        WebkitBackdropFilter: "brightness(0.24) saturate(0.72) blur(2px)",
       }}
     >
       {/* =====================================================
@@ -372,9 +354,7 @@ export default function NavigationOverlay({
         initial="hidden"
         animate="visible"
         exit="exit"
-        onMouseLeave={() =>
-          setHoveredIndex(null)
-        }
+        onMouseLeave={() => setHoveredIndex(null)}
         className="
           relative
           z-10
@@ -393,54 +373,21 @@ export default function NavigationOverlay({
           text-center
         "
       >
-        {items.map(
-          (
-            item,
-            index,
-          ) => {
-            const isHovered =
-              hoveredIndex ===
-              index;
+        {items.map((item, index) => {
+          const isHovered = hoveredIndex === index;
 
-            const hasHoveredItem =
-              hoveredIndex !==
-              null;
+          const hasHoveredItem = hoveredIndex !== null;
 
-            return (
-              <motion.a
-                variants={
-                  itemVariants
-                }
-                key={
-                  item.label
-                }
-                href={
-                  item.href
-                }
-                onClick={(
-                  event,
-                ) =>
-                  handleNavigation(
-                    event,
-                    item.href,
-                  )
-                }
-                onMouseEnter={() =>
-                  setHoveredIndex(
-                    index,
-                  )
-                }
-                onFocus={() =>
-                  setHoveredIndex(
-                    index,
-                  )
-                }
-                onBlur={() =>
-                  setHoveredIndex(
-                    null,
-                  )
-                }
-                className={`
+          return (
+            <motion.a
+              variants={itemVariants}
+              key={item.label}
+              href={item.href}
+              onClick={(event) => handleNavigation(event, item.href)}
+              onMouseEnter={() => setHoveredIndex(index)}
+              onFocus={() => setHoveredIndex(index)}
+              onBlur={() => setHoveredIndex(null)}
+              className={`
                   group/item
 
                   relative
@@ -459,31 +406,25 @@ export default function NavigationOverlay({
                   ease-[cubic-bezier(0.22,1,0.36,1)]
 
                   ${
-                    hasHoveredItem &&
-                    !isHovered
+                    hasHoveredItem && !isHovered
                       ? "text-ivory/30"
                       : "text-ivory"
                   }
 
-                  ${
-                    isHovered
-                      ? "italic"
-                      : ""
-                  }
+                  ${isHovered ? "italic" : ""}
                 `}
-                style={{
-                  fontSize:
-                    isHovered
-                      ? "clamp(3.2rem, 6.5vw, 6.3rem)"
-                      : hasHoveredItem
-                        ? "clamp(2.15rem, 4.1vw, 4rem)"
-                        : "clamp(2.5rem, 5vw, 4.8rem)",
-                }}
-              >
-                {/* NUMBER */}
+              style={{
+                fontSize: isHovered
+                  ? "clamp(3.2rem, 6.5vw, 6.3rem)"
+                  : hasHoveredItem
+                    ? "clamp(2.15rem, 4.1vw, 4rem)"
+                    : "clamp(2.5rem, 5vw, 4.8rem)",
+              }}
+            >
+              {/* NUMBER */}
 
-                <span
-                  className={`
+              <span
+                className={`
                     translate-y-[-0.2em]
 
                     font-sans
@@ -495,29 +436,18 @@ export default function NavigationOverlay({
                     transition-colors
                     duration-500
 
-                    ${
-                      isHovered
-                        ? "text-[#c45a78]"
-                        : "text-white/20"
-                    }
+                    ${isHovered ? "text-[#c45a78]" : "text-white/20"}
                   `}
-                >
-                  {
-                    item.number
-                  }
-                </span>
+              >
+                {item.number}
+              </span>
 
-                {/* LABEL */}
+              {/* LABEL */}
 
-                <span>
-                  {
-                    item.label
-                  }
-                </span>
-              </motion.a>
-            );
-          },
-        )}
+              <span>{item.label}</span>
+            </motion.a>
+          );
+        })}
       </motion.nav>
 
       {/* =====================================================

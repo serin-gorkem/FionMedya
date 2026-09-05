@@ -4,7 +4,6 @@ import WineLane from "@/app/components/ui/WineLane";
 import ProjectRow from "./ProjectRow";
 import ProjectsIntro from "./ProjectsIntro";
 import ClientsLogoSlider from "./ClientsLogoSlider";
-import ProjectsTestimonials from "./ProjectsTestimonials";
 import { projects } from "./projects.data";
 
 export default function ProjectsSection() {
@@ -34,8 +33,6 @@ export default function ProjectsSection() {
         </div>
 
         <ClientsLogoSlider />
-
-        <ProjectsTestimonials />
       </SectionContainer>
     </section>
   );
