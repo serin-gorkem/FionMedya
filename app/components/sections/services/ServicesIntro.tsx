@@ -7,10 +7,15 @@ export default function ServicesIntro() {
       titleId="services-title"
       detailHref="/hizmetler"
       detailLabel="Hizmetleri incele"
+      className="
+        !mb-16
+        xl:!mb-20
+      "
       title={
         <>
           Daha fazla
           <br />
+
           içerik değil.
           <br />
 

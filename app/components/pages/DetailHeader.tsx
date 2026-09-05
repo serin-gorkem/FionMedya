@@ -5,11 +5,13 @@ export default function DetailHeader() {
   return (
     <header
       className="
-        relative
         z-30
 
         border-b
         border-white/10
+        fixed
+        w-full
+        bg-black/40
       "
     >
       <div

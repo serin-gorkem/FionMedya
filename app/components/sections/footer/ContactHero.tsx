@@ -9,11 +9,11 @@ export default function ContactHero() {
         </p>
         <h2
           id="contact-title"
-          className="max-w-[1050px] font-serif text-[clamp(4rem,8.2vw,9rem)] leading-[0.81] tracking-[-0.065em] text-[#f4efe9]"
+          className="max-w-[1050px] font-serif text-[clamp(3rem,6.2vw,7rem)] leading-[1] tracking-[-0.065em] text-[#f4efe9]"
         >
-          Sıradan olanı
+          İlham dolu
           <br />
-          <em className="text-white/66">unutmaya</em>
+          <em className="text-white/66">yaratıcılığa</em>
           <br />
           hazır mısın?
         </h2>
@@ -26,8 +26,8 @@ export default function ContactHero() {
           <em className="text-white/58">Gerisini birlikte düşünelim.</em>
         </p>
         <p className="mt-7 max-w-[370px] text-sm leading-7 text-white/55">
-          Sosyal medya, grafik tasarım veya reklam ihtiyacın için uzun bir brief
-          hazırlamana gerek yok. Nerede olduğunu anlat, birlikte başlayalım.
+          Hedefinizi paylaşın, markanızın ihtiyaçlarına uygun yaratıcı ve
+          stratejik çözümleri birlikte şekillendirelim.
         </p>
         <a
           href={getWhatsAppUrl()}
@@ -44,9 +44,6 @@ export default function ContactHero() {
             ↗
           </span>
         </a>
-        <p className="mt-3 text-[8px] uppercase tracking-[0.18em] text-white/35">
-          Mesaj hazır geliyor. Sadece gönder.
-        </p>
       </div>
     </div>
   );

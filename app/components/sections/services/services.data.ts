@@ -4,8 +4,7 @@ export const services: readonly ServiceItem[] = [
   {
     number: "01",
     title: "Sosyal Medya Yönetimi",
-    description:
-      "Paylaşım yapmak için değil, markayı büyüten bir iletişim kurmak için.",
+    description: "Sadece görünür değil, iz bırakan markalar yaratıyoruz.",
     tags: ["Strateji", "Kreatif", "Yönetim"],
     mockup: "social",
     align: "left",
@@ -15,7 +14,7 @@ export const services: readonly ServiceItem[] = [
     number: "02",
     title: "Grafik Tasarım",
     description:
-      "Markanın her temas noktasında aynı karakteri taşımasını sağlıyoruz.",
+      "Markanızın karakterini tasarımla görünür kılıyor, estetik ve stratejiyi güçlü bir marka kimliğinde buluşturuyoruz.",
     tags: ["Kimlik", "Kreatif", "Tasarım"],
     mockup: "design",
     align: "right",
@@ -25,8 +24,8 @@ export const services: readonly ServiceItem[] = [
     number: "03",
     title: "Reklam Yönetimi",
     description:
-      "Kreatif, hedefleme ve optimizasyonu aynı sonuç hedefinde buluşturuyoruz.",
-    tags: ["Meta Ads", "Hedefleme", "Optimizasyon"],
+      "Kreatif stratejiyi, doğru hedeflemeyi ve güçlü medya planlamasını dijitalden geleneksele uzanan bütüncül bir reklam yönetiminde birleştiriyoruz.",
+    tags: ["Meta Ads", "Hedefleme", "Optimizasyon", "Geleneksel Reklam"],
     mockup: "ads",
     align: "left",
   },

@@ -1,13 +1,9 @@
 "use client";
 
-import {
-  motion,
-  useReducedMotion,
-} from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 export default function FionHero() {
-  const reduceMotion =
-    useReducedMotion();
+  const reduceMotion = useReducedMotion();
 
   return (
     <section
@@ -45,12 +41,7 @@ export default function FionHero() {
         }}
         transition={{
           duration: 1.2,
-          ease: [
-            0.22,
-            1,
-            0.36,
-            1,
-          ],
+          ease: [0.22, 1, 0.36, 1],
         }}
         className="
           pointer-events-none
@@ -188,12 +179,7 @@ export default function FionHero() {
           transition={{
             delay: 0.1,
             duration: 1,
-            ease: [
-              0.22,
-              1,
-              0.36,
-              1,
-            ],
+            ease: [0.22, 1, 0.36, 1],
           }}
         >
           <p
@@ -224,12 +210,9 @@ export default function FionHero() {
               text-[#f4efe9]
             "
           >
-            Biz
+            FİON
             <br />
-
-            <em className="text-white/55">
-              Fion&apos;uz.
-            </em>
+            <em className="text-white/55">olarak;</em>
           </h1>
         </motion.div>
 
@@ -249,12 +232,7 @@ export default function FionHero() {
           transition={{
             delay: 0.35,
             duration: 0.9,
-            ease: [
-              0.22,
-              1,
-              0.36,
-              1,
-            ],
+            ease: [0.22, 1, 0.36, 1],
           }}
           className="
             border-t
@@ -280,10 +258,9 @@ export default function FionHero() {
               text-white/72
             "
           >
-            Markaların sıradan
-            iletişimden sıyrılmasına
-            yardımcı olan yaratıcı bir
-            medya ekibiyiz.
+            Markaların ruhunu ortaya çıkarmayı ve hikayelerini, tıpkı damakta iz
+            bırakan bir tat gibi, sıradanı unutturup akılda kalıcı bir
+            yaratıcılıkla sunmayı hedefliyoruz.
           </p>
 
           <div
@@ -297,26 +274,20 @@ export default function FionHero() {
               gap-y-3
             "
           >
-            {[
-              "Kuşadası",
-              "Aydın",
-              "İzmir",
-            ].map(
-              (location) => (
-                <span
-                  key={location}
-                  className="
+            {["Kuşadası", "Aydın", "İzmir"].map((location) => (
+              <span
+                key={location}
+                className="
                     text-[7px]
                     uppercase
                     tracking-[0.23em]
 
                     text-white/35
                   "
-                >
-                  {location}
-                </span>
-              ),
-            )}
+              >
+                {location}
+              </span>
+            ))}
           </div>
         </motion.div>
       </div>

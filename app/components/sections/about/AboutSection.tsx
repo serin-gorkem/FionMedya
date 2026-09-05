@@ -67,9 +67,9 @@ export default function AboutSection() {
                 text-[#f4efe9]
               "
             >
-              Görünmek için değil.
+              Sıradanı
               <br />
-              <em className="text-white/50">Hatırlanmak için.</em>
+              <em className="text-white/50">Unutmak için.</em>
             </p>
           </div>
 

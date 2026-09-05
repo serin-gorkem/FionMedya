@@ -96,6 +96,7 @@ export const serviceDetails:
       "Hedefleme",
       "Kreatif",
       "Optimizasyon",
+      "Geleneksel Reklam"
     ],
 
     scope: [

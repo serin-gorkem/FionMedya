@@ -76,10 +76,15 @@ export default function SectionOpening({
           className="
             mt-8
 
+            max-w-[620px]
+
             font-serif
-            text-[clamp(3.7rem,6.4vw,7rem)]
-            leading-[0.84]
-            tracking-[-0.06em]
+            font-normal
+
+            text-[clamp(2.15rem,4.25vw,5rem)]
+
+            leading-[1.2]
+            tracking-[-0.01em]
 
             text-[#f4efe9]
           "

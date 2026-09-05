@@ -16,6 +16,7 @@ export default function FooterSeoSummary() {
       <TextLink href="#hero" arrow="up" className="shrink-0">
         Başa dön
       </TextLink>
+      
     </div>
   );
 }

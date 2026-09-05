@@ -1,38 +1,24 @@
 "use client";
 
-import {
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-
-import {
-  AnimatePresence,
-} from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { AnimatePresence } from "framer-motion";
 
 import NavigationOverlay from "@/app/components/NavigationOverlay";
 import NavigationSwitch from "@/app/components/NavigationSwitch";
 
-import {
-  useSmoothNavigation,
-} from "@/app/components/navigation/SmoothNavigationProvider";
+import { useSmoothNavigation } from "@/app/components/navigation/SmoothNavigationProvider";
 
 import Header from "@/app/components/sections/Header";
 
 export default function HeaderNavigation() {
-  const [
-    menuOpen,
-    setMenuOpen,
-  ] = useState(false);
-
+  const [menuOpen, setMenuOpen] = useState(false);
+  const router = useRouter();
   /*
    * Menü kapanış animasyonu devam ederken
    * body scroll'u açmamak için ayrı state.
    */
-  const [
-    menuExiting,
-    setMenuExiting,
-  ] = useState(false);
+  const [menuExiting, setMenuExiting] = useState(false);
 
   /*
    * Kullanıcı menüden bir hedef seçerse
@@ -41,72 +27,67 @@ export default function HeaderNavigation() {
    * Scroll, overlay exit tamamlandıktan
    * SONRA başlayacak.
    */
-  const pendingHrefRef =
-    useRef<string | null>(
-      null,
-    );
+  const pendingHrefRef = useRef<string | null>(null);
 
-  const {
-    navigateTo,
-  } = useSmoothNavigation();
+  const { navigateTo } = useSmoothNavigation();
 
-  const menuBlocking =
-    menuOpen ||
-    menuExiting;
-
+  const menuBlocking = menuOpen || menuExiting;
+  const [footerVisible, setFooterVisible] = useState(false);
   /* =========================================================
      BODY LOCK
   ========================================================= */
-
   useEffect(() => {
-    const body =
-      document.body;
+    const footer = document.getElementById("contact");
 
-    if (
-      menuBlocking
-    ) {
+    if (!footer) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setFooterVisible(entry.isIntersecting);
+      },
+      {
+        threshold: 0.08,
+      },
+    );
+
+    observer.observe(footer);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+  useEffect(() => {
+    const body = document.body;
+
+    if (menuBlocking) {
       const scrollbarWidth =
-        window.innerWidth -
-        document
-          .documentElement
-          .clientWidth;
+        window.innerWidth - document.documentElement.clientWidth;
 
-      body.style.overflow =
-        "hidden";
+      body.style.overflow = "hidden";
 
-      body.style.paddingRight =
-        `${scrollbarWidth}px`;
+      body.style.paddingRight = `${scrollbarWidth}px`;
     } else {
-      body.style.overflow =
-        "";
+      body.style.overflow = "";
 
-      body.style.paddingRight =
-        "";
+      body.style.paddingRight = "";
     }
 
     return () => {
-      body.style.overflow =
-        "";
+      body.style.overflow = "";
 
-      body.style.paddingRight =
-        "";
+      body.style.paddingRight = "";
     };
-  }, [
-    menuBlocking,
-  ]);
+  }, [menuBlocking]);
 
   /* =========================================================
      ESC
   ========================================================= */
 
   useEffect(() => {
-    const handleKeyDown = (
-      event: KeyboardEvent,
-    ) => {
-      if (
-        event.key !==
-        "Escape"
-      ) {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") {
         return;
       }
 
@@ -114,23 +95,16 @@ export default function HeaderNavigation() {
         return;
       }
 
-      pendingHrefRef.current =
-        null;
+      pendingHrefRef.current = null;
 
       setMenuExiting(true);
       setMenuOpen(false);
     };
 
-    window.addEventListener(
-      "keydown",
-      handleKeyDown,
-    );
+    window.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      window.removeEventListener(
-        "keydown",
-        handleKeyDown,
-      );
+      window.removeEventListener("keydown", handleKeyDown);
     };
   }, [menuOpen]);
 
@@ -139,14 +113,11 @@ export default function HeaderNavigation() {
   ========================================================= */
 
   const openMenu = () => {
-    if (
-      menuExiting
-    ) {
+    if (menuExiting) {
       return;
     }
 
-    pendingHrefRef.current =
-      null;
+    pendingHrefRef.current = null;
 
     setMenuOpen(true);
   };
@@ -156,15 +127,11 @@ export default function HeaderNavigation() {
   ========================================================= */
 
   const closeMenu = () => {
-    if (
-      !menuOpen ||
-      menuExiting
-    ) {
+    if (!menuOpen || menuExiting) {
       return;
     }
 
-    pendingHrefRef.current =
-      null;
+    pendingHrefRef.current = null;
 
     setMenuExiting(true);
     setMenuOpen(false);
@@ -174,32 +141,25 @@ export default function HeaderNavigation() {
      SWITCH
   ========================================================= */
 
-  const handleSwitch =
-    () => {
-      if (
-        menuExiting
-      ) {
-        return;
-      }
+  const handleSwitch = () => {
+    if (menuExiting) {
+      return;
+    }
 
-      if (menuOpen) {
-        closeMenu();
-        return;
-      }
+    if (menuOpen) {
+      closeMenu();
+      return;
+    }
 
-      openMenu();
-    };
+    openMenu();
+  };
 
   /* =========================================================
      MENU LINK CLICK
   ========================================================= */
 
-  const handleNavigate = (
-    href: string,
-  ) => {
-    if (
-      menuExiting
-    ) {
+  const handleNavigate = (href: string) => {
+    if (menuExiting) {
       return;
     }
 
@@ -208,8 +168,7 @@ export default function HeaderNavigation() {
      *
      * Hedefi sakla.
      */
-    pendingHrefRef.current =
-      href;
+    pendingHrefRef.current = href;
 
     /*
      * Önce menüyü kapat.
@@ -222,65 +181,66 @@ export default function HeaderNavigation() {
      EXIT COMPLETE
   ========================================================= */
 
-  const handleExitComplete =
-    () => {
-      setMenuExiting(false);
+  const handleExitComplete = () => {
+    setMenuExiting(false);
 
-      const href =
-        pendingHrefRef.current;
+    const href = pendingHrefRef.current;
 
-      pendingHrefRef.current =
-        null;
+    pendingHrefRef.current = null;
 
-      /*
-       * Eğer sadece X / switch ile
-       * kapandıysa burada bitiyoruz.
-       */
-      if (!href) {
-        return;
-      }
+    if (!href) {
+      return;
+    }
 
-      /*
-       * ŞİMDİ scroll başlıyor.
-       *
-       * Menü tamamen çıkmış durumda.
-       */
-      navigateTo(href, {
-        delay: 40,
+    /*
+     * Normal route.
+     *
+     * Örn:
+     * /isler
+     */
+    if (href.startsWith("/")) {
+      router.push(href);
 
-        duration: 1450,
+      return;
+    }
 
-        intensity:
-          "strong",
+    /*
+     * Homepage section.
+     *
+     * Örn:
+     * #services
+     */
+    navigateTo(href, {
+      delay: 40,
 
-        updateHistory:
-          true,
-      });
-    };
+      duration: 1450,
+
+      intensity: "strong",
+
+      updateHistory: true,
+    });
+  };
 
   return (
     <>
-      <Header />
+      <div
+        className={`
+    transition-opacity
+    duration-500
 
-      <NavigationSwitch
-        open={menuOpen}
-        onClick={
-          handleSwitch
-        }
-      />
-
-      <AnimatePresence
-        mode="wait"
-        onExitComplete={
-          handleExitComplete
-        }
+    ${footerVisible ? "pointer-events-none opacity-0" : "opacity-100"}
+  `}
       >
+        <Header />
+
+        <NavigationSwitch open={menuOpen} onClick={handleSwitch} />
+      </div>
+
+      <AnimatePresence mode="wait" onExitComplete={handleExitComplete}>
         {menuOpen && (
           <NavigationOverlay
             key="navigation-overlay"
-            onNavigate={
-              handleNavigate
-            }
+            onNavigate={handleNavigate}
           />
         )}
       </AnimatePresence>

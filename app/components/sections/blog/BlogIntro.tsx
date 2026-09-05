@@ -9,17 +9,17 @@ export default function BlogIntro() {
       detailLabel="Blog'a git"
       title={
         <>
-          Fikirler.
+          Sektöre.
           <br />
 
           <span className="text-white/60">
-            Notlar.
+            Dair.
           </span>
 
           <br />
 
           <em className="text-[#c45a78]">
-            Bakışlar.
+            Bizden.
           </em>
         </>
       }

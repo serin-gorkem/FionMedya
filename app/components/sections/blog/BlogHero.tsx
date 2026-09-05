@@ -32,23 +32,23 @@ export default function BlogHero() {
             max-w-4xl
 
             font-serif
-            text-[clamp(4rem,8vw,8.5rem)]
-            leading-[0.81]
+            text-[clamp(3.4rem,6vw,6.8rem)]
+            leading-[0.9]
             tracking-[-0.065em]
 
             text-ivory
           "
         >
-          Fikirler.
+          Sektöre.
           <br />
 
           <span className="text-white/60">
-            Notlar.
+            Dair.
           </span>
           <br />
 
           <em className="text-wine-light">
-            Bakışlar.
+            Bizden.
           </em>
         </h1>
       </div>
@@ -71,7 +71,7 @@ export default function BlogHero() {
         <p
           className="
             font-serif
-            text-[clamp(1.5rem,2vw,2.2rem)]
+            text-[clamp(1.25rem,1.6vw,1.7rem)]
             leading-[1.05]
             tracking-[-0.04em]
 

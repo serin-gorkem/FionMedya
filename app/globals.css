@@ -12,9 +12,6 @@
   --ivory: #f4efe9;
   --muted: #aaa19e;
   --line: rgba(242, 236, 229, 0.18);
-
-  --font-display: "Bodoni 72", "Didot", "Baskerville", Georgia, serif;
-  --font-body: "Helvetica Neue", "Avenir Next", Avenir, Arial, sans-serif;
 }
 
 @theme inline {

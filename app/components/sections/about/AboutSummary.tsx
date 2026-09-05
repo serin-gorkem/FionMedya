@@ -7,9 +7,7 @@ export default function AboutSummary() {
       <div>
         <SectionEyebrow>Ne için buradayız?</SectionEyebrow>
         <p className="mt-5 max-w-[440px] font-serif text-[clamp(2rem,2.8vw,3.4rem)] leading-[0.95] tracking-[-0.045em] text-[#f4efe9]">
-          Görünmek için değil.
-          <br />
-          <em className="text-white/55">Hatırlanmak için.</em>
+          Sıradanı unutmak için
         </p>
       </div>
       <div aria-hidden="true" className="hidden xl:block" />

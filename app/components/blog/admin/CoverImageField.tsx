@@ -1,155 +1,85 @@
 "use client";
 
-import {
-  useRef,
-  useState,
-} from "react";
+import { useRef, useState } from "react";
 
-import {
-  createClient,
-} from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 
 type CoverImageFieldProps = {
   value: string | null;
 
-  onChange: (
-    value: string | null,
-  ) => void;
+  onChange: (value: string | null) => void;
 };
 
-const allowedTypes = [
-  "image/jpeg",
-  "image/png",
-  "image/webp",
-  "image/avif",
-];
+const allowedTypes = ["image/jpeg", "image/png", "image/webp", "image/avif"];
 
-const extensions:
-  Record<string, string> = {
-    "image/jpeg": "jpg",
-    "image/png": "png",
-    "image/webp": "webp",
-    "image/avif": "avif",
-  };
+const extensions: Record<string, string> = {
+  "image/jpeg": "jpg",
+  "image/png": "png",
+  "image/webp": "webp",
+  "image/avif": "avif",
+};
 
 export default function CoverImageField({
   value,
   onChange,
 }: CoverImageFieldProps) {
-  const inputRef =
-    useRef<HTMLInputElement>(
-      null,
-    );
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const [
-    uploading,
-    setUploading,
-  ] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
-  const [
-    error,
-    setError,
-  ] = useState<
-    string | null
-  >(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const uploadImage =
-    async (
-      file: File,
-    ) => {
-      setError(null);
+  const uploadImage = async (file: File) => {
+    setError(null);
 
-      if (
-        !allowedTypes.includes(
-          file.type,
-        )
-      ) {
-        setError(
-          "JPG, PNG, WebP veya AVIF yükleyebilirsin.",
-        );
+    if (!allowedTypes.includes(file.type)) {
+      setError("JPG, PNG, WebP veya AVIF yükleyebilirsin.");
 
-        return;
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      setError("Görsel en fazla 5 MB olabilir.");
+
+      return;
+    }
+
+    setUploading(true);
+
+    try {
+      const supabase = createClient();
+
+      const extension = extensions[file.type];
+
+      const path = `covers/${new Date().getFullYear()}/${crypto.randomUUID()}.${extension}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from("blog-media")
+        .upload(path, file, {
+          contentType: file.type,
+
+          cacheControl: "31536000",
+
+          upsert: false,
+        });
+
+      if (uploadError) {
+        throw uploadError;
       }
 
-      if (
-        file.size >
-        5 * 1024 * 1024
-      ) {
-        setError(
-          "Görsel en fazla 5 MB olabilir.",
-        );
+      const { data } = supabase.storage.from("blog-media").getPublicUrl(path);
 
-        return;
-      }
-
-      setUploading(true);
-
-      try {
-        const supabase =
-          createClient();
-
-        const extension =
-          extensions[
-            file.type
-          ];
-
-        const path =
-          `covers/${new Date().getFullYear()}/${crypto.randomUUID()}.${extension}`;
-
-        const {
-          error: uploadError,
-        } =
-          await supabase.storage
-            .from(
-              "blog-media",
-            )
-            .upload(
-              path,
-              file,
-              {
-                contentType:
-                  file.type,
-
-                cacheControl:
-                  "31536000",
-
-                upsert: false,
-              },
-            );
-
-        if (
-          uploadError
-        ) {
-          throw uploadError;
-        }
-
-        const {
-          data,
-        } =
-          supabase.storage
-            .from(
-              "blog-media",
-            )
-            .getPublicUrl(
-              path,
-            );
-
-        onChange(
-          data.publicUrl,
-        );
-      } catch (
-        uploadError
-      ) {
-        setError(
-          uploadError instanceof
-            Error
-            ? uploadError.message
-            : "Görsel yüklenemedi.",
-        );
-      } finally {
-        setUploading(false);
-      }
-    };
+      onChange(data.publicUrl);
+    } catch (uploadError) {
+      setError(
+        uploadError instanceof Error
+          ? uploadError.message
+          : "Görsel yüklenemedi.",
+      );
+    } finally {
+      setUploading(false);
+    }
+  };
 
   return (
     <div>
@@ -204,12 +134,8 @@ export default function CoverImageField({
             >
               <button
                 type="button"
-                disabled={
-                  uploading
-                }
-                onClick={() =>
-                  inputRef.current?.click()
-                }
+                disabled={uploading}
+                onClick={() => inputRef.current?.click()}
                 className="
                   rounded-[10px]
 
@@ -241,9 +167,7 @@ export default function CoverImageField({
 
               <button
                 type="button"
-                onClick={() =>
-                  onChange(null)
-                }
+                onClick={() => onChange(null)}
                 className="
                   rounded-[10px]
 
@@ -276,12 +200,8 @@ export default function CoverImageField({
         ) : (
           <button
             type="button"
-            disabled={
-              uploading
-            }
-            onClick={() =>
-              inputRef.current?.click()
-            }
+            disabled={uploading}
+            onClick={() => inputRef.current?.click()}
             className="
               flex
               min-h-[230px]
@@ -335,22 +255,48 @@ export default function CoverImageField({
                 text-[var(--text-secondary)]
               "
             >
-              {uploading
-                ? "Yükleniyor..."
-                : "Kapak Görseli Yükle"}
+              {uploading ? "Yükleniyor..." : "Kapak Görseli Yükle"}
             </span>
 
-            <span
+            <div
               className="
-                text-[10px]
-                leading-5
-                text-[var(--text-muted)]
-              "
+    mt-3
+
+    border
+    border-white/10
+
+    bg-white/[0.02]
+
+    px-4
+    py-3
+  "
             >
-              JPG / PNG / WebP / AVIF
-              <br />
-              Maksimum 5 MB
-            </span>
+              <p
+                className="
+      text-[9px]
+      uppercase
+      tracking-[0.18em]
+
+      text-white/35
+    "
+              >
+                Kapak görseli rehberi
+              </p>
+
+              <p
+                className="
+      mt-2
+
+      text-[11px]
+      leading-5
+
+      text-white/45
+    "
+              >
+                En iyi sonuç için 1600 × 900 px, 16:9 yatay görsel kullan. WebP
+                formatı önerilir. Minimum 1200 × 675 px.
+              </p>
+            </div>
           </button>
         )}
       </div>
@@ -360,21 +306,14 @@ export default function CoverImageField({
         type="file"
         hidden
         accept="image/jpeg,image/png,image/webp,image/avif"
-        onChange={(
-          event,
-        ) => {
-          const file =
-            event.target
-              .files?.[0];
+        onChange={(event) => {
+          const file = event.target.files?.[0];
 
           if (file) {
-            void uploadImage(
-              file,
-            );
+            void uploadImage(file);
           }
 
-          event.target.value =
-            "";
+          event.target.value = "";
         }}
       />
 

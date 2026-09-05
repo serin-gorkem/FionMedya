@@ -210,9 +210,9 @@ export default function BlogArticle({ post, relatedPosts }: BlogArticleProps) {
                 max-w-[1100px]
 
                 font-serif
-                text-[clamp(3.8rem,7.8vw,9rem)]
-                leading-[0.8]
-                tracking-[-0.068em]
+                text-[clamp(3rem,5.6vw,6.8rem)]
+                leading-[0.9]
+                tracking-[-0.05em]
 
                 text-[#f4efe9]
               "
@@ -236,12 +236,15 @@ export default function BlogArticle({ post, relatedPosts }: BlogArticleProps) {
           >
             <p
               className="
-                font-serif
-                text-[clamp(1.35rem,1.8vw,1.8rem)]
-                leading-[1.3]
-                tracking-[-0.025em]
+                max-w-[420px]
 
-                text-white/70
+                text-[15px]
+                leading-7
+
+                text-white/62
+
+                sm:text-base
+                sm:leading-8
               "
             >
               {post.excerpt}

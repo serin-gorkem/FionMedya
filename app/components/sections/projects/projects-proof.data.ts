@@ -4,6 +4,8 @@ export type ClientLogo = {
 
   sliderScale?: number;
   wallScale?: number;
+
+  sliderTone?: "default" | "light";
 };
 
 export type ProjectTestimonial = {
@@ -14,6 +16,13 @@ export type ProjectTestimonial = {
 };
 
 export const clientLogos: ClientLogo[] = [
+  {
+    name: "Seven For Life",
+    logo: "/projects/clients/seven-for-life.png",
+    sliderScale: 1.08,
+    wallScale: 1,
+    sliderTone: "light",
+  },
   {
     name: "Byron",
     logo: "/projects/clients/byron.png",
@@ -36,7 +45,7 @@ export const clientLogos: ClientLogo[] = [
     name: "Git Git",
     logo: "/projects/clients/gitgit.png",
     sliderScale: 0.85,
-    wallScale: 1.0,
+    wallScale: 1,
   },
   {
     name: "İstanbul Kokoreç",
@@ -80,18 +89,27 @@ export const clientLogos: ClientLogo[] = [
     sliderScale: 1.2,
     wallScale: 0.9,
   },
-];
 
-export const projectTestimonials: ProjectTestimonial[] = [
-  /*
-  Gerçek yorumlar geldikçe burayı dolduracağız.
+  /* =====================================================
+     NEW CLIENTS
+  ====================================================== */
 
   {
-    quote:
-      "Fion ile çalışmaya başladıktan sonra ...",
-    client: "FUYAPI",
-    person: "Ad Soyad",
-    role: "Kurucu",
+    name: "Çat Kapı",
+    logo: "/projects/clients/cat-kapi.png",
+    sliderScale: 1.05,
+    wallScale: 1,
   },
-  */
+  {
+    name: "Doğu Batı",
+    logo: "/projects/clients/dogu-bati.png",
+    sliderScale: 1,
+    wallScale: 0.95,
+  },
+  {
+    name: "EGE Tanzim",
+    logo: "/projects/clients/ege-tanzim.png",
+    sliderScale: 1,
+    wallScale: 0.95,
+  },
 ];

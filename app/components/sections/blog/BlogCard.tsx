@@ -1,50 +1,30 @@
 import Link from "next/link";
 
-import type {
-  BlogPost,
-} from "@/features/blog/blog.types";
+import type { BlogPost } from "@/features/blog/blog.types";
 
-import {
-  getReadingTime,
-} from "@/features/blog/blog.reading-time";
+import { getReadingTime } from "@/features/blog/blog.reading-time";
 
 type BlogCardProps = {
   post: BlogPost;
   index: number;
 };
 
-function formatDate(
-  value: string | null,
-) {
+function formatDate(value: string | null) {
   if (!value) {
     return null;
   }
 
-  return new Intl.DateTimeFormat(
-    "tr-TR",
-    {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    },
-  ).format(
-    new Date(value),
-  );
+  return new Intl.DateTimeFormat("tr-TR", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  }).format(new Date(value));
 }
 
-export default function BlogCard({
-  post,
-  index,
-}: BlogCardProps) {
-  const readingTime =
-    getReadingTime(
-      post.contentHtml,
-    );
+export default function BlogCard({ post, index }: BlogCardProps) {
+  const readingTime = getReadingTime(post.contentHtml);
 
-  const date =
-    formatDate(
-      post.publishedAt,
-    );
+  const date = formatDate(post.publishedAt);
 
   return (
     <article
@@ -81,12 +61,7 @@ export default function BlogCard({
               text-white/20
             "
           >
-            {(index + 1)
-              .toString()
-              .padStart(
-                2,
-                "0",
-              )}
+            {(index + 1).toString().padStart(2, "0")}
           </span>
         </div>
 
@@ -141,21 +116,23 @@ export default function BlogCard({
 
           <h2
             className="
-              mt-5
-              max-w-3xl
+            mt-5
+            max-w-3xl
 
-              font-serif
-              text-[clamp(2.5rem,4vw,4.8rem)]
-              leading-[0.88]
-              tracking-[-0.055em]
+            font-serif
 
-              text-ivory
+            text-[clamp(2rem,3vw,3.6rem)]
 
-              transition-colors
-              duration-300
+            leading-[0.98]
+            tracking-[-0.04em]
 
-              group-hover:text-white
-            "
+            text-ivory
+
+            transition-colors
+            duration-300
+
+            group-hover:text-white
+          "
           >
             {post.title}
           </h2>
@@ -193,7 +170,6 @@ export default function BlogCard({
             "
           >
             Yazıyı oku
-
             <span
               className="
                 transition-transform

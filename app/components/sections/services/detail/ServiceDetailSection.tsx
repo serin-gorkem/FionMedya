@@ -19,100 +19,136 @@ export default function ServiceDetailSection({
         border-t
         border-white/10
 
-        py-20
+        py-14
 
-        sm:py-28
+        sm:py-16
+        lg:py-20
       "
     >
-      {/* INTRO */}
-
       <div
         className="
           grid
-          gap-10
+          gap-12
 
-          lg:grid-cols-[120px_minmax(0,1fr)_minmax(320px,0.45fr)]
-          lg:items-start
-          lg:gap-12
+          lg:grid-cols-[minmax(0,0.92fr)_minmax(360px,0.68fr)]
+          lg:items-center
+          lg:gap-16
+
+          xl:grid-cols-[minmax(0,1fr)_500px]
+          xl:gap-20
         "
       >
-        {/* NUMBER */}
+        {/* =================================================
+            LEFT / COPY
+        ================================================== */}
 
-        <div>
-          <span
+        <div
+          className="
+            max-w-[720px]
+          "
+        >
+          {/* =============================================
+              META
+          ============================================== */}
+
+          <div
             className="
-              font-serif
-              text-4xl
-              tracking-[-0.05em]
-              text-white/25
+              flex
+              items-center
+              gap-4
             "
           >
-            {service.number}
-          </span>
-        </div>
+            <span
+              className="
+                text-[8px]
+                tracking-[0.28em]
 
-        {/* HEADLINE */}
+                text-wine-light
+              "
+            >
+              {service.number}
+            </span>
 
-        <div>
-          <p
-            className="
-              text-[9px]
-              uppercase
-              tracking-[0.3em]
-              text-wine-light
-            "
-          >
-            {service.eyebrow}
-          </p>
+            <span
+              aria-hidden="true"
+              className="
+                h-px
+                w-10
+
+                bg-[#591323]
+              "
+            />
+
+            <span
+              className="
+                text-[8px]
+                uppercase
+                tracking-[0.26em]
+
+                text-white/28
+              "
+            >
+              {service.eyebrow}
+            </span>
+          </div>
+
+          {/* =============================================
+              TITLE
+          ============================================== */}
 
           <h2
             className="
-              mt-6
-              max-w-3xl
+              mt-7
+              max-w-[680px]
 
               font-serif
+              font-normal
 
-              text-[clamp(3.4rem,6vw,7rem)]
+              text-[clamp(3rem,5vw,5.6rem)]
 
-              leading-[0.84]
-              tracking-[-0.06em]
+              leading-[0.92]
+              tracking-[-0.05em]
 
               text-ivory
             "
           >
             {service.title}
+
             <br />
 
-            <em className="text-white/55">
+            <em
+              className="
+                text-white/48
+              "
+            >
               {service.statement}
             </em>
           </h2>
-        </div>
 
-        {/* DESCRIPTION */}
+          {/* =============================================
+              DESCRIPTION
+          ============================================== */}
 
-        <div
-          className="
-            border-t
-            border-white/10
-
-            pt-7
-
-            lg:border-l
-            lg:border-t-0
-            lg:pl-8
-            lg:pt-0
-          "
-        >
           <p
             className="
-              text-sm
-              leading-7
-              text-white/60
+              mt-7
+              max-w-[560px]
+
+              text-[13px]
+              leading-6
+
+              text-white/52
+
+              sm:text-sm
+              sm:leading-7
             "
           >
             {service.description}
           </p>
+
+          {/* =============================================
+              TAGS
+          ============================================== */}
 
           <PillList
             items={[
@@ -120,85 +156,98 @@ export default function ServiceDetailSection({
             ]}
             className="mt-7"
           />
+
+          {/* =============================================
+              SCOPE
+          ============================================== */}
+
+          <div
+            className="
+              mt-10
+
+              grid
+
+              border-t
+              border-white/10
+
+              sm:grid-cols-2
+            "
+          >
+            {service.scope.map(
+              (
+                item,
+                index,
+              ) => (
+                <div
+                  key={item}
+                  className="
+                    flex
+                    min-h-24
+
+                    flex-col
+                    justify-between
+
+                    border-b
+                    border-white/10
+
+                    py-5
+
+                    sm:min-h-28
+                    sm:px-5
+                    sm:odd:border-r
+                    sm:odd:pl-0
+                  "
+                >
+                  <span
+                    className="
+                      text-[7px]
+                      tracking-[0.24em]
+
+                      text-wine-light
+                    "
+                  >
+                    {String(
+                      index + 1,
+                    ).padStart(
+                      2,
+                      "0",
+                    )}
+                  </span>
+
+                  <span
+                    className="
+                      mt-5
+
+                      text-[13px]
+
+                      text-ivory/85
+
+                      sm:text-sm
+                    "
+                  >
+                    {item}
+                  </span>
+                </div>
+              ),
+            )}
+          </div>
         </div>
-      </div>
 
-      {/* VISUAL SHOW */}
+        {/* =================================================
+            RIGHT / VISUAL
+        ================================================== */}
 
-      <div className="mt-16 sm:mt-20">
-        <ServiceDetailVisual
-          type={service.mockup}
-          number={service.number}
-        />
-      </div>
+        <div
+          className="
+            relative
 
-      {/* SCOPE */}
-
-      <div
-        className="
-          mt-10
-          grid
-
-          border-t
-          border-white/10
-
-          sm:grid-cols-2
-          lg:grid-cols-4
-        "
-      >
-        {service.scope.map(
-          (
-            item,
-            index,
-          ) => (
-            <div
-              key={item}
-              className="
-                flex
-                min-h-28
-                flex-col
-                justify-between
-
-                border-b
-                border-white/10
-
-                py-6
-
-                sm:px-6
-                sm:first:pl-0
-
-                lg:border-b-0
-                lg:border-r
-                lg:last:border-r-0
-              "
-            >
-              <span
-                className="
-                  text-[8px]
-                  tracking-[0.24em]
-                  text-wine-light
-                "
-              >
-                {String(
-                  index + 1,
-                ).padStart(
-                  2,
-                  "0",
-                )}
-              </span>
-
-              <p
-                className="
-                  mt-8
-                  text-sm
-                  text-ivory
-                "
-              >
-                {item}
-              </p>
-            </div>
-          ),
-        )}
+            lg:self-center
+          "
+        >
+          <ServiceDetailVisual
+            type={service.mockup}
+          />
+        </div>
       </div>
     </article>
   );

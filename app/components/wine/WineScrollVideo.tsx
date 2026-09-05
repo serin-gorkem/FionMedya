@@ -63,9 +63,39 @@ export default function WineScrollVideo({
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none fixed inset-0 z-[7] overflow-hidden"
+      className="
+      pointer-events-none
+
+      fixed
+      inset-0
+      z-[7]
+
+      overflow-hidden
+    "
     >
-      <div className="absolute left-[78%] top-[6vh] h-screen w-[56.25vh] -translate-x-1/2 md:left-[64%] md:top-0 xl:left-1/2">
+      {/* =================================================
+        9:16 VIDEO STAGE
+
+        100dvh + aspect ratio ile width browser tarafından
+        hesaplanıyor. Sağ / sol oran artık vh hesabına bağlı değil.
+    ================================================== */}
+
+      <div
+        className="
+        absolute
+
+        left-[78%]
+        top-0
+
+        h-[100dvh]
+        aspect-[9/16]
+
+        -translate-x-1/2
+
+        md:left-[64%]
+        xl:left-1/2
+      "
+      >
         <video
           ref={videoRef}
           muted
@@ -74,21 +104,25 @@ export default function WineScrollVideo({
           controls={false}
           disablePictureInPicture
           className="
-    absolute
-    inset-0
+          absolute
+          inset-0
 
-    h-full
-    w-full
+          block
 
-    object-cover
-    mix-blend-lighten
+          h-full
+          w-full
 
-    opacity-[0.28]
-    sm:opacity-[0.38]
-    md:opacity-[0.52]
-    lg:opacity-[0.70]
-    xl:opacity-[0.88]
-  "
+          object-fill
+
+          mix-blend-lighten
+
+          opacity-[0.28]
+
+          sm:opacity-[0.38]
+          md:opacity-[0.52]
+          lg:opacity-[0.70]
+          xl:opacity-[0.88]
+        "
           style={{
             filter: "contrast(1.2) brightness(0.9)",
           }}

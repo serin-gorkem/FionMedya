@@ -4,243 +4,166 @@ import type { ServiceMockupType } from "../services.types";
 
 type ServiceDetailVisualProps = {
   type: ServiceMockupType;
-  number: string;
 };
 
 export default function ServiceDetailVisual({
   type,
-  number,
 }: ServiceDetailVisualProps) {
   return (
     <div
       className="
-        group/visual
         relative
-        overflow-hidden
+        mx-auto
+        w-full
+        max-w-[500px]
 
-        rounded-3xl
-
-        border
-        border-white/15
-
-        bg-black/35
-
-        backdrop-blur-xl
+        lg:ml-auto
+        lg:mr-0
       "
     >
-      {/* WINE LIGHT */}
+      {/* =================================================
+          OUTER AMBIENT
+
+          Görsel kutusunun sayfadan ayrı görünmesini engeller.
+      ================================================== */}
 
       <div
         aria-hidden="true"
         className="
           pointer-events-none
-
           absolute
           left-1/2
           top-1/2
 
-          h-80
-          w-80
+          h-[82%]
+          w-[82%]
 
           -translate-x-1/2
           -translate-y-1/2
 
           rounded-full
 
-          bg-wine/35
+          bg-[#591323]/22
 
-          blur-3xl
-
-          sm:h-96
-          sm:w-96
+          blur-[100px]
         "
       />
 
-      {/* HUGE NUMBER */}
-
-      <span
-        aria-hidden="true"
-        className="
-          pointer-events-none
-
-          absolute
-          -right-4
-          -top-10
-
-          font-serif
-          text-[12rem]
-          leading-none
-          tracking-[-0.08em]
-
-          text-white/[0.025]
-
-          sm:text-[16rem]
-        "
-      >
-        {number}
-      </span>
-
-      {/* TOP META */}
+      {/* =================================================
+          VISUAL SURFACE
+      ================================================== */}
 
       <div
         className="
+          group/visual
           relative
-          z-10
 
-          flex
-          items-center
-          justify-between
+          aspect-square
+          w-full
 
-          border-b
-          border-white/10
+          overflow-hidden
 
-          px-6
-          py-5
+          rounded-[24px]
 
-          sm:px-8
+          border
+          border-white/[0.06]
+
+          bg-[#0b0306]
+
+          shadow-[0_30px_100px_rgba(0,0,0,0.22)]
         "
       >
-        <span
-          className="
-            text-[9px]
-            uppercase
-            tracking-[0.28em]
-            text-wine-light
-          "
-        >
-          Fion / Studio
-        </span>
+        {/* =============================================
+            BACKGROUND WASH
+        ============================================== */}
 
-        <span
-          className="
-            text-[8px]
-            uppercase
-            tracking-[0.24em]
-            text-white/30
-          "
-        >
-          Service {number}
-        </span>
-      </div>
-
-      {/* MAIN MOCKUP */}
-
-      <div
-        className="
-          relative
-          z-10
-
-          flex
-          items-center
-          justify-center
-
-          px-6
-          py-16
-
-          sm:px-10
-          sm:py-20
-
-          lg:py-24
-        "
-      >
         <div
-          className={type === "social" ? "w-full max-w-lg" : "w-full max-w-3xl"}
+          aria-hidden="true"
+          className="
+            pointer-events-none
+            absolute
+            inset-0
+
+            bg-[radial-gradient(circle_at_50%_45%,rgba(105,20,45,0.32),transparent_58%)]
+          "
+        />
+
+        {/* =============================================
+            IMAGE
+        ============================================== */}
+
+        <div
+          className="
+            relative
+            z-10
+
+            flex
+            h-full
+            w-full
+
+            items-center
+            justify-center
+
+            p-3
+
+            sm:p-4
+          "
         >
-          <ServiceMockup type={type} />
+          <div
+            className="
+              w-full
+              max-w-[440px]
+            "
+          >
+            <ServiceMockup
+              type={type}
+            />
+          </div>
         </div>
+
+        {/* =============================================
+            EDGE BLEND
+        ============================================== */}
+
+        <div
+          aria-hidden="true"
+          className="
+            pointer-events-none
+            absolute
+            inset-0
+            z-20
+          "
+          style={{
+            background: `
+              linear-gradient(to top, #0b0306 0%, transparent 16%),
+              linear-gradient(to bottom, #0b0306 0%, transparent 14%),
+              linear-gradient(to left, #0b0306 0%, transparent 12%),
+              linear-gradient(to right, #0b0306 0%, transparent 12%)
+            `,
+          }}
+        />
+
+        {/* =============================================
+            SOFT BOTTOM BLEND
+        ============================================== */}
+
+        <div
+          aria-hidden="true"
+          className="
+            pointer-events-none
+            absolute
+            inset-x-[8%]
+            bottom-[-10%]
+            z-30
+
+            h-24
+
+            bg-[#591323]/20
+
+            blur-[55px]
+          "
+        />
       </div>
-
-      {/* BOTTOM VISUAL LANGUAGE */}
-
-      <div
-        className="
-          relative
-          z-10
-
-          grid
-
-          border-t
-          border-white/10
-
-          sm:grid-cols-3
-        "
-      >
-        {type === "social" && (
-          <>
-            <VisualTile label="Content" value="Feed" />
-
-            <VisualTile label="Format" value="Story" />
-
-            <VisualTile label="Focus" value="Attention" />
-          </>
-        )}
-
-        {type === "design" && (
-          <>
-            <VisualTile label="System" value="Identity" />
-
-            <VisualTile label="Type" value="Aa" />
-
-            <VisualTile label="Output" value="Digital" />
-          </>
-        )}
-
-        {type === "ads" && (
-          <>
-            <VisualTile label="Target" value="Audience" />
-
-            <VisualTile label="Creative" value="Test" />
-
-            <VisualTile label="Goal" value="Result" />
-          </>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function VisualTile({ label, value }: { label: string; value: string }) {
-  return (
-    <div
-      className="
-        flex
-        min-h-28
-        flex-col
-        justify-between
-
-        border-b
-        border-white/10
-
-        p-6
-
-        last:border-b-0
-
-        sm:border-b-0
-        sm:border-r
-        sm:last:border-r-0
-      "
-    >
-      <span
-        className="
-          text-[8px]
-          uppercase
-          tracking-[0.24em]
-          text-white/30
-        "
-      >
-        {label}
-      </span>
-
-      <span
-        className="
-          font-serif
-          text-2xl
-          tracking-[-0.04em]
-          text-ivory
-        "
-      >
-        {value}
-      </span>
     </div>
   );
 }

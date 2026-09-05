@@ -6,9 +6,21 @@ export default function Hero() {
     <section
       id="hero"
       aria-labelledby="hero-title"
-      className="relative z-10 min-h-screen overflow-hidden bg-[#090708] px-6"
+      className="
+        relative
+        z-10
+
+        min-h-[100svh]
+
+        overflow-hidden
+
+        bg-[#090708]
+
+        px-6
+      "
     >
       <HeroBackground />
+
       <HeroContent />
     </section>
   );

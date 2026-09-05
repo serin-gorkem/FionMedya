@@ -1,11 +1,41 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+
+import {
+  Bodoni_Moda,
+  Inter,
+} from "next/font/google";
+
 import "./globals.css";
+
+/* =========================================================
+   FONTS
+
+   Sistem fontlarına güvenmiyoruz.
+   Böylece Safari / Chrome / Windows / iOS aynı görünür.
+========================================================= */
+
+const bodyFont = Inter({
+  subsets: ["latin"],
+  variable: "--font-body",
+  display: "swap",
+});
+
+const displayFont =
+  Bodoni_Moda({
+    subsets: ["latin"],
+    variable:
+      "--font-display",
+    display: "swap",
+  });
+  
 
 export const metadata: Metadata = {
   title: {
-    default: "Fion Medya — Sosyal Medya, Tasarım ve Reklam Yönetimi",
-    template: "%s — Fion Medya",
+    default:
+      "Fion Medya — Sosyal Medya, Tasarım ve Reklam Yönetimi",
+    template:
+      "%s — Fion Medya",
   },
 
   description:
@@ -33,9 +63,11 @@ export const metadata: Metadata = {
     },
   ],
 
-  creator: "Görkem Serin",
+  creator:
+    "Görkem Serin",
 
-  publisher: "Fion Medya",
+  publisher:
+    "Fion Medya",
 
   robots: {
     index: true,
@@ -45,10 +77,19 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{ children: ReactNode }>) {
+}: Readonly<{
+  children: ReactNode;
+}>) {
   return (
     <html lang="tr">
-      <body>{children}</body>
+      <body
+        className={`
+          ${bodyFont.variable}
+          ${displayFont.variable}
+        `}
+      >
+        {children}
+      </body>
     </html>
   );
 }

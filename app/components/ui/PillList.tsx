@@ -33,7 +33,7 @@ export default function PillList({
             border
             border-white/15
 
-            bg-[#111111]
+            bg-[transperent]  
 
             px-3.5
             py-2.5

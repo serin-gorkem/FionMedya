@@ -29,7 +29,6 @@ export default function ClientsLogoSlider({
 
      Tek parça rail.
      Ortada boş lane YOK.
-     Margin / padding minimum.
   ====================================================== */
 
   if (isDetail) {
@@ -52,9 +51,9 @@ export default function ClientsLogoSlider({
       >
         <LogoRail
           direction="left"
-          reduceMotion={
-            Boolean(reduceMotion)
-          }
+          reduceMotion={Boolean(
+            reduceMotion,
+          )}
           compact
         />
       </div>
@@ -63,8 +62,6 @@ export default function ClientsLogoSlider({
 
   /* =====================================================
      HOMEPAGE
-
-     Mevcut iki taraflı sistem aynen korunuyor.
   ====================================================== */
 
   return (
@@ -88,9 +85,9 @@ export default function ClientsLogoSlider({
       <div className="xl:hidden">
         <LogoRail
           direction="left"
-          reduceMotion={
-            Boolean(reduceMotion)
-          }
+          reduceMotion={Boolean(
+            reduceMotion,
+          )}
           compact={false}
         />
       </div>
@@ -110,9 +107,9 @@ export default function ClientsLogoSlider({
         <div className="min-w-0 overflow-hidden">
           <LogoRail
             direction="left"
-            reduceMotion={
-              Boolean(reduceMotion)
-            }
+            reduceMotion={Boolean(
+              reduceMotion,
+            )}
             compact={false}
           />
         </div>
@@ -132,9 +129,9 @@ export default function ClientsLogoSlider({
         <div className="min-w-0 overflow-hidden">
           <LogoRail
             direction="right"
-            reduceMotion={
-              Boolean(reduceMotion)
-            }
+            reduceMotion={Boolean(
+              reduceMotion,
+            )}
             compact={false}
           />
         </div>
@@ -192,10 +189,9 @@ function LogoRail({
         reduceMotion
           ? undefined
           : {
-              duration:
-                compact
-                  ? 42
-                  : 38,
+              duration: compact
+                ? 42
+                : 38,
               repeat: Infinity,
               ease: "linear",
             }
@@ -236,67 +232,89 @@ function LogoGroup({
       `}
     >
       {clientLogos.map(
-        (client) => (
-          <div
-            key={client.name}
-            className={`
-              group/logo
+        (client) => {
+          const isLightLogo =
+            client.sliderTone ===
+            "light";
 
-              flex
-              shrink-0
-
-              items-center
-              justify-center
-
-              ${
-                compact
-                  ? "h-[92px] w-[190px] sm:w-[220px]"
-                  : "h-20 w-44"
-              }
-            `}
-          >
+          return (
             <div
-              className="
+              key={client.name}
+              className={`
+                group/logo
+
                 flex
-                h-[72%]
-                w-[84%]
+                shrink-0
 
                 items-center
                 justify-center
 
-                transition-transform
-                duration-500
-
-                group-hover/logo:scale-[1.04]
-              "
+                ${
+                  compact
+                    ? "h-[92px] w-[190px] sm:w-[220px]"
+                    : "h-20 w-44"
+                }
+              `}
             >
-              <Image
-                src={client.logo}
-                alt={client.name}
-                width={280}
-                height={150}
-                style={{
-                  transform: `scale(${client.sliderScale ?? 1})`,
-                }}
+              <div
                 className="
-                  max-h-full
-                  max-w-full
+                  flex
+                  h-[72%]
+                  w-[84%]
 
-                  object-contain
+                  items-center
+                  justify-center
 
-                  grayscale
-                  opacity-45
-
-                  transition-[filter,opacity]
+                  transition-transform
                   duration-500
 
-                  group-hover/logo:grayscale-0
-                  group-hover/logo:opacity-100
+                  group-hover/logo:scale-[1.04]
                 "
-              />
+              >
+                <Image
+                  src={client.logo}
+                  alt={client.name}
+                  width={280}
+                  height={150}
+                  style={{
+                    transform: `scale(${
+                      client.sliderScale ??
+                      1
+                    })`,
+                  }}
+                  className={`
+                    max-h-full
+                    max-w-full
+
+                    select-none
+                    object-contain
+
+                    transition-[filter,opacity]
+                    duration-500
+
+                    ${
+                      isLightLogo
+                        ? `
+                          brightness-0
+                          invert
+                          opacity-45
+
+                          group-hover/logo:opacity-100
+                        `
+                        : `
+                          grayscale
+                          opacity-45
+
+                          group-hover/logo:grayscale-0
+                          group-hover/logo:opacity-100
+                        `
+                    }
+                  `}
+                />
+              </div>
             </div>
-          </div>
-        ),
+          );
+        },
       )}
     </div>
   );

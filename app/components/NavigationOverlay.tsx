@@ -1,8 +1,16 @@
 "use client";
 
-import { useState, type MouseEvent } from "react";
+import Image from "next/image";
 
-import { motion, type Variants } from "framer-motion";
+import {
+  useState,
+  type MouseEvent,
+} from "react";
+
+import {
+  motion,
+  type Variants,
+} from "framer-motion";
 
 type NavigationOverlayProps = {
   onNavigate: (href: string) => void;
@@ -15,8 +23,8 @@ const items = [
     number: "01",
   },
   {
-    label: "Projeler",
-    href: "#projects",
+    label: "Projelerimiz",
+    href: "/isler",
     number: "02",
   },
   {
@@ -36,7 +44,12 @@ const items = [
   },
 ] as const;
 
-const ease = [0.22, 1, 0.36, 1] as const;
+const ease = [
+  0.22,
+  1,
+  0.36,
+  1,
+] as const;
 
 /* =========================================================
    ANIMATION VARIANTS
@@ -60,10 +73,6 @@ const overlayVariants: Variants = {
     opacity: 0,
 
     transition: {
-      /*
-       * Önce içerik çıkıyor.
-       * Ardından siyah perde çözülüyor.
-       */
       delay: 0.32,
       duration: 0.72,
       ease,
@@ -83,10 +92,6 @@ const navigationVariants: Variants = {
 
   exit: {
     transition: {
-      /*
-       * Kapanırken aşağıdan yukarı değil,
-       * son item'dan ilk item'a doğru çözülüyor.
-       */
       staggerChildren: 0.045,
       staggerDirection: -1,
     },
@@ -123,11 +128,11 @@ const itemVariants: Variants = {
   },
 };
 
-const wordmarkVariants: Variants = {
+const logoVariants: Variants = {
   hidden: {
     opacity: 0,
-    scale: 0.96,
-    filter: "blur(9px)",
+    scale: 0.94,
+    filter: "blur(10px)",
   },
 
   visible: {
@@ -136,15 +141,15 @@ const wordmarkVariants: Variants = {
     filter: "blur(0px)",
 
     transition: {
-      delay: 0.28,
-      duration: 0.9,
+      delay: 0.25,
+      duration: 1,
       ease,
     },
   },
 
   exit: {
     opacity: 0,
-    scale: 1.025,
+    scale: 1.035,
     filter: "blur(10px)",
 
     transition: {
@@ -161,7 +166,12 @@ const wordmarkVariants: Variants = {
 export default function NavigationOverlay({
   onNavigate,
 }: NavigationOverlayProps) {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [
+    hoveredIndex,
+    setHoveredIndex,
+  ] = useState<number | null>(
+    null,
+  );
 
   const handleNavigation = (
     event: MouseEvent<HTMLAnchorElement>,
@@ -197,12 +207,16 @@ export default function NavigationOverlay({
         fixed
         inset-0
         z-40
+
         overflow-hidden
+
         bg-black/[0.94]
       "
       style={{
-        backdropFilter: "brightness(0.24) saturate(0.72) blur(2px)",
-        WebkitBackdropFilter: "brightness(0.24) saturate(0.72) blur(2px)",
+        backdropFilter:
+          "brightness(0.24) saturate(0.72) blur(2px)",
+        WebkitBackdropFilter:
+          "brightness(0.24) saturate(0.72) blur(2px)",
       }}
     >
       {/* =====================================================
@@ -296,41 +310,57 @@ export default function NavigationOverlay({
       />
 
       {/* =====================================================
-          BACKGROUND WORDMARK
+          BACKGROUND FION LOGO
       ====================================================== */}
 
       <motion.div
         aria-hidden="true"
-        variants={wordmarkVariants}
+        variants={logoVariants}
         initial="hidden"
         animate="visible"
         exit="exit"
         className="
           pointer-events-none
+
           absolute
           inset-0
 
           flex
           items-center
           justify-center
+
+          overflow-hidden
         "
       >
-        <p
+        <div
           className="
-            whitespace-nowrap
+            relative
 
-            font-serif
+            w-[88vw]
+            max-w-[1280px]
 
-            text-[16vw]
+            opacity-[0.065]
 
-            leading-none
-            tracking-[-0.07em]
-
-            text-white/[0.1]
+            sm:w-[82vw]
+            lg:w-[72vw]
           "
         >
-          FİON MEDYA
-        </p>
+          <Image
+            src="/fion-logo.png"
+            alt=""
+            width={1600}
+            height={700}
+            priority
+            draggable={false}
+            className="
+              h-auto
+              w-full
+
+              select-none
+              object-contain
+            "
+          />
+        </div>
       </motion.div>
 
       {/* =====================================================
@@ -342,7 +372,9 @@ export default function NavigationOverlay({
         initial="hidden"
         animate="visible"
         exit="exit"
-        onMouseLeave={() => setHoveredIndex(null)}
+        onMouseLeave={() =>
+          setHoveredIndex(null)
+        }
         className="
           relative
           z-10
@@ -361,21 +393,54 @@ export default function NavigationOverlay({
           text-center
         "
       >
-        {items.map((item, index) => {
-          const isHovered = hoveredIndex === index;
+        {items.map(
+          (
+            item,
+            index,
+          ) => {
+            const isHovered =
+              hoveredIndex ===
+              index;
 
-          const hasHoveredItem = hoveredIndex !== null;
+            const hasHoveredItem =
+              hoveredIndex !==
+              null;
 
-          return (
-            <motion.a
-              variants={itemVariants}
-              key={item.label}
-              href={item.href}
-              onClick={(event) => handleNavigation(event, item.href)}
-              onMouseEnter={() => setHoveredIndex(index)}
-              onFocus={() => setHoveredIndex(index)}
-              onBlur={() => setHoveredIndex(null)}
-              className={`
+            return (
+              <motion.a
+                variants={
+                  itemVariants
+                }
+                key={
+                  item.label
+                }
+                href={
+                  item.href
+                }
+                onClick={(
+                  event,
+                ) =>
+                  handleNavigation(
+                    event,
+                    item.href,
+                  )
+                }
+                onMouseEnter={() =>
+                  setHoveredIndex(
+                    index,
+                  )
+                }
+                onFocus={() =>
+                  setHoveredIndex(
+                    index,
+                  )
+                }
+                onBlur={() =>
+                  setHoveredIndex(
+                    null,
+                  )
+                }
+                className={`
                   group/item
 
                   relative
@@ -394,25 +459,31 @@ export default function NavigationOverlay({
                   ease-[cubic-bezier(0.22,1,0.36,1)]
 
                   ${
-                    hasHoveredItem && !isHovered
+                    hasHoveredItem &&
+                    !isHovered
                       ? "text-ivory/30"
                       : "text-ivory"
                   }
 
-                  ${isHovered ? "italic" : ""}
+                  ${
+                    isHovered
+                      ? "italic"
+                      : ""
+                  }
                 `}
-              style={{
-                fontSize: isHovered
-                  ? "clamp(3.2rem, 6.5vw, 6.3rem)"
-                  : hasHoveredItem
-                    ? "clamp(2.15rem, 4.1vw, 4rem)"
-                    : "clamp(2.5rem, 5vw, 4.8rem)",
-              }}
-            >
-              {/* number */}
+                style={{
+                  fontSize:
+                    isHovered
+                      ? "clamp(3.2rem, 6.5vw, 6.3rem)"
+                      : hasHoveredItem
+                        ? "clamp(2.15rem, 4.1vw, 4rem)"
+                        : "clamp(2.5rem, 5vw, 4.8rem)",
+                }}
+              >
+                {/* NUMBER */}
 
-              <span
-                className={`
+                <span
+                  className={`
                     translate-y-[-0.2em]
 
                     font-sans
@@ -424,18 +495,29 @@ export default function NavigationOverlay({
                     transition-colors
                     duration-500
 
-                    ${isHovered ? "text-[#c45a78]" : "text-white/20"}
+                    ${
+                      isHovered
+                        ? "text-[#c45a78]"
+                        : "text-white/20"
+                    }
                   `}
-              >
-                {item.number}
-              </span>
+                >
+                  {
+                    item.number
+                  }
+                </span>
 
-              {/* label */}
+                {/* LABEL */}
 
-              <span>{item.label}</span>
-            </motion.a>
-          );
-        })}
+                <span>
+                  {
+                    item.label
+                  }
+                </span>
+              </motion.a>
+            );
+          },
+        )}
       </motion.nav>
 
       {/* =====================================================
@@ -476,6 +558,7 @@ export default function NavigationOverlay({
             text-[8px]
             uppercase
             tracking-[0.34em]
+
             text-white/25
           "
         >

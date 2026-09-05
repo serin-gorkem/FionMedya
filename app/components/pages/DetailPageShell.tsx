@@ -118,9 +118,9 @@ export default function DetailPageShell({
 
                   font-serif
 
-                  text-[clamp(4rem,8vw,8.5rem)]
+                  text-[clamp(2rem,6vw,5.5rem)]
 
-                  leading-[0.82]
+                  leading-[1]
                   tracking-[-0.065em]
 
                   text-[var(--ivory)]

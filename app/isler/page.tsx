@@ -23,16 +23,8 @@ export default function IslerPage() {
     <DetailPageShell
       background={<DetailLavaBackground variant="projects" />}
       eyebrow="Fion / İşler"
-      title={
-        <>
-          Biz
-          <br />
-          anlatmayalım.
-          <br />
-          <em className="text-white/55">İşler anlatsın.</em>
-        </>
-      }
-      description="Farklı markalar için ürettiğimiz sosyal medya ve dijital deneyim çalışmalarından seçkiler."
+      title={<>Yarattığımız ilhamı, işlerimizle görünür kılıyoruz.</>}
+      description="Markalara değer katan projelerimiz."
     >
       <ClientsLogoSlider variant="detail" />
 
@@ -134,7 +126,7 @@ export default function IslerPage() {
             </p>
 
             <a
-              href={contactConfig.instagram}
+              href={contactConfig.socials[0].href}
               target="_blank"
               rel="noreferrer"
               className="

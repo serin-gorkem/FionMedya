@@ -11,9 +11,9 @@ const items = [
     label: "Hizmetler",
   },
   {
-    id: "projects",
+    id: "about",
     number: "02",
-    label: "İşler",
+    label: "Bizi Tanıyın",
   },
   {
     id: "blog",
@@ -21,13 +21,8 @@ const items = [
     label: "Blog",
   },
   {
-    id: "about",
-    number: "04",
-    label: "Fion",
-  },
-  {
     id: "contact",
-    number: "05",
+    number: "04",
     label: "İletişim",
   },
 ];
@@ -97,7 +92,13 @@ export default function QuickNavigation() {
         xl:flex-col
         xl:items-end
         xl:gap-3
-        ${isNavigating ? "opacity-45" : "opacity-100"}
+        ${
+          active === "contact"
+            ? "pointer-events-none opacity-0"
+            : isNavigating
+              ? "opacity-45"
+              : "opacity-100"
+        }
       `}
     >
       {items.map((item) => {

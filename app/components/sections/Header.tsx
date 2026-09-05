@@ -7,27 +7,71 @@ export default function Header() {
     <header
       className="
         header-appear
+
         pointer-events-none
-        fixed left-6 top-6 z-20
-        sm:left-10 sm:top-8
+
+        fixed
+        inset-x-0
+        top-0
+        z-50
+
+        h-[76px]
+
+        border-b
+        border-white/[0.06]
+
+        bg-black/65
+
+        backdrop-blur-md
       "
     >
-      <SmoothAnchor
-        href="#hero"
-        aria-label="Fion Medya ana sayfa"
-        duration={1350}
-        intensity="soft"
-        className="pointer-events-auto flex h-10 items-center"
+      <div
+        className="
+          mx-auto
+
+          flex
+          h-full
+          max-w-[1500px]
+
+          items-center
+
+          px-6
+
+          sm:px-10
+        "
       >
-        <Image
-          src="/fion-logo.png"
-          alt="Fion Medya"
-          width={100}
-          height={38}
-          priority
-          className="h-auto w-20 brightness-0 invert sm:w-[104px]"
-        />
-      </SmoothAnchor>
+        <SmoothAnchor
+          href="#hero"
+          aria-label="Fion Medya ana sayfa"
+          duration={1350}
+          intensity="soft"
+          className="
+            pointer-events-auto
+
+            flex
+            h-10
+
+            items-center
+          "
+        >
+          <Image
+            src="/fion-logo.png"
+            alt="Fion Medya"
+            width={100}
+            height={38}
+            priority
+            className="
+              h-auto
+              w-20
+
+              brightness-0
+              invert
+
+              sm:w-[104px]
+            "
+          />
+        </SmoothAnchor>
+      </div>
     </header>
   );
 }

@@ -583,6 +583,47 @@ export default function BlogForm(props: BlogFormProps) {
             <span>→</span>
           </button>
 
+          {/* =================================================
+    PREVIEW
+================================================== */}
+
+          {props.mode === "edit" && (
+            <>
+              <a
+                href={`/blog/preview/${props.post.id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`
+        mt-2
+        w-full
+
+        ${adminSecondaryActionClassName}
+
+        flex
+        items-center
+        justify-between
+      `}
+              >
+                <span>Önizle</span>
+
+                <span>↗</span>
+              </a>
+
+              <p
+                className="
+        mt-2
+
+        text-[9px]
+        leading-4
+
+        text-white/25
+      "
+              >
+                Önizleme son kaydedilen hali gösterir.
+              </p>
+            </>
+          )}
+
           {/* BACK */}
 
           <button

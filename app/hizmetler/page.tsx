@@ -120,7 +120,7 @@ export default function HizmetlerPage() {
         >
           {/* INTRO */}
 
-          <div>
+          <div className="flex flex-col items-baseline justify-center ">
             <p
               className="
                 text-[9px]
